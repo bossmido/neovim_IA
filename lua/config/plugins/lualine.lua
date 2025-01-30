@@ -92,13 +92,6 @@ return {
                         end
                     },
                     {
-                        function() return buffers end,
-                        icon = "",
-                        on_click = function()
-                            require("telescope.builtin").buffers()
-                        end
-                    },
-                    {
                         function()
                             if problems > 0 then
                                 return problems
@@ -116,6 +109,13 @@ return {
                         end,
                         on_click = function()
                             require("telescope.builtin").diagnostics()
+                        end
+                    },
+                    {
+                        function() return buffers end,
+                        icon = "",
+                        on_click = function()
+                            require("telescope.builtin").buffers()
                         end
                     },
                     'branch',

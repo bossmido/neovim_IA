@@ -9,7 +9,7 @@ return {
             mini_files.setup()
 
             vim.keymap.set("n", "-", function()
-                if vim.bo.buftype == "" then
+                if vim.bo.buftype == "" or vim.bo.buftype == "nofile" then
                     mini_files.open(vim.api.nvim_buf_get_name(0))
                 end
             end)

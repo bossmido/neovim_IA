@@ -67,8 +67,8 @@ return {
                 keymap = {
                     preset = "default",
                     ["<C-l>"] = { "select_and_accept" },
-                    ["<C-space>"] = { "select_and_accept" },
-                    ['<C-h>'] = { 'show', 'show_documentation', 'hide_documentation' },
+                    ["<C-h>"] = { 'show', 'show_documentation', 'hide_documentation' },
+                    -- ["<C-space>"] = { "select_and_accept" },
                 },
                 appearance = {
                     use_nvim_cmp_as_default = true,
@@ -77,8 +77,9 @@ return {
                 signature = {
                     enabled = true
                 },
-                sources = {
-                    cmdline = function()
+                cmdline = {
+                    ---@diagnostic disable-next-line: assign-type-mismatch
+                    sources = function()
                         local type = vim.fn.getcmdtype()
                         local cmdline = vim.fn.getcmdline()
                         if type == '/' or type == '?' then return { 'buffer' } end

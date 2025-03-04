@@ -7,7 +7,6 @@
 ## Plugins to try:
 
 - Add:
-    - https://github.com/rmagatti/auto-session
     - https://github.com/Bekaboo/dropbar.nvim
 
 - Random:

@@ -6,9 +6,6 @@
 
 ## Plugins to try:
 
-- Add:
-    - https://github.com/Bekaboo/dropbar.nvim
-
 - Random:
     - https://github.com/folke/which-key.nvim
     - https://github.com/folke/trouble.nvim
@@ -16,6 +13,9 @@
     - https://github.com/tris203/rzls.nvim
 
 - AI:
+    - https://github.com/frankroeder/parrot.nvim
+    - https://github.com/monkoose/neocodeium
+    - https://github.com/zbirenbaum/copilot-cmp
     - https://github.com/Aider-AI/aider
     - https://github.com/yetone/avante.nvim
     - https://github.com/olimorris/codecompanion.nvim

@@ -5,7 +5,7 @@ vim.keymap.set("i", "<C-S>", "<cmd>write<CR>")
 vim.keymap.set("n", "<M-S>", "<cmd>wall<CR>")
 vim.keymap.set("i", "<M-S>", "<cmd>wall<CR>")
 
-vim.keymap.set("n", "<leader>r", "<cmd>edit<CR>")
+vim.keymap.set("n", "<leader>R", "<cmd>edit<CR>")
 
 vim.keymap.set("t", "<esc><esc>", "<C-\\><C-n>")
 

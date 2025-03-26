@@ -9,7 +9,7 @@ if vim.fn.has("win32") == 1 then
     vim.opt.shellslash = true
 end
 
--- vim.diagnostic.config({ virtual_lines=true })
+vim.diagnostic.config({ virtual_text = true })
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"

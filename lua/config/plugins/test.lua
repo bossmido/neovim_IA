@@ -3,10 +3,38 @@ return {
         -- dir = "~/plugins/present.nvim",
     },
     {
-        'mfussenegger/nvim-lint',
+        "kevinhwang91/nvim-ufo",
+        dependencies = { "kevinhwang91/promise-async" },
         config = function()
-            require('lint').linters_by_ft = {
-                python = { 'mypy' },
+            vim.o.foldcolumn = '0'
+            vim.o.foldlevel = 99
+            vim.o.foldlevelstart = 99
+            vim.o.foldenable = true
+
+            local ufo = require("ufo")
+
+            vim.keymap.set('n', 'zR', ufo.openAllFolds)
+            vim.keymap.set('n', 'zM', ufo.closeAllFolds)
+            vim.keymap.set('n', 'zr', ufo.openFoldsExceptKinds)
+            vim.keymap.set('n', 'zm', ufo.closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
+            vim.keymap.set('n', 'K', function()
+                if not ufo.peekFoldedLinesUnderCursor() then
+                    vim.lsp.buf.hover()
+                end
+            end)
+
+            ufo.setup({
+                provider_selector = function(_, _, _)
+                    return { 'treesitter', 'indent' }
+                end
+            })
+        end
+    },
+    {
+        "mfussenegger/nvim-lint",
+        config = function()
+            require("lint").linters_by_ft = {
+                python = { "mypy" },
             }
 
             vim.api.nvim_create_user_command("Lint", function()
@@ -19,23 +47,23 @@ return {
         end
     },
     {
-        'rmagatti/auto-session',
+        "rmagatti/auto-session",
         lazy = false,
         keys = {
             -- Will use Telescope if installed or a vim.ui.select picker otherwise
-            { '<leader>ss', '<cmd>SessionSearch<CR>',         desc = 'Session search' },
-            { '<leader>sw', '<cmd>SessionSave<CR>',           desc = 'Save session' },
-            { '<leader>sa', '<cmd>SessionToggleAutoSave<CR>', desc = 'Toggle autosave' },
+            { "<leader>ss", "<cmd>SessionSearch<CR>",         desc = "Session search" },
+            { "<leader>sw", "<cmd>SessionSave<CR>",           desc = "Save session" },
+            { "<leader>sa", "<cmd>SessionToggleAutoSave<CR>", desc = "Toggle autosave" },
         },
         ---@module "auto-session"
         ---@type AutoSession.Config
         opts = {
-            suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
-            -- log_level = 'debug',
+            suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+            -- log_level = "debug",
         }
     },
     {
-        'mistweaverco/kulala.nvim',
+        "mistweaverco/kulala.nvim",
         opts = {
             default_view = "headers_body",
             icons = {
@@ -49,7 +77,7 @@ return {
         }
     },
     {
-        'stevearc/quicker.nvim',
+        "stevearc/quicker.nvim",
         event = "FileType qf",
         config = function()
             local quicker = require("quicker")

@@ -117,6 +117,9 @@ return {
                         width = set_width(.6, 120),
                     }
                 },
+                quickfix = {
+                    initial_mode = "normal",
+                },
                 oldfiles = {
                     -- path_display = filenameFirst,
                     theme = "dropdown",
@@ -167,6 +170,7 @@ return {
         vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]uzzy [B]uffers' })
         vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = '[F]uzzy [O]ld Files' })
         vim.keymap.set('n', '<leader>fs', builtin.grep_string, { desc = '[F]uzzy Grip [S]tring ' })
+        vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = '[Q]uickfix' })
         vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = '[B]uffers' })
 
         -- vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]uzzy [S]earch [S]elect Telescope' })

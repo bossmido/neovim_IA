@@ -6,12 +6,13 @@ return {
         require("snacks").setup({
             dashboard = {
                 enabled = true,
-                sections = {
-                    { section = "header" },
-                    { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1, limit = 5 },
-                    { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1, limit = 5 },
-                    { section = "startup" },
-                },
+                example = "doom"
+                -- sections = {
+                --     { section = "header" },
+                --     { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1, limit = 5 },
+                --     { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1, limit = 5 },
+                --     { section = "startup" },
+                -- },
             }
         })
 

@@ -38,6 +38,18 @@ vim.keymap.set("i", "jj", "<Esc>")
 
 -- vim.keymap.set("n", "<space>tf", "<cmd>PlenaryBustedFile %<CR>")
 
+-- <Reddit>
+vim.keymap.set("n", "ycc", "yygccp", { remap = true })
+
+vim.keymap.set("x", "/", "<Esc>/\\%V");
+
+-- Automatically add semicolon or comma at the end of the line in INSERT and NORMAL modes
+vim.keymap.set("i", ";;", "<ESC>A;")
+vim.keymap.set("i", ",,", "<ESC>A,")
+vim.keymap.set("n", ";;", "A;<ESC>")
+vim.keymap.set("n", ",,", "A,<ESC>")
+-- </Reddit>
+
 local buffer_command = function(command)
     -- if vim.bo.buftype == "nofile" then
     --     return
@@ -85,8 +97,8 @@ end, { desc = "Unload buffer and delete it from the buffer list." })
 --     vim.cmd.term()
 --     vim.cmd.wincmd("J")
 --     vim.api.nvim_win_set_height(0, 15)
-    -- vim.api.nvim_command("startinsert")
-    -- vim.cmd("startinsert")
+-- vim.api.nvim_command("startinsert")
+-- vim.cmd("startinsert")
 -- end)
 
 -- vim.api.nvim_set_keymap('i', '"', '""<Left>', { noremap = true, silent = true })

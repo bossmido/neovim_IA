@@ -12,6 +12,11 @@ return {
                     dark = "wave",
                     light = "lotus"
                 },
+                overrides = function(_)
+                    return {
+                        WinSeparator = { fg = "#e5c07b", bg = "none" }
+                    }
+                end,
                 colors = {
                     -- NOTE: Palette colors:
                     -- https://github.com/rebelot/kanagawa.nvim/blob/master/lua/kanagawa/colors.lua
@@ -30,8 +35,9 @@ return {
                         wave = {
                             ui = {
                                 bg_gutter = "#262626",
-                                bg = "#181818",
-                                bg_p1 = "#262626"
+                                bg        = "#181818",
+                                bg_p1     = "#262626",
+                                bg_visual = "#2f2f2f",
                             },
                         },
                     },
@@ -39,6 +45,7 @@ return {
             })
 
             vim.cmd.colorscheme "kanagawa"
+            -- vim.opt.fillchars:append({ vert = '┃' })
         end
     },
 }

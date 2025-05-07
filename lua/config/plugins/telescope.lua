@@ -109,7 +109,6 @@ return {
                     previewer = false,
                     mappings = {
                         n = {
-                            ["<leader>b"] = actions.close,
                             ["dd"] = "delete_buffer",
                         }
                     },
@@ -171,7 +170,6 @@ return {
         vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = '[F]uzzy [O]ld Files' })
         vim.keymap.set('n', '<leader>fs', builtin.grep_string, { desc = '[F]uzzy Grip [S]tring ' })
         vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = '[Q]uickfix' })
-        vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = '[B]uffers' })
 
         -- vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]uzzy [S]earch [S]elect Telescope' })
 

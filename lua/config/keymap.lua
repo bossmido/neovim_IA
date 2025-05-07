@@ -75,7 +75,8 @@ end, { desc = 'Toggle diagnostic virtual lines' })
 vim.keymap.set("n", "<leader>n", function() buffer_command("bnext") end)
 vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
 
-vim.keymap.set("n", "<leader>dd", function()
+-- vim.keymap.set("n", "<leader>dd", function()
+vim.keymap.set("n", "<leader>bd", function()
     if vim.bo.buftype == "terminal" then
         vim.cmd("bd!")
     else

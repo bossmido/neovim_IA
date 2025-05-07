@@ -3,8 +3,8 @@ return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
+            "mason-org/mason.nvim",
+            "mason-org/mason-lspconfig.nvim",
             "j-hui/fidget.nvim",
             {
                 "saghen/blink.cmp",
@@ -130,6 +130,7 @@ return {
 
             require("mason-lspconfig").setup({
                 automatic_installation = {},
+                automatic_enable =  true,
                 ensure_installed = {
                     "lua_ls",
                     "bashls",

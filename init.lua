@@ -35,4 +35,4 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes:1"
--- vim.opt.colorcolumn = "120"
+vim.opt.colorcolumn = "120"

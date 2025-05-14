@@ -30,6 +30,13 @@ return {
                         end)
 
                         table.sort(files, function(a, b)
+                            local aDot = a.name:sub(1, 1) == "."
+                            local bDot = b.name:sub(1, 1) == "."
+
+                            if aDot ~= bDot then
+                                return aDot
+                            end
+
                             local nameA, extA = a.name:match("(.+)%.(.+)")
                             local nameB, extB = b.name:match("(.+)%.(.+)")
 

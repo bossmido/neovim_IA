@@ -38,8 +38,13 @@ vim.opt.signcolumn = "yes:1"
 vim.opt.colorcolumn = "120"
 
 vim.api.nvim_create_autocmd("BufEnter", {
-        pattern = "*",
-        callback = function()
-        vim.cmd("startinsert")
+    pattern = "*",
+    callback = function()
+        local ext = vim.fn.expand("%:e")
+        local allowed_exts = { "txt","ini","json","yaml","rs", "md", "lua", "py", "js", "ts", "sh", "c", "cpp" }
+
+        if vim.tbl_contains(allowed_exts, ext) then
+            vim.cmd("startinsert")
         end
+    end
 })

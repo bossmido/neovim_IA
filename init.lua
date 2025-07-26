@@ -36,3 +36,10 @@ vim.opt.smartindent = true
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes:1"
 vim.opt.colorcolumn = "120"
+
+vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "*",
+        callback = function()
+        vim.cmd("startinsert")
+        end
+})

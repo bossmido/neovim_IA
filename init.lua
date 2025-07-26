@@ -49,4 +49,15 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
 })
 
-
+vim.api.nvim_create_autocmd("InsertCharPre", {
+  callback = function(args)
+    local char = args.char
+    local col = vim.fn.col(".")
+    local line = vim.api.nvim_get_current_line()
+    -- Block ':q' being typed
+    if char == 'q' and line:sub(col - 1, col - 1) == ':' then
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<BS><Esc>", true, false, true), "n", true)
+      vim.notify("Don't type ':q' into the buffer!", vim.log.levels.WARN)
+    end
+  end
+})

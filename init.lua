@@ -61,3 +61,8 @@ vim.api.nvim_create_autocmd("InsertCharPre", {
     end
   end
 })
+
+-- Open fuzzy file finder with leader+f
+vim.api.nvim_set_keymap('n', '<leader>f', ':Files<CR>', { noremap = true, silent = true })
+-- Enable mouse support in all modes
+vim.opt.mouse = 'a'

@@ -60,7 +60,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.undofile = true
 
 -- Set undo directory (change path if you prefer)
-local undodir = vim.fn.expand("~/.config/nvim/undo")
+local undodir = vim.fn.expand("~/.cache/undo")
 vim.opt.undodir = undodir
 
 -- Create undo directory if it doesn't exist

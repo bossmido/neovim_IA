@@ -6,4 +6,7 @@ return {
     'saadparwaiz1/cmp_luasnip',
     'rafamadriz/friendly-snippets', -- optional but recommended
   }
+  ,setup = function()
+      require("luasnip.loaders.from_vscode").lazy_load()
+  end,
 }

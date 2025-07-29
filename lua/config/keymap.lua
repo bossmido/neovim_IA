@@ -184,7 +184,9 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
                         elseif selection[1] == "Live Grep" then
                             require('telescope.builtin').live_grep()
                         elseif selection[1] == "Sessions" then
-                            require('telescope.builtin').live_grep()
+                            selection[1]="possession list"
+                            vim.cmd("Telescope possession list")
+                            --require('telescope.builtin').live_grep()
                         end
                     end
                     map('i', '<CR>', on_choice)

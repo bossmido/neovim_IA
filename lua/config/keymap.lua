@@ -192,3 +192,7 @@ local function find_all_menu()
 end
 
 vim.keymap.set("n", "<C-f>", find_all_menu, {desc = "Telescope: Find All Menu"})
+
+vim.keymap.set("n", "<F12>", ":ToggleTerm<CR>", {desc = "ouvre le putain de terminal"})
+vim.keymap.set("i", "<F12>", "<ESC>:ToggleTerm<CR>", {desc = "ouvre le putain de terminal"})
+

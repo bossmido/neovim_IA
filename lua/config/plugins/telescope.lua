@@ -196,5 +196,6 @@ return {
         --     ---@diagnostic disable-next-line: param-type-mismatch
         --     require("telescope.builti").find_files { cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy") }
         -- end)
-    end
+    end,
+    event = "VeryLazy",   
 }

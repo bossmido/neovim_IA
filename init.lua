@@ -96,3 +96,53 @@ vim.api.nvim_create_autocmd("InsertCharPre", {
 vim.api.nvim_set_keymap('n', '<leader>f', ':Files<CR>', { noremap = true, silent = true })
 -- Enable mouse support in all modes
 vim.opt.mouse = 'a'
+
+--autocompletion de ligne de commande de terminal
+vim.o.wildmenu = true
+vim.o.wildmode = "longest:full,full"
+
+
+
+local noice = require("noice")
+
+vim.keymap.set('c', '<CR>', function()
+  -- Check if noice popup menu is visible and has selection
+  if vim.fn.pumvisible() == 1 then
+    -- Accept the highlighted completion
+    return vim.api.nvim_replace_termcodes('<C-y>', true, false, true)
+  else
+    -- Normal Enter behavior
+    return vim.api.nvim_replace_termcodes('<CR>', true, false, true)
+  end
+end, { expr = true })
+
+
+-- Navigate between any windows (including terminals) using arrow keys
+vim.keymap.set('n', '<C-Left>', '<C-w>h', { desc = 'Move to left window' })
+vim.keymap.set('n', '<C-Down>', '<C-w>j', { desc = 'Move to bottom window' })
+vim.keymap.set('n', '<C-Up>', '<C-w>k', { desc = 'Move to top window' })
+vim.keymap.set('n', '<C-Right>', '<C-w>l', { desc = 'Move to right window' })
+
+-- Also works in terminal mode
+vim.keymap.set('t', '<C-Left>', '<C-\\><C-n><C-w>h', { desc = 'Move to left window from terminal' })
+vim.keymap.set('t', '<C-Down>', '<C-\\><C-n><C-w>j', { desc = 'Move to bottom window from terminal' })
+vim.keymap.set('t', '<C-Up>', '<C-\\><C-n><C-w>k', { desc = 'Move to top window from terminal' })
+vim.keymap.set('t', '<C-Right>', '<C-\\><C-n><C-w>l', { desc = 'Move to right window from terminal' })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    -- Check if there's any open terminal buffer
+    local terminals_open = false
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype == "terminal" then
+        terminals_open = true
+        break
+      end
+    end
+
+    -- If a terminal is open, stop auto-inserting in normal buffers
+    if terminals_open and vim.bo.buftype == "" then
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+    end
+  end,
+})

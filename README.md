@@ -3,7 +3,10 @@
 ## Install
 
 - ripgrep
-
+- nvm
+- fzf
+- python3
+- cmake
 ## Plugins to try:
 
 - Random:
@@ -24,4 +27,7 @@
     - https://github.com/Robitx/gp.nvim
     - https://github.com/jackmort/chatgpt.nvim
     - https://github.com/CopilotC-Nvim/CopilotChat.nvim
+
+- ME MIENS : 
+
 

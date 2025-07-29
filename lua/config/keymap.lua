@@ -135,3 +135,60 @@ vim.keymap.set('i', '<C-p>', function()
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>:', true, false, true), 'n', false)
 end, { noremap = true })
 vim.keymap.set('n', '<C-p>', ':', { noremap = true, expr = false })
+
+
+vim.keymap.set("n", "<C-a>", function()
+  local aerial = require("aerial")
+  if aerial.is_open() then
+    aerial.close()
+  else
+    aerial.open()
+    aerial.nav_to_symbol({ jump = true })
+  end
+end, { desc = "Aerial: Toggle and jump to symbol" })
+
+
+
+
+local actions = require('telescope.actions')
+local pickers = require('telescope.pickers')
+local finders = require('telescope.finders')
+local conf = require('telescope.config').values
+
+local function find_all_menu()
+  pickers.new({}, {
+    prompt_title = "Find All",
+    finder = finders.new_table({
+      results = {
+        "Find Files",
+        "Git Files",
+        "Buffers",
+        "Help Tags",
+        "Live Grep",
+      }
+    }),
+    sorter = conf.generic_sorter({}),
+    attach_mappings = function(prompt_bufnr, map)
+      local function on_choice()
+        local selection = require('telescope.actions.state').get_selected_entry()
+        actions.close(prompt_bufnr)
+        if selection[1] == "Find Files" then
+          require('telescope.builtin').find_files({hidden = true, no_ignore = true})
+        elseif selection[1] == "Git Files" then
+          require('telescope.builtin').git_files()
+        elseif selection[1] == "Buffers" then
+          require('telescope.builtin').buffers()
+        elseif selection[1] == "Help Tags" then
+          require('telescope.builtin').help_tags()
+        elseif selection[1] == "Live Grep" then
+          require('telescope.builtin').live_grep()
+        end
+      end
+      map('i', '<CR>', on_choice)
+      map('n', '<CR>', on_choice)
+      return true
+    end,
+  }):find()
+end
+
+vim.keymap.set("n", "<C-f>", find_all_menu, {desc = "Telescope: Find All Menu"})

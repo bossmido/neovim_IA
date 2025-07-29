@@ -3,6 +3,9 @@ require("config.keymap")
 require("config.autocmd")
 require("config.filetype")
 
+vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
+
 if vim.fn.has("win32") == 1 then
     vim.cmd("language en_US")
     vim.o.shell = "pwsh"
@@ -39,22 +42,22 @@ vim.opt.colorcolumn = "120"
 
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function()
-    vim.bo.fileformat = "unix"
-  end,
+    pattern = "*",
+    callback = function()
+        vim.bo.fileformat = "unix"
+    end,
 })
 
 
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function()
-    -- Set fileformat to unix to avoid ^M line endings
-    vim.bo.fileformat = "unix"
-    -- Remove any carriage return characters from the buffer
-    vim.cmd([[%s/\r//g]])
-  end,
+    pattern = "*",
+    callback = function()
+        -- Set fileformat to unix to avoid ^M line endings
+        vim.bo.fileformat = "unix"
+        -- Remove any carriage return characters from the buffer
+        vim.cmd([[%s/\r//g]])
+    end,
 })
 -- Enable persistent undo
 vim.opt.undofile = true
@@ -65,7 +68,7 @@ vim.opt.undodir = undodir
 
 -- Create undo directory if it doesn't exist
 if vim.fn.isdirectory(undodir) == 0 then
-  vim.fn.mkdir(undodir, "p")
+    vim.fn.mkdir(undodir, "p")
 end
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "*",
@@ -80,16 +83,16 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 vim.api.nvim_create_autocmd("InsertCharPre", {
-  callback = function(args)
-    local char = args.char
-    local col = vim.fn.col(".")
-    local line = vim.api.nvim_get_current_line()
-    -- Block ':q' being typed
-    if char == 'q' and line:sub(col - 1, col - 1) == ':' then
-      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<BS><Esc>", true, false, true), "n", true)
-      vim.notify("Don't type ':q' into the buffer!", vim.log.levels.WARN)
+    callback = function(args)
+        local char = args.char
+        local col = vim.fn.col(".")
+        local line = vim.api.nvim_get_current_line()
+        -- Block ':q' being typed
+        if char == 'q' and line:sub(col - 1, col - 1) == ':' then
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<BS><Esc>", true, false, true), "n", true)
+            vim.notify("Don't type ':q' into the buffer!", vim.log.levels.WARN)
+        end
     end
-  end
 })
 
 -- Open fuzzy file finder with leader+f
@@ -106,14 +109,14 @@ vim.o.wildmode = "longest:full,full"
 local noice = require("noice")
 
 vim.keymap.set('c', '<CR>', function()
-  -- Check if noice popup menu is visible and has selection
-  if vim.fn.pumvisible() == 1 then
-    -- Accept the highlighted completion
-    return vim.api.nvim_replace_termcodes('<C-y>', true, false, true)
-  else
-    -- Normal Enter behavior
-    return vim.api.nvim_replace_termcodes('<CR>', true, false, true)
-  end
+    -- Check if noice popup menu is visible and has selection
+    if vim.fn.pumvisible() == 1 then
+        -- Accept the highlighted completion
+        return vim.api.nvim_replace_termcodes('<C-y>', true, false, true)
+    else
+        -- Normal Enter behavior
+        return vim.api.nvim_replace_termcodes('<CR>', true, false, true)
+    end
 end, { expr = true })
 
 
@@ -130,51 +133,76 @@ vim.keymap.set('t', '<C-Up>', '<C-\\><C-n><C-w>k', { desc = 'Move to top window 
 vim.keymap.set('t', '<C-Right>', '<C-\\><C-n><C-w>l', { desc = 'Move to right window from terminal' })
 
 vim.api.nvim_create_autocmd("BufEnter", {
-  callback = function()
-    -- Check if there's any open terminal buffer
-    local terminals_open = false
-    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-      if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype == "terminal" then
-        terminals_open = true
-        break
-      end
-    end
+    callback = function()
+        -- Check if there's any open terminal buffer
+        local terminals_open = false
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype == "terminal" then
+                terminals_open = true
+                break
+            end
+        end
 
-    -- If a terminal is open, stop auto-inserting in normal buffers
-    if terminals_open and vim.bo.buftype == "" then
-      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
-    end
-  end,
+        -- If a terminal is open, stop auto-inserting in normal buffers
+        if terminals_open and vim.bo.buftype == "" then
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+        end
+    end,
 })
 
 -- vim.defer_fn(function()
---   local ok, cmds = pcall(vim.api.nvim_get_commands, {builtin = false})
---   if not ok or not cmds then return end
---
---   for name, cmd in pairs(cmds) do
---     local lower = name:lower()
---     if lower ~= name then
---       -- Check if lowercase command already exists
---       local exists = false
---       local ok2, commands_now = pcall(vim.api.nvim_get_commands, {builtin = false})
---       if ok2 and commands_now and commands_now[lower] then
---         exists = true
---       end
---
---       if not exists then
---         local success, err = pcall(function()
---           vim.api.nvim_create_user_command(lower, function(opts)
---             local bang = opts.bang and "!" or ""
---             local args = opts.args or ""
---             vim.cmd(name .. bang .. " " .. args)
---           end, { nargs = "*", bang = true, desc = "Lowercase alias for " .. name })
---         end)
---         if not success then
---           -- Silently ignore error or print debug if you want:
---           -- print("Error creating alias for command " .. name .. ": " .. err)
---         end
---       end
---     end
---   end
--- end, 5000)
+    --   local ok, cmds = pcall(vim.api.nvim_get_commands, {builtin = false})
+    --   if not ok or not cmds then return end
+    --
+    --   for name, cmd in pairs(cmds) do
+    --     local lower = name:lower()
+    --     if lower ~= name then
+    --       -- Check if lowercase command already exists
+    --       local exists = false
+    --       local ok2, commands_now = pcall(vim.api.nvim_get_commands, {builtin = false})
+    --       if ok2 and commands_now and commands_now[lower] then
+    --         exists = true
+    --       end
+    --
+    --       if not exists then
+    --         local success, err = pcall(function()
+        --           vim.api.nvim_create_user_command(lower, function(opts)
+            --             local bang = opts.bang and "!" or ""
+            --             local args = opts.args or ""
+            --             vim.cmd(name .. bang .. " " .. args)
+            --           end, { nargs = "*", bang = true, desc = "Lowercase alias for " .. name })
+            --         end)
+            --         if not success then
+            --           -- Silently ignore error or print debug if you want:
+            --           -- print("Error creating alias for command " .. name .. ": " .. err)
+            --         end
+            --       end
+            --     end
+            --   end
+            -- end, 5000)
+            -- Disable <C-\><C-n> in terminal buffers to prevent switching to Normal mode
+
+            vim.api.nvim_create_autocmd("TermOpen", {
+                callback = function()
+                    -- Disable the key to leave terminal mode
+                    vim.api.nvim_buf_set_keymap(0, "t", "<C-\\><C-n>", "<Nop>", { noremap = true, silent = true })
+                    -- Automatically start in insert mode
+                    vim.cmd("startinsert")
+                end,
+            })
+
+
+            -- Also force insert mode every time entering terminal buffer
+            vim.api.nvim_create_autocmd("BufEnter", {
+                callback = function()
+                    if vim.bo.buftype == "terminal" then
+                        vim.cmd("startinsert")
+                    end
+                end,
+            })
+
+
+
+
+
 

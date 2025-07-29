@@ -79,120 +79,123 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
 --vim.keymap.set("n", "<C-p>", function() buffer_command("bprev") end)
 
 -- vim.keymap.set("n", "<leader>dd", function()
-vim.keymap.set("n", "<leader>bd", function()
-    if vim.bo.buftype == "terminal" then
-        vim.cmd("bd!")
-    else
-        -- local buffers = vim.api.nvim_list_bufs()
-        -- local current = vim.api.nvim_get_current_buf()
-        --
-        -- for _, buf in ipairs(buffers) do
-        --     if buf ~= current and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype ~= "nofile" then
-        --         vim.api.nvim_set_current_buf(buf) -- Switch to the next buffer
-        --     end
-        -- end
-        -- vim.cmd("bd " .. current)
-        vim.cmd("bd")
-    end
-end, { desc = "Unload buffer and delete it from the buffer list." })
-
--- vim.keymap.set("n", "<leader>st", function()
---     vim.cmd.vnew()
---     vim.cmd.term()
---     vim.cmd.wincmd("J")
---     vim.api.nvim_win_set_height(0, 15)
--- vim.api.nvim_command("startinsert")
--- vim.cmd("startinsert")
--- end)
-
--- vim.api.nvim_set_keymap('i', '"', '""<Left>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('i', "'", "''<Left>", { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('i', '(', '()<Left>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('i', '[', '[]<Left>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('i', '{', '{}<Left>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('i', '{<CR>', '{<CR>}<ESC>O', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('i', '{;<CR>', '{<CR>};<ESC>O', { noremap = true, silent = true })
-
-
-
--- ME MIENS
-
-vim.keymap.set("x", "<leader>re", ":Refactor extract ")
-vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ")
-
-
-vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ")
-
-vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
-
-
-vim.keymap.set( "n", "<leader>rI", ":Refactor inline_func")
-
-vim.keymap.set("n", "<leader>rb", ":Refactor extract_block")
-vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file")
-
-vim.keymap.set('i', '<C-p>', function()
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>:', true, false, true), 'n', false)
-end, { noremap = true })
-vim.keymap.set('n', '<C-p>', ':', { noremap = true, expr = false })
-
-
-vim.keymap.set("n", "<C-a>", function()
-  local aerial = require("aerial")
-  if aerial.is_open() then
-    aerial.close()
-  else
-    aerial.open()
-    aerial.nav_to_symbol({ jump = true })
-  end
-end, { desc = "Aerial: Toggle and jump to symbol" })
-
-
-
-
-local actions = require('telescope.actions')
-local pickers = require('telescope.pickers')
-local finders = require('telescope.finders')
-local conf = require('telescope.config').values
-
-local function find_all_menu()
-  pickers.new({}, {
-    prompt_title = "Find All",
-    finder = finders.new_table({
-      results = {
-        "Find Files",
-        "Git Files",
-        "Buffers",
-        "Help Tags",
-        "Live Grep",
-      }
-    }),
-    sorter = conf.generic_sorter({}),
-    attach_mappings = function(prompt_bufnr, map)
-      local function on_choice()
-        local selection = require('telescope.actions.state').get_selected_entry()
-        actions.close(prompt_bufnr)
-        if selection[1] == "Find Files" then
-          require('telescope.builtin').find_files({hidden = true, no_ignore = true})
-        elseif selection[1] == "Git Files" then
-          require('telescope.builtin').git_files()
-        elseif selection[1] == "Buffers" then
-          require('telescope.builtin').buffers()
-        elseif selection[1] == "Help Tags" then
-          require('telescope.builtin').help_tags()
-        elseif selection[1] == "Live Grep" then
-          require('telescope.builtin').live_grep()
+    vim.keymap.set("n", "<leader>bd", function()
+        if vim.bo.buftype == "terminal" then
+            vim.cmd("bd!")
+        else
+            -- local buffers = vim.api.nvim_list_bufs()
+            -- local current = vim.api.nvim_get_current_buf()
+            --
+            -- for _, buf in ipairs(buffers) do
+            --     if buf ~= current and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype ~= "nofile" then
+            --         vim.api.nvim_set_current_buf(buf) -- Switch to the next buffer
+            --     end
+            -- end
+            -- vim.cmd("bd " .. current)
+            vim.cmd("bd")
         end
-      end
-      map('i', '<CR>', on_choice)
-      map('n', '<CR>', on_choice)
-      return true
-    end,
-  }):find()
-end
+    end, { desc = "Unload buffer and delete it from the buffer list." })
 
-vim.keymap.set("n", "<C-f>", find_all_menu, {desc = "Telescope: Find All Menu"})
+    -- vim.keymap.set("n", "<leader>st", function()
+        --     vim.cmd.vnew()
+        --     vim.cmd.term()
+        --     vim.cmd.wincmd("J")
+        --     vim.api.nvim_win_set_height(0, 15)
+        -- vim.api.nvim_command("startinsert")
+        -- vim.cmd("startinsert")
+        -- end)
 
-vim.keymap.set("n", "<F12>", ":ToggleTerm<CR>", {desc = "ouvre le putain de terminal"})
-vim.keymap.set("i", "<F12>", "<ESC>:ToggleTerm<CR>", {desc = "ouvre le putain de terminal"})
+        -- vim.api.nvim_set_keymap('i', '"', '""<Left>', { noremap = true, silent = true })
+        -- vim.api.nvim_set_keymap('i', "'", "''<Left>", { noremap = true, silent = true })
+        -- vim.api.nvim_set_keymap('i', '(', '()<Left>', { noremap = true, silent = true })
+        -- vim.api.nvim_set_keymap('i', '[', '[]<Left>', { noremap = true, silent = true })
+        -- vim.api.nvim_set_keymap('i', '{', '{}<Left>', { noremap = true, silent = true })
+        -- vim.api.nvim_set_keymap('i', '{<CR>', '{<CR>}<ESC>O', { noremap = true, silent = true })
+        -- vim.api.nvim_set_keymap('i', '{;<CR>', '{<CR>};<ESC>O', { noremap = true, silent = true })
+
+
+
+        -- ME MIENS
+
+        vim.keymap.set("x", "<leader>re", ":Refactor extract ")
+        vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ")
+
+
+        vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ")
+
+        vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
+
+
+        vim.keymap.set( "n", "<leader>rI", ":Refactor inline_func")
+
+        vim.keymap.set("n", "<leader>rb", ":Refactor extract_block")
+        vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file")
+
+        vim.keymap.set('i', '<C-p>', function()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>:', true, false, true), 'n', false)
+        end, { noremap = true })
+        vim.keymap.set('n', '<C-p>', ':', { noremap = true, expr = false })
+
+
+        vim.keymap.set("n", "<C-a>", function()
+            local aerial = require("aerial")
+            if aerial.is_open() then
+                aerial.close()
+            else
+                aerial.open()
+                aerial.nav_to_symbol({ jump = true })
+            end
+        end, { desc = "Aerial: Toggle and jump to symbol" })
+
+
+
+
+        local actions = require('telescope.actions')
+        local pickers = require('telescope.pickers')
+        local finders = require('telescope.finders')
+        local conf = require('telescope.config').values
+
+        local function find_all_menu()
+            pickers.new({}, {
+                prompt_title = "Find All",
+                finder = finders.new_table({
+                    results = {
+                        "Find Files",
+                        "Git Files",
+                        "Buffers",
+                        "Help Tags",
+                        "Live Grep",
+                        "Sessions",
+                    }
+                }),
+                sorter = conf.generic_sorter({}),
+                attach_mappings = function(prompt_bufnr, map)
+                    local function on_choice()
+                        local selection = require('telescope.actions.state').get_selected_entry()
+                        actions.close(prompt_bufnr)
+                        if selection[1] == "Find Files" then
+                            require('telescope.builtin').find_files({hidden = true, no_ignore = true})
+                        elseif selection[1] == "Git Files" then
+                            require('telescope.builtin').git_files()
+                        elseif selection[1] == "Buffers" then
+                            require('telescope.builtin').buffers()
+                        elseif selection[1] == "Help Tags" then
+                            require('telescope.builtin').help_tags()
+                        elseif selection[1] == "Live Grep" then
+                            require('telescope.builtin').live_grep()
+                        elseif selection[1] == "Sessions" then
+                            require('telescope.builtin').live_grep()
+                        end
+                    end
+                    map('i', '<CR>', on_choice)
+                    map('n', '<CR>', on_choice)
+                    return true
+                end,
+            }):find()
+        end
+
+        vim.keymap.set("n", "<C-f>", find_all_menu, {desc = "Telescope: Find All Menu"})
+
+        vim.keymap.set("n", "<F12>", ":ToggleTerm<CR>", {desc = "ouvre le putain de terminal"})
+        vim.keymap.set("i", "<F12>", "<ESC>:ToggleTerm<CR>", {desc = "ouvre le putain de terminal"})
 

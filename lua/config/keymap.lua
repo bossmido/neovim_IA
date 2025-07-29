@@ -166,6 +166,7 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
                         "Help Tags",
                         "Live Grep",
                         "Sessions",
+                        "Projets",
                     }
                 }),
                 sorter = conf.generic_sorter({}),
@@ -187,6 +188,10 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
                             selection[1]="possession list"
                             vim.cmd("Telescope possession list")
                             --require('telescope.builtin').live_grep()
+                        elseif selection[1] == "Projets" then
+                            selection[1]="Projets"
+                            vim.cmd("Telescope projects projects")
+                        
                         end
                     end
                     map('i', '<CR>', on_choice)

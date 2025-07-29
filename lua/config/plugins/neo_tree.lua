@@ -1,7 +1,7 @@
 -- lua/plugins/neo-tree.lua
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  branch = "v4.x",  -- or "v4.x" if you're using the latest
+  branch = "v3.x",  -- or "v4.x" if you're using the latest
   dependencies = {
     "nvim-lua/plenary.nvim",        -- Required
     "nvim-tree/nvim-web-devicons",  -- Optional, for icons

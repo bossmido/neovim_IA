@@ -146,3 +146,35 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end,
 })
+
+-- vim.defer_fn(function()
+--   local ok, cmds = pcall(vim.api.nvim_get_commands, {builtin = false})
+--   if not ok or not cmds then return end
+--
+--   for name, cmd in pairs(cmds) do
+--     local lower = name:lower()
+--     if lower ~= name then
+--       -- Check if lowercase command already exists
+--       local exists = false
+--       local ok2, commands_now = pcall(vim.api.nvim_get_commands, {builtin = false})
+--       if ok2 and commands_now and commands_now[lower] then
+--         exists = true
+--       end
+--
+--       if not exists then
+--         local success, err = pcall(function()
+--           vim.api.nvim_create_user_command(lower, function(opts)
+--             local bang = opts.bang and "!" or ""
+--             local args = opts.args or ""
+--             vim.cmd(name .. bang .. " " .. args)
+--           end, { nargs = "*", bang = true, desc = "Lowercase alias for " .. name })
+--         end)
+--         if not success then
+--           -- Silently ignore error or print debug if you want:
+--           -- print("Error creating alias for command " .. name .. ": " .. err)
+--         end
+--       end
+--     end
+--   end
+-- end, 5000)
+

@@ -1,4 +1,3 @@
--- In your lazy.nvim plugin specs:
 return 
 {
   "folke/trouble.nvim",

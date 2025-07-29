@@ -37,6 +37,36 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes:1"
 vim.opt.colorcolumn = "120"
 
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    vim.bo.fileformat = "unix"
+  end,
+})
+
+
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    -- Set fileformat to unix to avoid ^M line endings
+    vim.bo.fileformat = "unix"
+    -- Remove any carriage return characters from the buffer
+    vim.cmd([[%s/\r//g]])
+  end,
+})
+-- Enable persistent undo
+vim.opt.undofile = true
+
+-- Set undo directory (change path if you prefer)
+local undodir = vim.fn.expand("~/.config/nvim/undo")
+vim.opt.undodir = undodir
+
+-- Create undo directory if it doesn't exist
+if vim.fn.isdirectory(undodir) == 0 then
+  vim.fn.mkdir(undodir, "p")
+end
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "*",
     callback = function()

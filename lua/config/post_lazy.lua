@@ -78,3 +78,11 @@ require('lspconfig').lua_ls.setup {
 -- else
 --     -- module does not exist or failed to load
 -- end
+-- -------------------------------------------------------------------
+
+require("copilot").setup({
+
+    suggestion = { enabled = false },
+
+    panel = { enabled = false },
+})

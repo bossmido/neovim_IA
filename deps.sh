@@ -45,6 +45,7 @@ brew install fd
 brew install nvm
 brew install clang
 brew install python
+brew install fzf
 
 rustup-init -y
 nvm install v24

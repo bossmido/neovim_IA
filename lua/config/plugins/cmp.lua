@@ -29,35 +29,36 @@ return {
                     luasnip.lsp_expand(args.body)
                 end,
             },
-            -- mapping = cmp.mapping.preset.insert({
-            --     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-            --     ["<C-f>"] = cmp.mapping.scroll_docs(4),
-            --     ["<C-Space>"] = cmp.mapping.complete(),
-            --     ["<C-e>"] = cmp.mapping.abort(),
-            --     ["<CR>"] = cmp.mapping.confirm({ select = true }),
-            --     ["<Tab>"] = cmp.mapping(function(fallback)
-            --         if cmp.visible() then
-            --             cmp.select_next_item()
-            --         elseif luasnip.expand_or_jumpable() then
-            --             luasnip.expand_or_jump()
-            --         else
-            --             fallback()
-            --         end
-            --     end, { "i", "s" }),
-            --     ["<S-Tab>"] = cmp.mapping(function(fallback)
-            --         if cmp.visible() then
-            --             cmp.select_prev_item()
-            --         elseif luasnip.jumpable(-1) then
-            --             luasnip.jump(-1)
-            --         else
-            --             fallback()
-            --         end
-            --     end, { "i", "s" }),
-            -- }),
+            mapping = {
+                ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+                ["<C-f>"] = cmp.mapping.scroll_docs(4),
+                ["<C-Space>"] = cmp.mapping.complete(),
+                ["<C-e>"] = cmp.mapping.abort(),
+                ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                ["<Tab>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                        cmp.select_next_item()
+                    elseif luasnip.expand_or_jumpable() then
+                        luasnip.expand_or_jump()
+                    else
+                        fallback()
+                    end
+                end, { "i", "s" }),
+                ["<S-Tab>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                        cmp.select_prev_item()
+                    elseif luasnip.jumpable(-1) then
+                        luasnip.jump(-1)
+                    else
+                        fallback()
+                    end
+                end, { "i", "s" }),
+            },
             sources = cmp.config.sources({
                 { name = "nvim_lsp" },
                 { name = "luasnip" },
                 { name = "path" },
+                { name = "Copilot" }
 
             }, {
                 { name = "buffer" },
@@ -95,33 +96,34 @@ return {
             sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
         })
     end,
-    opts = function(_, opts)
-        --        table.insert(opts.sources, { name = "emoji" })
-    end,
-    mapping = require("cmp").mapping.preset.insert({
-        ["<C-b>"] = require("cmp").mapping.scroll_docs(-4),
-        ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
-        ["<C-Space>"] = require("cmp").mapping.complete(),
-        ["<C-e>"] = require("cmp").mapping.abort(),
-        ["<CR>"] = require("cmp").mapping.confirm({ select = true }),
-        ["<Tab>"] = require("cmp").mapping(function(fallback)
-            if require("cmp").visible() then
-                require("cmp").select_next_item()
-            elseif require("luasnip").expand_or_jumpable() then
-                require("luasnip").expand_or_jump()
-            else
-                fallback()
-            end
-        end, { "i", "s" }),
-        ["<S-Tab>"] = require("cmp").mapping(function(fallback)
-            if require("cmp").visible() then
-                require("cmp").select_prev_item()
-            elseif require("luasnip").jumpable(-1) then
-                require("luasnip").jump(-1)
-            else
-                fallback()
-            end
-        end, { "i", "s" }),
-    })
+    --opts = function(_, opts)
+    --        table.insert(opts.sources, { name = "emoji" })
+    --end,
+    -- mapping = require("cmp").mapping.preset.insert({
+    --     ["<Up>"] = require('cmp').mapping.select_prev_item(),
+    --     ["<Down>"] = require('cmp').mapping.select_next_item(),
+    --     ["<C-b>"] = require("cmp").mapping.scroll_docs(-4),
+    --     ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
+    --     ["<C-Space>"] = require("cmp").mapping.complete(),
+    --     ["<C-e>"] = require("cmp").mapping.abort(),
+    --     ["<CR>"] = require("cmp").mapping.confirm({ select = true }),
+    --     ["<Tab>"] = require("cmp").mapping(function(fallback)
+    --         if require("cmp").visible() then
+    --             require("cmp").select_next_item()
+    --         elseif require("luasnip").expand_or_jumpable() then
+    --             require("luasnip").expand_or_jump()
+    --         else
+    --             fallback()
+    --         end
+    --     end, { "i", "s" }),
+    --     ["<S-Tab>"] = require("cmp").mapping(function(fallback)
+    --         if require("cmp").visible() then
+    --             require("cmp").select_prev_item()
+    --         elseif require("luasnip").jumpable(-1) then
+    --             require("luasnip").jump(-1)
+    --         else
+    --             fallback()
+    --         end
+
 
 }

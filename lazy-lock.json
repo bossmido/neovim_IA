@@ -7,7 +7,7 @@
   "auto-session": { "branch": "main", "commit": "c93a9bfd8a5cbf931a6ead5c824998da874b9f79" },
   "avante.nvim": { "branch": "main", "commit": "d77e1272a094a1df0092c2a7f6cc251c429debee" },
   "blink-cmp-copilot": { "branch": "main", "commit": "439cff78780c033aa23cf061d7315314b347e3c1" },
-  "blink.cmp": { "branch": "main", "commit": "a0bcedefce8d74179d0f2401d9915eaaf16974ce" },
+  "blink.cmp": { "branch": "main", "commit": "16b6ba0979756da3a38b936f9800d3479cd8202e" },
   "blink.compat": { "branch": "main", "commit": "1454f14a8d855a578ceeba77c62538fa1459a67c" },
   "bufferline.nvim": { "branch": "main", "commit": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3" },
   "codecompanion.nvim": { "branch": "main", "commit": "bc861d6d7893c79fa3d7b570e8c924b83fb50523" },

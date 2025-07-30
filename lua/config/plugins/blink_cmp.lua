@@ -1,55 +1,28 @@
-
 return {
     "saghen/blink.cmp",
-    dependencies = { "Saghen/blink.compat", "rafamadriz/friendly-snippets",
-        {
-             "giuxtaposition/blink-cmp-copilot",
-                config = function()
-                    require("copilot").setup({
-                        panel = {
-                            enabled = true,
-                            auto_refresh = true,
-                            keymap = {
-                                jump_prev = "[[",
-                                jump_next = "]]",
-                                accept = "<CR>",
-                                refresh = "gr",
-                                open = "<M-CR>"
-                            },
-                            layout = {
-                                position = "bottom", -- or "top"
-                                ratio = 0.4
-                            },
-                        },
-                        suggestion = {
-                            enabled = true,
-                            auto_trigger = true,
+    dependencies = {
+        "Saghen/blink.compat",
+        "rafamadriz/friendly-snippets",
 
-                            debounce = 75,
-                            keymap = {
-                                accept = "<C-l>",
-                                next = "<C-n>",
-                                prev = "<C-p>",
-                                dismiss = "<C-]>",
-                            },
-                        },
-                        filetypes = {
-
-                            markdown = true,
-                            help = true,
-                            gitcommit = true,
-                            -- Disable for large files or unwanted types
-                            yaml = false,
-                        },
-                        copilot_node_command = "node", -- adjust if using nvm or custom node
-                        server_opts_overrides = {},
-                    })
-                end ,
-            dependencies ="zbirenbaum/copilot.lua"
-        },
-        "neovim/nvim-lspconfig", -- Add if not already installed
-    },
-
+        "giuxtaposition/blink-cmp-copilot"
+        ,
+        "neovim/nvim-lspconfig", } -- Add if not already installed
+    ,
+    event = "InsertEnter",
+    -- config = function()
+    --     require("copilot").setup({
+    --         panel = {
+    --             enabled = true,
+    --             auto_refresh = true,
+    --         },
+    --         suggestion = {
+    --             enabled = true,
+    --             auto_trigger = true,
+    --         },
+    --     })
+    -- end
+    -- ,
+    --    config = function() require("copilot").setup({}) end,
     opts = {
 
         -- snippets = {
@@ -95,7 +68,9 @@ return {
         sources = {
             -- adding any nvim-cmp sources here will enable them
             -- with blink.compat
-            default = { "lsp", "path", "snippets", "buffer","copilot" },
+            --default = { "lsp", "path", "snippets", "buffer", "copilot" },
+            default = { "lsp", "path", "snippets", "buffer" },
+
         },
         providers = {
             copilot = {

@@ -7,7 +7,7 @@ require("config.filetype")
 require("config.cpp")
 
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-
+vim.g.fuzzy_implementation = "lua"
 
 if vim.fn.has("win32") == 1 then
     vim.cmd("language en_US")

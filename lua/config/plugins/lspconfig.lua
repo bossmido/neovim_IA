@@ -16,11 +16,11 @@ return {
     },
     opts = {
         ensure_installed = {
-            "lua_ls",
-            -- "ts_ls",
-            "jsonls",
-            "eslint",
-            -- "tailwindcss",
+             "rust_analyzer",    -- Rust
+          "clangd",           -- C, C++
+          "tsserver",         -- JavaScript, TypeScript
+          "html",             -- HTML
+          "cssls",            -- CSS
         },
         automatic_installation = true,
         servers = {

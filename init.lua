@@ -1,3 +1,4 @@
+vim.g.lazyvim_blink_main = false
 require("config.lazy")
 require("config.keymap")
 require("config.autocmd")

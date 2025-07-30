@@ -19,7 +19,7 @@ return {
 
 
         lspconfig.clangd.setup {
-            cmd = { "clangd", "--offset-encoding=utf-16" },
+            cmd = { "clangd", "--offset-encoding=utf-8" },
             filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
         }
         lspconfig.rust_analyzer.setup {

@@ -33,3 +33,6 @@ require("lazy").setup({
     -- automatically check for plugin updates
     checker = { enabled = false },
 })
+vim.schedule(function()
+  require("plugin.post_lazy")
+end)

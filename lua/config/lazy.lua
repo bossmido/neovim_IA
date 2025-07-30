@@ -33,6 +33,9 @@ require("lazy").setup({
     -- install = { colorscheme = { "habamax" } },
     -- automatically check for plugin updates
     checker = { enabled = false },
+    extras = {
+    "coding.nvim-cmp",
+  },
 
 })
 vim.schedule(function()

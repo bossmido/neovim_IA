@@ -3,7 +3,14 @@ return {
   event = "BufReadPost",
   dependencies = {
     "mason-org/mason.nvim",
-    "neovim/nvim-lspconfig",
+    {"neovim/nvim-lspconfig",setup = {
+      -- Patch all servers
+      ["*"] = function(_, opts)
+
+        opts.capabilities = opts.capabilities or {}
+        opts.capabilities.offsetEncoding = { "utf-8" }
+      end,
+    },},
   },
   opts = {
     ensure_installed = {
@@ -15,5 +22,15 @@ return {
       "astro",
     },
     automatic_installation = true,
+    servers = {
+
+      clangd = {
+        capabilities = {
+
+          offsetEncoding = { "utf-8" },
+        },
+      },
+
+    },
   },
 }

@@ -53,7 +53,7 @@ require('lspconfig').lua_ls.setup {
             },
             workspace = {
                 library = vim.api.nvim_get_runtime_file("", true), -- Make the server aware of Neovim runtime files
-                checkThirdParty = false,                   -- Optional: Avoid "missing third-party" prompts
+                checkThirdParty = false,                           -- Optional: Avoid "missing third-party" prompts
             },
             telemetry = {
                 enable = false, -- Optional: Disable telemetry
@@ -61,3 +61,12 @@ require('lspconfig').lua_ls.setup {
         }
     }
 }
+--------------------------------------------------------------------------
+local capabilities = require('blink.cmp').default_capabilities()
+
+require('lspconfig').clangd.setup({
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+        -- optional debug
+    end,
+})

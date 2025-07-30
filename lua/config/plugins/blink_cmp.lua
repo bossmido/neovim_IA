@@ -1,71 +1,70 @@
 return {
     "saghen/blink.cmp",
-    version = "v1.2.0",
-    event = "InsertEnter",
-    dependencies = {
-        {
-            "rafamadriz/friendly-snippets",
-        },
-        {
-            "giuxtaposition/blink-cmp-copilot",
-        },
-        {
-            "neovim/nvim-lspconfig", -- Add if not already installed
-        },
+    dependencies = { "Saghen/blink.compat", "rafamadriz/friendly-snippets",
+        "giuxtaposition/blink-cmp-copilot",
+        "neovim/nvim-lspconfig", -- Add if not already installed
     },
-    opts = function()
-        -- Setup clangd via lspconfig
-        local lspconfig = require("lspconfig")
 
+    opts = {
 
-        lspconfig.clangd.setup {
-            cmd = { "clangd", "--offset-encoding=utf-8" },
-            filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
-        }
-        lspconfig.rust_analyzer.setup {
-            settings = {
-                ["rust-analyzer"] = {
+        keymap = { preset = "enter" },
+        snippets = {
+            expand = function(snippet, _)
+                return LazyVim.cmp.expand(snippet)
+            end,
+        },
+        appearance = {
+            -- sets the fallback highlight groups to nvim-cmp's highlight groups
+            -- useful for when your theme doesn't support blink.cmp
+            -- will be removed in a future release, assuming themes add support
+            use_nvim_cmp_as_default = true,
+            -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+            -- adjusts spacing to ensure icons are aligned
+            nerd_font_variant = "mono",
 
-                    cargo = { allFeatures = true },
-                    checkOnSave = {
-                        command = "clippy" },
+        },
 
+        completion = {
+            accept = {
+                -- experimental auto-brackets support
+                auto_brackets = {
+                    enabled = true,
                 },
             },
-        }
-        return {
-            keymap = {
-                ["<CR>"] = { "accept", "fallback" },
-            },
-            completion = {
-                documentation = {
-                    auto_show = true,
-                    auto_show_delay_ms = 250,
-                    treesitter_highlighting = true,
-                },
-                list = {
-                    selection = { preselect = false, auto_insert = true },
+            menu = {
+                draw = {
+                    treesitter = { "lsp" },
                 },
             },
-            signature = { enabled = true },
-            sources = {
-                default = { "lsp", "path", "snippets", "buffer", "copilot" },
-                providers = {
-                    copilot = {
-                        name = "copilot",
-                        module = "blink-cmp-copilot",
-                        score_offset = 100,
-                        async = true,
-                    },
-                },
-                per_filetype = {
-                    codecompanion = { "codecompanion" },
-                    cpp = { "lsp", "snippets", "path", "copilot" }, -- Optional per-language config
-                    c = { "lsp", "snippets", "path", "copilot" },
-                    rs = { "lsp" }
-                },
+            documentation = {
+                auto_show = true,
+                auto_show_delay_ms = 200,
             },
-        }
-    end,
-    opts_extend = { "sources.default" },
+            ghost_text = {
+                enabled = vim.g.ai_cmp,
+            },
+        },
+
+        -- experimental signature help support
+        -- signature = { enabled = true },
+
+        sources = {
+            -- adding any nvim-cmp sources here will enable them
+            -- with blink.compat
+            default = { "lsp", "path", "snippets", "buffer" },
+        },
+
+        cmdline = {
+            enabled = false,
+        },
+
+        keymap = {
+            preset = "enter",
+            ["<C-y>"] = { "select_and_accept" },
+
+        },
+
+    },
+    opts_extend = { "sources.default", "sources.compat" },
+
 }

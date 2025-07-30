@@ -8,3 +8,8 @@ vim.filetype.add({
         rs = "rust",
     },
 })
+vim.filetype.add({
+    extension = {
+        log = "log",
+    },
+})

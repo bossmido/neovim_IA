@@ -62,19 +62,19 @@ require('lspconfig').lua_ls.setup {
     }
 }
 --------------------------------------------------------------------------
-
-
-local module_appelé = "blick.cmp"
-local ok, mod = pcall(require, module_appelé)
-if ok then
-    local capabilities = require(module_appelé).default_capabilities()
-
-    require('lspconfig').clangd.setup({
-        capabilities = capabilities,
-        on_attach = function(client, bufnr)
-            -- optional debug
-        end,
-    })
-else
-    -- module does not exist or failed to load
-end
+--
+--
+-- local module_appelé = "blick.cmp"
+-- local ok, mod = pcall(require, module_appelé)
+-- if ok then
+--     local capabilities = require(module_appelé).default_capabilities()
+--
+--     require('lspconfig').clangd.setup({
+--         capabilities = capabilities,
+--         on_attach = function(client, bufnr)
+--             -- optional debug
+--         end,
+--     })
+-- else
+--     -- module does not exist or failed to load
+-- end

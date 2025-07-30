@@ -5,7 +5,7 @@ require("config.filetype")
 --ME MIENS
 require("config.cpp")
 
-vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 
 if vim.fn.has("win32") == 1 then
@@ -77,7 +77,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "*",
     callback = function()
         local ext = vim.fn.expand("%:e")
-        local allowed_exts = { "txt","ini","json","yaml","rs", "md", "lua", "py", "js", "ts", "sh", "c", "cpp" }
+        local allowed_exts = { "txt", "ini", "json", "yaml", "rs", "md", "lua", "py", "js", "ts", "sh", "c", "cpp" }
 
         if vim.tbl_contains(allowed_exts, ext) then
             vim.cmd("startinsert")
@@ -154,56 +154,69 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- vim.defer_fn(function()
-    --   local ok, cmds = pcall(vim.api.nvim_get_commands, {builtin = false})
-    --   if not ok or not cmds then return end
-    --
-    --   for name, cmd in pairs(cmds) do
-    --     local lower = name:lower()
-    --     if lower ~= name then
-    --       -- Check if lowercase command already exists
-    --       local exists = false
-    --       local ok2, commands_now = pcall(vim.api.nvim_get_commands, {builtin = false})
-    --       if ok2 and commands_now and commands_now[lower] then
-    --         exists = true
-    --       end
-    --
-    --       if not exists then
-    --         local success, err = pcall(function()
-        --           vim.api.nvim_create_user_command(lower, function(opts)
-            --             local bang = opts.bang and "!" or ""
-            --             local args = opts.args or ""
-            --             vim.cmd(name .. bang .. " " .. args)
-            --           end, { nargs = "*", bang = true, desc = "Lowercase alias for " .. name })
-            --         end)
-            --         if not success then
-            --           -- Silently ignore error or print debug if you want:
-            --           -- print("Error creating alias for command " .. name .. ": " .. err)
-            --         end
-            --       end
-            --     end
-            --   end
-            -- end, 5000)
-            -- Disable <C-\><C-n> in terminal buffers to prevent switching to Normal mode
+--   local ok, cmds = pcall(vim.api.nvim_get_commands, {builtin = false})
+--   if not ok or not cmds then return end
+--
+--   for name, cmd in pairs(cmds) do
+--     local lower = name:lower()
+--     if lower ~= name then
+--       -- Check if lowercase command already exists
+--       local exists = false
+--       local ok2, commands_now = pcall(vim.api.nvim_get_commands, {builtin = false})
+--       if ok2 and commands_now and commands_now[lower] then
+--         exists = true
+--       end
+--
+--       if not exists then
+--         local success, err = pcall(function()
+--           vim.api.nvim_create_user_command(lower, function(opts)
+--             local bang = opts.bang and "!" or ""
+--             local args = opts.args or ""
+--             vim.cmd(name .. bang .. " " .. args)
+--           end, { nargs = "*", bang = true, desc = "Lowercase alias for " .. name })
+--         end)
+--         if not success then
+--           -- Silently ignore error or print debug if you want:
+--           -- print("Error creating alias for command " .. name .. ": " .. err)
+--         end
+--       end
+--     end
+--   end
+-- end, 5000)
+-- Disable <C-\><C-n> in terminal buffers to prevent switching to Normal mode
 
-            vim.api.nvim_create_autocmd("TermOpen", {
-                callback = function()
-                    -- Disable the key to leave terminal mode
-                    vim.api.nvim_buf_set_keymap(0, "t", "<C-\\><C-n>", "<Nop>", { noremap = true, silent = true })
-                    -- Automatically start in insert mode
-                    vim.cmd("startinsert")
-                end,
-            })
-
-
-            -- Also force insert mode every time entering terminal buffer
-            vim.api.nvim_create_autocmd("BufEnter", {
-                callback = function()
-                    if vim.bo.buftype == "terminal" then
-                        vim.cmd("startinsert")
-                    end
-                end,
-            })
+vim.api.nvim_create_autocmd("TermOpen", {
+    callback = function()
+        -- Disable the key to leave terminal mode
+        vim.api.nvim_buf_set_keymap(0, "t", "<C-\\><C-n>", "<Nop>", { noremap = true, silent = true })
+        -- Automatically start in insert mode
+        vim.cmd("startinsert")
+    end,
+})
 
 
+-- Also force insert mode every time entering terminal buffer
+vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+        if vim.bo.buftype == "terminal" then
+            vim.cmd("startinsert")
+        end
+    end,
+})
 
 
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function()
+        vim.opt_local.omnifunc = ""
+    end,
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+
+    pattern = "*.lua_bak",
+    callback = function()
+        vim.bo.filetype = "lua"
+    end,
+})

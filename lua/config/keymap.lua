@@ -210,9 +210,8 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
 vim.keymap.set('n', '<C-s>', function()
   require('telescope.builtin').grep_string({ search = vim.fn.expand("<cword>") })
 end, { noremap = true, silent = true })
-vim.keymap.set("n", "<C-4>", "<cmd>Telescope lsp_workspace_symbols<CR>", {
-  desc = "Telescope: Workspace Symbols"
-})
-vim.keymap.set("i", "<C-4>", "<cmd>Telescope lsp_workspace_symbols<CR>", {
-  desc = "Telescope: Workspace Symbols"
-})
+
+
+vim.keymap.set("n", "<C-d>", function()
+  require("telescope.builtin").lsp_workspace_symbols()
+end, { desc = "Telescope: Workspace Symbols" })

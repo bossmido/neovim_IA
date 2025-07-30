@@ -232,7 +232,7 @@ local home = vim.loop.os_uname().sysname == "Windows_NT"
     or "/home"
 
 
-vim.api.nvim_set_keymap('n', '<S-g>',
+vim.api.nvim_set_keymap('i', '<S-g>',
     ':lua require("telescope.builtin").live_grep({   cwd = "' ..
     home ..
     '",   additional_args = function()     return { "--hidden", "--glob", "!.git/*" }   end })<CR>',

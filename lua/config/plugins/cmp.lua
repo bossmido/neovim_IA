@@ -1,4 +1,4 @@
--- in your lazy spec file (e.g. lua/plugins.lua or lazy.lua)
+-- in your lazy spec file (e.g. lua/plugins.lua or lazy.lua
 
 return {
 
@@ -12,12 +12,13 @@ return {
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
-
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
         -- add more sources if needed, e.g.:
-        "hrsh7th/cmp-cmdline", "onsails/lspkind.nvim"
-    , "hrsh7th/cmp-emoji"
+        "hrsh7th/cmp-cmdline",
+        "onsails/lspkind.nvim",
+        "hrsh7th/cmp-emoji",
+        "KadoBOT/cmp-plugins"
     },
     config = function()
         local cmp = require("cmp")
@@ -30,6 +31,8 @@ return {
                 end,
             },
             mapping = {
+                ["<Up>"] = cmp.mapping.select_prev_item(),
+                ["<Down>"] = cmp.mapping.select_next_item(),
                 ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                 ["<C-f>"] = cmp.mapping.scroll_docs(4),
                 ["<C-Space>"] = cmp.mapping.complete(),
@@ -58,10 +61,9 @@ return {
                 { name = "nvim_lsp" },
                 { name = "luasnip" },
                 { name = "path" },
-                { name = "Copilot" }
-
-            }, {
-                { name = "buffer" },
+                { name = "Copilot" },
+                { name = 'plugins' },
+                { name = "buffer" }
             }),
             formatting = {
                 format = require("lspkind").cmp_format({
@@ -96,34 +98,35 @@ return {
             sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
         })
     end,
-    --opts = function(_, opts)
-    --        table.insert(opts.sources, { name = "emoji" })
-    --end,
-    -- mapping = require("cmp").mapping.preset.insert({
-    --     ["<Up>"] = require('cmp').mapping.select_prev_item(),
-    --     ["<Down>"] = require('cmp').mapping.select_next_item(),
-    --     ["<C-b>"] = require("cmp").mapping.scroll_docs(-4),
-    --     ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
-    --     ["<C-Space>"] = require("cmp").mapping.complete(),
-    --     ["<C-e>"] = require("cmp").mapping.abort(),
-    --     ["<CR>"] = require("cmp").mapping.confirm({ select = true }),
-    --     ["<Tab>"] = require("cmp").mapping(function(fallback)
-    --         if require("cmp").visible() then
-    --             require("cmp").select_next_item()
-    --         elseif require("luasnip").expand_or_jumpable() then
-    --             require("luasnip").expand_or_jump()
-    --         else
-    --             fallback()
-    --         end
-    --     end, { "i", "s" }),
-    --     ["<S-Tab>"] = require("cmp").mapping(function(fallback)
-    --         if require("cmp").visible() then
-    --             require("cmp").select_prev_item()
-    --         elseif require("luasnip").jumpable(-1) then
-    --             require("luasnip").jump(-1)
-    --         else
-    --             fallback()
-    --         end
+    -- opts = function(_, opts)
+    --     table.insert(opts.sources, { name = "emoji" })
+    -- end,
+    mapping = require("cmp").mapping.preset.insert({
+        ["<Up>"] = require('cmp').mapping.select_prev_item(),
+        ["<Down>"] = require('cmp').mapping.select_next_item(),
+        ["<C-b>"] = require("cmp").mapping.scroll_docs(-4),
+        ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
+        ["<C-Space>"] = require("cmp").mapping.complete(),
+        ["<C-e>"] = require("cmp").mapping.abort(),
+        ["<CR>"] = require("cmp").mapping.confirm({ select = true }),
+        ["<Tab>"] = require("cmp").mapping(function(fallback)
+            if require("cmp").visible() then
+                require("cmp").select_next_item()
+            elseif require("luasnip").expand_or_jumpable() then
+                require("luasnip").expand_or_jump()
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+        ["<S-Tab>"] = require("cmp").mapping(function(fallback)
+            if require("cmp").visible() then
+                require("cmp").select_prev_item()
+            elseif require("luasnip").jumpable(-1) then
+                require("luasnip").jump(-1)
+            else
+                fallback()
+            end
+        end)
 
-
+    })
 }

@@ -42,6 +42,7 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes:1"
 vim.opt.colorcolumn = "120"
 
+vim.opt.formatoptions:remove({ "c", "r" })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",

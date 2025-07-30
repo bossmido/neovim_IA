@@ -7,7 +7,6 @@ return {
 
     opts = {
 
-        keymap = { preset = "enter" },
         snippets = {
             expand = function(snippet, _)
                 return LazyVim.cmp.expand(snippet)
@@ -40,9 +39,8 @@ return {
                 auto_show = true,
                 auto_show_delay_ms = 200,
             },
-            ghost_text = {
-                enabled = vim.g.ai_cmp,
-            },
+            list = { selection = { auto_insert = false } },
+            ghost_text = { enabled = true },
         },
 
         -- experimental signature help support

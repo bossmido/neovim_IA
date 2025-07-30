@@ -42,3 +42,22 @@ capabilities.offsetEncoding = { "utf-8" }
 require("lspconfig").clangd.setup {
     capabilities = capabilities,
 } -----------------------------------------------------------------------
+require('lspconfig').lua_ls.setup {
+    settings = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT', -- Neovim uses LuaJIT
+            },
+            diagnostics = {
+                globals = { 'vim' }, -- Tell the server that `vim` is a global
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true), -- Make the server aware of Neovim runtime files
+                checkThirdParty = false,                   -- Optional: Avoid "missing third-party" prompts
+            },
+            telemetry = {
+                enable = false, -- Optional: Disable telemetry
+            },
+        }
+    }
+}

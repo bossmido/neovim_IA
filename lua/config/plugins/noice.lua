@@ -10,12 +10,24 @@ return
     config = function()
         require("noice").setup({
             lsp = {
-                progress = { enabled = true },
                 override = {
                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+
                     ["vim.lsp.util.stylize_markdown"] = true,
                     ["cmp.entry.get_documentation"] = true,
                 },
+                signature = {
+                    enabled = true,
+                    auto_open = {
+                        enabled = true,
+                        trigger = true,
+                        luasnip = true,
+                    },
+                },
+                hover = {
+                    enabled = true,
+                },
+
             },
             presets = {
                 bottom_search = true,         -- Use classic bottom cmdline for `/` and `?`
@@ -62,9 +74,9 @@ return
         vim.notify = require("notify")
 
         cmdline = {
-            enabled = true, -- enables the Noice cmdline UI
+            enabled = true,         -- enables the Noice cmdline UI
             view = "cmdline_popup", -- view for rendering the cmdline. Change to "cmdline" to get a classic cmdline at the bottom
-            opts = {}, -- global options for the cmdline. See section on views
+            opts = {},              -- global options for the cmdline. See section on views
             format = {
                 -- conceal: (default=true) This will hide the text in the cmdline that matches the pattern.
                 -- view: (default is cmdline view)
@@ -78,7 +90,7 @@ return
                 lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua" },
                 help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
                 input = { view = "cmdline_input", icon = "󰥻 " }, -- Used by input()
-                git = { pattern = "^:%s*Git%s+", icon = "", lang = "bash",title = "Git"},
+                git = { pattern = "^:%s*Git%s+", icon = "", lang = "bash", title = "Git" },
                 -- lua = false, -- to disable a format, set to `false`
             }
         }

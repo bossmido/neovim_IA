@@ -7,12 +7,12 @@ return {
 
     opts = {
 
-        keymap = { preset = "enter" },
-        snippets = {
-            expand = function(snippet, _)
-                return LazyVim.cmp.expand(snippet)
-            end,
-        },
+        keymap = { preset = "<TAB>" },
+        -- snippets = {
+        --     expand = function(snippet, _)
+        --         return LazyVim.cmp.expand(snippet)
+        --     end,
+        -- },
         appearance = {
             -- sets the fallback highlight groups to nvim-cmp's highlight groups
             -- useful for when your theme doesn't support blink.cmp

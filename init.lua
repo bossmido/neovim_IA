@@ -2,7 +2,8 @@ require("config.lazy")
 require("config.keymap")
 require("config.autocmd")
 require("config.filetype")
-
+--ME MIENS
+require("config.cpp")
 
 vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 

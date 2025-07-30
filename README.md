@@ -7,6 +7,8 @@
 - fzf
 - python3
 - cmake
+- rustup
+- fd-find
 ## Plugins to try:
 
 - Random:

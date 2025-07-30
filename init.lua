@@ -3,6 +3,7 @@ require("config.keymap")
 require("config.autocmd")
 require("config.filetype")
 
+
 vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 
@@ -200,4 +201,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
                     end
                 end,
             })
+
+
 

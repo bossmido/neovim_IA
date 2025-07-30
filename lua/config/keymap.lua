@@ -207,3 +207,6 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
         vim.keymap.set("n", "<F12>", ":ToggleTerm<CR>", {desc = "ouvre le putain de terminal"})
         vim.keymap.set("i", "<F12>", "<ESC>:ToggleTerm<CR>", {desc = "ouvre le putain de terminal"})
 
+vim.keymap.set('n', '<C-s>', function()
+  require('telescope.builtin').grep_string({ search = vim.fn.expand("<cword>") })
+end, { noremap = true, silent = true })

@@ -3,3 +3,8 @@ vim.filetype.add({
         http = "http",
     },
 })
+vim.filetype.add({
+    extension = {
+        rs = "rust",
+    },
+})

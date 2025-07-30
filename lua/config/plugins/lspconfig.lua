@@ -16,11 +16,11 @@ return {
     },
     opts = {
         ensure_installed = {
-            "rust_analyzer",            -- Rust
-            "clangd",                   -- C, C++
-            "typescript-language-server", -- JavaScript, TypeScript
-            "html",                     -- HTML
-            "cssls",                    -- CSS
+            "rust_analyzer", -- Rust
+            "clangd",        -- C, C++
+            --"typescript-language-server", -- JavaScript, TypeScript
+            "html",          -- HTML
+            "cssls",         -- CSS
         },
         automatic_installation = true,
         servers = {

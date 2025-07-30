@@ -4,7 +4,11 @@ return {
         "giuxtaposition/blink-cmp-copilot",
         "neovim/nvim-lspconfig", -- Add if not already installed
     },
-
+    config = function()
+        fuzzy = {
+            implementation = "lua", -- or "prefer_rust" if you want the Rust one and can build it
+        }
+    end,
     opts = {
 
         snippets = {

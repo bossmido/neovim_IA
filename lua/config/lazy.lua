@@ -1,3 +1,4 @@
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
@@ -35,5 +36,5 @@ require("lazy").setup({
 
 })
 vim.schedule(function()
-  require("config.plugins.post_lazy")
+  require("config.post_lazy")
 end)

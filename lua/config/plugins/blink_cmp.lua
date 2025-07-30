@@ -4,13 +4,10 @@ return {
         "giuxtaposition/blink-cmp-copilot",
         "neovim/nvim-lspconfig", -- Add if not already installed
     },
-    config = function()
-        fuzzy = {
-            implementation = "lua", -- or "prefer_rust" if you want the Rust one and can build it
-        }
-    end,
+
     opts = {
 
+        keymap = { preset = "enter" },
         snippets = {
             expand = function(snippet, _)
                 return LazyVim.cmp.expand(snippet)
@@ -43,8 +40,9 @@ return {
                 auto_show = true,
                 auto_show_delay_ms = 200,
             },
-            list = { selection = { auto_insert = false } },
-            ghost_text = { enabled = true },
+            ghost_text = {
+                enabled = vim.g.ai_cmp,
+            },
         },
 
         -- experimental signature help support

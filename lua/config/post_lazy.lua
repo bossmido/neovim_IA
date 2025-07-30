@@ -24,4 +24,21 @@ require("notify").setup({
     max_width = 110,    -- adjust width if needed
     max_height = 50000, -- adjust height if needed
 })
-------------------------------------------------------------------------
+
+
+
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+-- If using nvim-cmp
+local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if ok then
+    capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+end
+
+-- Fix offsetEncoding for clangd
+capabilities.offsetEncoding = { "utf-8" }
+
+require("lspconfig").clangd.setup {
+    capabilities = capabilities,
+} -----------------------------------------------------------------------

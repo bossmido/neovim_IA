@@ -28,9 +28,7 @@ return {
 
                     cargo = { allFeatures = true },
                     checkOnSave = {
-                        command = "clippy",
-
-                    },
+                        command = "clippy" },
 
                 },
             },
@@ -64,6 +62,7 @@ return {
                     codecompanion = { "codecompanion" },
                     cpp = { "lsp", "snippets", "path", "copilot" }, -- Optional per-language config
                     c = { "lsp", "snippets", "path", "copilot" },
+                    rs = { "lsp" }
                 },
             },
         }

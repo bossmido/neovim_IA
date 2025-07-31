@@ -21,6 +21,7 @@ return {
         "onsails/lspkind.nvim",
         "hrsh7th/cmp-emoji",
         "KadoBOT/cmp-plugins",
+        "hrsh7th/cmp-calc",
         "zbirenbaum/cmp-copilot"
     },
     config = function()
@@ -61,8 +62,9 @@ return {
                 end, { "i", "s" }),
             },
             sources = cmp.config.sources({
-
+                {name="calc"},
                 { name = "copilot",      group_index = 2, keyword_length = 3 },
+
                 { name = "nvim_lsp" },
                 { name = "codecompanion" },
                 { name = "luasnip" },

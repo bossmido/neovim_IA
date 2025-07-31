@@ -60,9 +60,9 @@ return {
             },
             sources = cmp.config.sources({
 
-                { name = "copilot", group_index = 2, keyword_length = 3 },
+                { name = "copilot",      group_index = 2, keyword_length = 3 },
                 { name = "nvim_lsp" },
-                --{ name = "codecompanion" },
+                { name = "codecompanion" },
                 { name = "luasnip" },
                 { name = "path" },
                 { name = 'plugins' },

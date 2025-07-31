@@ -237,7 +237,3 @@ vim.api.nvim_set_keymap('i', '<C-S-g>',
     home ..
     '",   additional_args = function()     return { "--hidden", "--glob", "!.git/*" }   end })<CR>',
     { noremap = true, silent = true })
-
-vim.api.nvim_create_user_command("q", "q!", { force = true} )
-vim.api.nvim_create_user_command("qa", "qa!", { force = true })
-vim.api.nvim_create_user_command("wq", "wq!", { force = true })

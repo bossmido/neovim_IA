@@ -1,0 +1,67 @@
+
+return {
+    {
+        "jose-elias-alvarez/null-ls.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            local null_ls = require("null-ls")
+
+            null_ls.setup({
+                sources = {
+                    -- null_ls.builtins.formatting.prettier,
+                    -- null_ls.builtins.formatting.black,
+                    -- -- Rust formatting
+                    -- null_ls.builtins.formatting.rustfmt,
+                    --
+                    -- -- C++ formatting
+                    null_ls.builtins.formatting.clang_format,
+                    --
+                    -- Prettier for HTML, CSS, JS, TS, JSON, etc.
+                    null_ls.builtins.formatting.prettier.with({
+                        filetypes = {
+                            "html",
+                            "css",
+                            "javascript",
+                            "javascriptreact",
+                            "typescript",
+                            "json",
+                        },
+                    }),
+
+                    -- ESLint diagnostics (optional)
+                    null_ls.builtins.diagnostics.eslint_d.with({
+                        condition = function(utils)
+                            return utils.root_has_file({ ".eslintrc.js", ".eslintrc.json", ".eslintrc" })
+                        end,
+                    }),
+
+                },
+                ensure_installed = {     "prettier",      -- JS, TS, JSON, CSS, HTML, etc.
+                "black",         -- Python
+                "stylua",        -- Lua
+                "clang-format",  -- C, C++, Java, etc.
+                "eslint_d",      -- JS/TS linting},
+            },
+            automatic_installation = true,
+            on_attach = function(client, bufnr)
+                if client.supports_method("textDocument/formatting") then
+                    local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
+                    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                        group = augroup,
+                        buffer = bufnr,
+                        callback = function()
+                            vim.lsp.buf.format({
+                                bufnr = bufnr,
+                                filter = function(c)
+                                    return c.name == "null-ls"
+                                end,
+                            })
+                        end,
+                    })
+                end
+            end,
+        })
+    end,
+},
+}

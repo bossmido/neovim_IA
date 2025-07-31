@@ -9,7 +9,11 @@ RESET="\033[0m"
 # Check for Ubuntu
 OK=$(grep -qi "ubuntu" /etc/os-release) ;
 if  [[ $? -eq 0 ]]   && [[ $EUID -ne 0 ]]; then
+<<<<<<< HEAD
+     echo -e "${RED} installation deps : Ubuntu.${RESET}"
+=======
     echo -e "${RED} installation deps : Ubuntu.${RESET}"
+>>>>>>> 631bc3a (en cours de deps 4)
     sudo apt update && sudo apt upgrade -y
 
     sudo apt install -y \
@@ -35,6 +39,18 @@ if  [[ $? -eq 0 ]]   && [[ $EUID -ne 0 ]]; then
         software-properties-common\
         nvm
 
+    # Link fd if not already linked
+    if ! command -v fd &>/dev/null; then
+        ln -s $(which fdfind) /usr/local/bin/fd
+    fi
+elif [[ $(grep -qi "arch" /etc/os-release) -eq 0 ]] ; then
+    echo -e "${GREEN}installation deps : archlinux ${RESET}"
+    sudo pacman -Syu --noconfirm
+
+
+    sudo pacman -S --noconfirm \
+        git neovim wget curl htop tree fish ripgrep fd \
+        python python-pip base-devel clang fzf lazygit unzip
     # Link fd if not already linked
     if ! command -v fd &>/dev/null; then
         ln -s $(which fdfind) /usr/local/bin/fd

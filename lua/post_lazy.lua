@@ -1,4 +1,10 @@
---test
+--fix le plus important.l'encodage
+local client = vim.lsp.get_clients({ bufnr = 0 })[1]
+if client then
+  local params = vim.lsp.util.make_position_params(0, client.offset_encoding or "utf-16")
+  -- use `params` here
+end
+--------------------------------------------------------------------------
 local luasnip = require("luasnip")
 
 luasnip.config.set_config({

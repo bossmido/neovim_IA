@@ -23,10 +23,10 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
---    spec = "config.plugins",
+--    spec = "plugins",
     
      spec = {
-     { import = "config.plugins" },
+     { import = "plugins" },
      },
     -- Configure any other settings here. See the documentation for more details.
     -- colorscheme that will be used when installing plugins.
@@ -39,5 +39,5 @@ require("lazy").setup({
 
 })
 vim.schedule(function()
-  require("config.post_lazy")
+  require("post_lazy")
 end)

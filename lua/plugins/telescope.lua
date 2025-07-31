@@ -189,7 +189,7 @@ return {
         end, { desc = '[F]uzzy [N]eovim config files' })
 
         vim.keymap.set("n", "<space>u", "<cmd>Telescope undo<CR>")
-        vim.keymap.set("n", "<leader>fg", require("config.telescope.multigrep").live_multigrep)
+        vim.keymap.set("n", "<leader>fg", require("telescope.multigrep").live_multigrep)
 
         -- vim.keymap.set("n", "<space>ep", function()
         --     ---@diagnostic disable-next-line: param-type-mismatch

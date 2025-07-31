@@ -120,3 +120,6 @@ cargo install rust-analyzer
 
 echo -e "/n   eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> ~/.profile;
 echo -e "/n export PATH='${HOME}/.cargo/bin:$PATH'"
+
+##mes dépendance à la con
+pip install django-stubs

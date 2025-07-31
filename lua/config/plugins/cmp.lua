@@ -4,7 +4,7 @@ return {
 
 
     "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
+    event = "LspAttach",
     version = false, -- use latest commit
 
     dependencies = {

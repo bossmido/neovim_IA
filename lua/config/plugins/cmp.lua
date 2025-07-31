@@ -18,7 +18,8 @@ return {
         "hrsh7th/cmp-cmdline",
         "onsails/lspkind.nvim",
         "hrsh7th/cmp-emoji",
-        "KadoBOT/cmp-plugins"
+        "KadoBOT/cmp-plugins",
+        "zbirenbaum/cmp-copilot"
     },
     config = function()
         local cmp = require("cmp")
@@ -59,7 +60,7 @@ return {
             },
             sources = cmp.config.sources({
                 { name = "nvim_lsp" },
-                { name = "codecompanion" },
+                --{ name = "codecompanion" },
                 { name = "luasnip" },
                 { name = "path" },
                 { name = "Copilot" },
@@ -75,7 +76,8 @@ return {
                         nvim_lsp = "[LSP]",
                         luasnip  = "[Snip]",
                         buffer   = "[Buf]",
-
+                        Copilot  = "[Cop]",
+                        plugins  = "[plug]",
                         path     = "[Path]",
 
                     },

@@ -1,4 +1,5 @@
-local utils = require("utils")
+
+local utils = require("mon_utils")
 return {
     "luukvbaal/statuscol.nvim",
     event = { "BufReadPost" },

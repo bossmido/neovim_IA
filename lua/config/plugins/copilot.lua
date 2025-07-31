@@ -9,6 +9,7 @@ return {
             filetypes = {
                 javascript = true,
                 typescript = true,
+                cpp = true
             },
             -- copilot_node_command = vim.fn.expand "$HOME" .. "/.asdf/installs/nodejs/23.1.0/bin/node",
         }

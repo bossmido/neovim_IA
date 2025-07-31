@@ -59,11 +59,12 @@ return {
                 end, { "i", "s" }),
             },
             sources = cmp.config.sources({
+
+                { name = "copilot", group_index = 2, keyword_length = 3 },
                 { name = "nvim_lsp" },
                 --{ name = "codecompanion" },
                 { name = "luasnip" },
                 { name = "path" },
-                { name = "Copilot" },
                 { name = 'plugins' },
                 { name = "buffer" }
             }),
@@ -76,17 +77,58 @@ return {
                         nvim_lsp = "[LSP]",
                         luasnip  = "[Snip]",
                         buffer   = "[Buf]",
-                        Copilot  = "[Cop]",
+                        copilot  = "[Cop]",
                         plugins  = "[plug]",
                         path     = "[Path]",
 
                     },
+                    maxwidth = 80,
+
+                    ellipsis_char = "...",
                 }),
             },
             --     window = {
             --         completion = cmp.config.window.bordered(),
             --         documentation = cmp.config.window.bordered(),
             --     },
+            sorting = {
+                priority_weight = 2,
+                comparators = {
+                    require("copilot_cmp.comparators").prioritize,
+                    cmp.config.compare.offset,
+                    cmp.config.compare.exact,
+                    cmp.config.compare.score,
+                    cmp.config.compare.kind,
+                    cmp.config.compare.sort_text,
+                    cmp.config.compare.length,
+                    cmp.config.compare.order,
+                },
+            },
+            experimental = {
+                ghost_text = true,
+            },
+            -- ↓↓↓↓↓ this is the important part ↓↓↓↓↓
+            preselect = cmp.PreselectMode.None,
+            completion = {
+                completeopt = "menu,menuone,noinsert",
+            },
+            -- 👇 Filter Copilot entries if prefix length < 3
+            -- You can also filter by content, etc.
+            view = {
+                entries = {
+                    name = "custom",
+                    selection_order = "near_cursor",
+                },
+            },
+            -- this is what filters them based on input length
+            -- (copilot provides suggestions even for short input, so we filter them out manually)
+            entry_filter = function(entry, ctx)
+                local source_name = entry.source.name
+                if source_name == "copilot" then
+                    return #ctx.cursor_before_line >= 4
+                end
+                return true
+            end,
         })
 
 

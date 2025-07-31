@@ -221,3 +221,11 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         vim.bo.filetype = "lua"
     end,
 })
+
+--popup color
+
+-- Set popup menu colors to match Gruvbox palette
+vim.api.nvim_set_hl(0, "Pmenu", { bg = "#3c3836", fg = "#ebdbb2" })     -- background + text
+vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#fabd2f", fg = "#282828" })  -- selected item
+vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#504945" })                 -- scrollbar background
+vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#fabd2f" })                -- scrollbar thumb

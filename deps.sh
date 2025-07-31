@@ -7,7 +7,8 @@ GREEN="\033[0;32m"
 RESET="\033[0m"
 
 # Check for Ubuntu
-if  [[ $(grep -qi "ubuntu" /etc/os-release) -eq 0 ]]   && [[ $EUID -ne 0 ]]; then
+OK=$(grep -qi "ubuntu" /etc/os-release) ;
+if  [[ $? -eq 0 ]]   && [[ $EUID -ne 0 ]]; then
     echo -e "${RED} installation deps : Ubuntu.${RESET}"
     sudo apt update && sudo apt upgrade -y
 

@@ -65,6 +65,7 @@
   "possession.nvim": { "branch": "master", "commit": "8fb21fabae4e5ffd98386e1b11e9d9d429633bdf" },
   "project.nvim": { "branch": "main", "commit": "8c6bad7d22eef1b71144b401c9f74ed01526a4fb" },
   "promise-async": { "branch": "main", "commit": "119e8961014c9bfaf1487bf3c2a393d254f337e2" },
+  "prompt-tower.nvim": { "branch": "main", "commit": "73f111562fe0a2d3abf756a4f18a556a84367938" },
   "quicker.nvim": { "branch": "master", "commit": "51d3926f183c2d98fbc237cc237ae0926839af3a" },
   "rainbow-delimiters.nvim": { "branch": "master", "commit": "97bf4b8ef9298644a29fcd9dd41a0210cf08cac7" },
   "refactoring.nvim": { "branch": "master", "commit": "74b608dfee827c2372250519d433cc21cb083407" },

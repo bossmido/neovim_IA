@@ -31,7 +31,8 @@ if  [[ $(grep -qi "ubuntu" /etc/os-release) -eq 0 ]]   && [[ $EUID -ne 0 ]]; the
         ca-certificates \
         gnupg \
         lsb-release \
-        software-properties-common
+        software-properties-common\
+        nvm
 
     # Link fd if not already linked
     if ! command -v fd &>/dev/null; then

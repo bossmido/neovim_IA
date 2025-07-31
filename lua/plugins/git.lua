@@ -1,6 +1,7 @@
 return {
     {
         "NeogitOrg/neogit",
+        cmd = "Neogit",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "sindrets/diffview.nvim",
@@ -10,6 +11,7 @@ return {
     },
     {
         "lewis6991/gitsigns.nvim",
+        event = "VeryLazy",
         config = function()
             local gitsigns = require("gitsigns")
             gitsigns.setup({

@@ -5,6 +5,7 @@ return {
 
     "hrsh7th/nvim-cmp",
     event = "LspAttach",
+    keys = { "<Tab>", "<S-Tab>", "<C-Space>", "<Up>", "<Down>", "<Left>", "<Right>" },
     version = false, -- use latest commit
 
     dependencies = {
@@ -105,7 +106,7 @@ return {
                 },
             },
             experimental = {
-                ghost_text = true,
+                --ghost_text = true,
             },
             -- ↓↓↓↓↓ this is the important part ↓↓↓↓↓
             preselect = cmp.PreselectMode.None,

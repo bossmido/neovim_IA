@@ -3,6 +3,7 @@ return {
     {
         "ms-jpq/coq_nvim",
         branch = "coq",
+        cmd = "COQnow",
         config = function()
             -- Auto start COQ
             vim.g.coq_settings = { auto_start = true }
@@ -14,5 +15,6 @@ return {
     {
         "ms-jpq/coq.artifacts",
         branch = "artifacts",
+        cmd = "COQnow",
     },
 }

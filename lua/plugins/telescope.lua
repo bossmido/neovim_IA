@@ -8,6 +8,8 @@ return {
             build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release"
         }
     },
+    keys = { "<C-f>,<C-g>" },
+    cmd = "Telescope",
     config = function()
         vim.api.nvim_create_autocmd("FileType", {
             pattern = "help",

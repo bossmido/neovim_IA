@@ -1,1 +1,1 @@
-return {"MagicDuck/grug-far.nvim"}
+return { "MagicDuck/grug-far.nvim", cmd = "GrugFar" }

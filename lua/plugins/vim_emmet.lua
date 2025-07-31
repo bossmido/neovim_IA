@@ -1,1 +1,1 @@
-return{'mattn/emmet-vim'}
+return { 'mattn/emmet-vim', cmd = "Emmet" }

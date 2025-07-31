@@ -34,4 +34,21 @@ return {
 
         },
     },
+    settings = {
+        ["luau-lsp"] = {
+            diagnostics = {
+                globals = { "vim" },
+            },
+        },
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' }, -- Tell LSP that `vim` is a global variable
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true), -- Include Neovim runtime files for better completion
+                checkThirdParty = false,
+            },
+            telemetry = { enable = false },
+        }
+    }
 }

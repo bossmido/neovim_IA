@@ -4,6 +4,7 @@ return {
 
 
     "hrsh7th/nvim-cmp",
+    lazy=true,
     event = "LspAttach",
     keys = { "<Tab>", "<S-Tab>", "<C-Space>", "<Up>", "<Down>", "<Left>", "<Right>" },
     version = false, -- use latest commit
@@ -89,90 +90,90 @@ return {
                 }),
             },
             --     window = {
-            --         completion = cmp.config.window.bordered(),
-            --         documentation = cmp.config.window.bordered(),
-            --     },
-            sorting = {
-                priority_weight = 2,
-                comparators = {
-                    require("copilot_cmp.comparators").prioritize,
-                    cmp.config.compare.offset,
-                    cmp.config.compare.exact,
-                    cmp.config.compare.score,
-                    cmp.config.compare.kind,
-                    cmp.config.compare.sort_text,
-                    cmp.config.compare.length,
-                    cmp.config.compare.order,
+                --         completion = cmp.config.window.bordered(),
+                --         documentation = cmp.config.window.bordered(),
+                --     },
+                sorting = {
+                    priority_weight = 2,
+                    comparators = {
+                        require("copilot_cmp.comparators").prioritize,
+                        cmp.config.compare.offset,
+                        cmp.config.compare.exact,
+                        cmp.config.compare.score,
+                        cmp.config.compare.kind,
+                        cmp.config.compare.sort_text,
+                        cmp.config.compare.length,
+                        cmp.config.compare.order,
+                    },
                 },
-            },
-            experimental = {
-                --ghost_text = true,
-            },
-            -- ↓↓↓↓↓ this is the important part ↓↓↓↓↓
-            preselect = cmp.PreselectMode.None,
-            completion = {
-                completeopt = "menu,menuone,noinsert",
-            },
-            -- 👇 Filter Copilot entries if prefix length < 3
-            -- You can also filter by content, etc.
-            view = {
-                entries = {
-                    name = "custom",
-                    selection_order = "near_cursor",
+                experimental = {
+                    --ghost_text = true,
                 },
-            },
-            -- this is what filters them based on input length
-            -- (copilot provides suggestions even for short input, so we filter them out manually)
-            entry_filter = function(entry, ctx)
-                local source_name = entry.source.name
-                if source_name == "copilot" then
-                    return #ctx.cursor_before_line >= 4
-                end
-                return true
-            end,
-        })
+                -- ↓↓↓↓↓ this is the important part ↓↓↓↓↓
+                preselect = cmp.PreselectMode.None,
+                completion = {
+                    completeopt = "menu,menuone,noinsert",
+                },
+                -- 👇 Filter Copilot entries if prefix length < 3
+                -- You can also filter by content, etc.
+                view = {
+                    entries = {
+                        name = "custom",
+                        selection_order = "near_cursor",
+                    },
+                },
+                -- this is what filters them based on input length
+                -- (copilot provides suggestions even for short input, so we filter them out manually)
+                entry_filter = function(entry, ctx)
+                    local source_name = entry.source.name
+                    if source_name == "copilot" then
+                        return #ctx.cursor_before_line >= 4
+                    end
+                    return true
+                end,
+            })
 
 
-        -- Optional: buffer and cmdline completions
+            -- Optional: buffer and cmdline completions
 
-        cmp.setup.cmdline({ "/", "?" }, {
-            mapping = cmp.mapping.preset.cmdline(),
-            sources = { { name = "buffer" } },
-        })
-        cmp.setup.cmdline(":", {
-            mapping = cmp.mapping.preset.cmdline(),
-            sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
-        })
-    end,
-    -- opts = function(_, opts)
-    --     table.insert(opts.sources, { name = "emoji" })
-    -- end,
-    mapping = require("cmp").mapping.preset.insert({
-        ["<Up>"] = require('cmp').mapping.select_prev_item(),
-        ["<Down>"] = require('cmp').mapping.select_next_item(),
-        ["<C-b>"] = require("cmp").mapping.scroll_docs(-4),
-        ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
-        ["<C-Space>"] = require("cmp").mapping.complete(),
-        ["<C-e>"] = require("cmp").mapping.abort(),
-        ["<CR>"] = require("cmp").mapping.confirm({ select = true }),
-        ["<Tab>"] = require("cmp").mapping(function(fallback)
-            if require("cmp").visible() then
-                require("cmp").select_next_item()
-            elseif require("luasnip").expand_or_jumpable() then
-                require("luasnip").expand_or_jump()
-            else
-                fallback()
-            end
-        end, { "i", "s" }),
-        ["<S-Tab>"] = require("cmp").mapping(function(fallback)
-            if require("cmp").visible() then
-                require("cmp").select_prev_item()
-            elseif require("luasnip").jumpable(-1) then
-                require("luasnip").jump(-1)
-            else
-                fallback()
-            end
-        end)
+            cmp.setup.cmdline({ "/", "?" }, {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = { { name = "buffer" } },
+            })
+            cmp.setup.cmdline(":", {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
+            })
+        end,
+        -- opts = function(_, opts)
+            --     table.insert(opts.sources, { name = "emoji" })
+            -- end,
+            mapping = require("cmp").mapping.preset.insert({
+                ["<Up>"] = require('cmp').mapping.select_prev_item(),
+                ["<Down>"] = require('cmp').mapping.select_next_item(),
+                ["<C-b>"] = require("cmp").mapping.scroll_docs(-4),
+                ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
+                ["<C-Space>"] = require("cmp").mapping.complete(),
+                ["<C-e>"] = require("cmp").mapping.abort(),
+                ["<CR>"] = require("cmp").mapping.confirm({ select = true }),
+                ["<Tab>"] = require("cmp").mapping(function(fallback)
+                    if require("cmp").visible() then
+                        require("cmp").select_next_item()
+                    elseif require("luasnip").expand_or_jumpable() then
+                        require("luasnip").expand_or_jump()
+                    else
+                        fallback()
+                    end
+                end, { "i", "s" }),
+                ["<S-Tab>"] = require("cmp").mapping(function(fallback)
+                    if require("cmp").visible() then
+                        require("cmp").select_prev_item()
+                    elseif require("luasnip").jumpable(-1) then
+                        require("luasnip").jump(-1)
+                    else
+                        fallback()
+                    end
+                end)
 
-    })
-}
+            })
+        }

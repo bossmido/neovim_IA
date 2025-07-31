@@ -4,7 +4,7 @@ return {
     -- ⚠️ must add this setting! ! !
     keys = { "<Up>", "<Down>", "<Left>", "<Right>" },
     build = true,
-    event = "VeryLazy",
+    event = "LspAttach",
     version = false, -- Never set this value to "*"! Never!
     ---@module 'avante'
     ---@type avante.Config

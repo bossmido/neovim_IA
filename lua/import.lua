@@ -41,3 +41,9 @@ require("lazy").setup({
 vim.schedule(function()
   require("post_lazy")
 end)
+
+vim.api.nvim_create_autocmd("CmdlineLeave", {
+  callback = function()
+--      require("post_lazy")
+end,
+})

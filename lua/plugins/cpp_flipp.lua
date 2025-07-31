@@ -1,7 +1,7 @@
 return {
     "willtrojniak/flipp.nvim",
     version = "*",
-
+ft = {"cpp","c"},
     ---@module 'flipp'
     ---@type flipp.Opts
     opts = {

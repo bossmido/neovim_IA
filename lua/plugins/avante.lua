@@ -3,7 +3,7 @@ return {
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     -- ⚠️ must add this setting! ! !
     keys = { "<Up>", "<Down>", "<Left>", "<Right>" },
-    build = true,
+--    build = true,
     event = "LspAttach",
     version = false, -- Never set this value to "*"! Never!
     ---@module 'avante'

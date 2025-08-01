@@ -9,11 +9,7 @@ RESET="\033[0m"
 # Check for Ubuntu
 OK=$(grep -qi "ubuntu" /etc/os-release) ;
 if  [[ $? -eq 0 ]]   && [[ $EUID -ne 0 ]]; then
-<<<<<<< HEAD
-     echo -e "${RED} installation deps : Ubuntu.${RESET}"
-=======
     echo -e "${RED} installation deps : Ubuntu.${RESET}"
->>>>>>> 631bc3a (en cours de deps 4)
     sudo apt update && sudo apt upgrade -y
 
     sudo apt install -y \
@@ -116,6 +112,7 @@ source "$HOME/.cargo/env"
 
 echo -e "${GREEN}⚙️ installation de node...${RESET}"
 nvm install v24
+nvm use v24
 cargo install rust-analyzer
 
 echo -e "/n   eval "\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >> ~/.profile;
@@ -123,3 +120,4 @@ echo -e "/n export PATH='${HOME}/.cargo/bin:$PATH'"
 
 ##mes dépendance à la con
 pip install django-stubs
+npm install -g yarn

@@ -24,7 +24,7 @@
   "codecompanion.nvim": { "branch": "main", "commit": "dce8859ee004b9bacce7c8742a98c25e2ac96826" },
   "codeium.nvim": { "branch": "main", "commit": "821b570b526dbb05b57aa4ded578b709a704a38a" },
   "compiler.nvim": { "branch": "main", "commit": "725e4dc7c4e261a11c98de020fe268f0bb69ad4b" },
-  "conform.nvim": { "branch": "master", "commit": "973f3cb73887d510321653044791d7937c7ec0fa" },
+  "conform.nvim": { "branch": "master", "commit": "a6f5bdb78caa305496357d17e962bbc4c0b392e2" },
   "copilot-cmp": { "branch": "master", "commit": "15fc12af3d0109fa76b60b5cffa1373697e261d1" },
   "copilot.lua": { "branch": "master", "commit": "4c98663ba12db653bc1127ed4c124cdde89f8ca8" },
   "coq.artifacts": { "branch": "artifacts", "commit": "ef5f21d638ccc456cfa5b8d0ab37093cefe48c8b" },

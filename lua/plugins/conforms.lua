@@ -1,16 +1,16 @@
 return {
   'stevearc/conform.nvim',
+  version="*",
       opts = {
     formatters_by_ft = {
-        ['*'] = {
-      function()
-        return {
-          exe = "prettier",
-          args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
-          stdin = true,
-        }      end,stop_after_first = true 
+    --    ['*'] = {
+    --   function()
+    --     return {
+    --       exe = "prettier",
+    --       args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+    --       stdin = true,
+    --     }      end,
 
-    },
       cpp = { "clang_format" },
       c = { "clang_format" },
       lua = {
@@ -27,17 +27,19 @@ return {
     -- You can customize some of the format options for the filetype (:help conform.format)
     rust = { "rustfmt", lsp_format = "fallback" },
     -- Conform will run the first available formatter
-    javascript = { "prettierd", "prettier", stop_after_first = true },
-      css        = { "prettierd", "prettier", stop_after_first = true },
+    javascript = { "prettierd", "prettier" },
+      css        = { "prettierd", "prettier" },
 
+      html        = { "prettierd", "prettier" },
   },    format_on_save = {
       timeout_ms =1000,
 
-      lsp_fallback = true,
+          lsp_format = "fallback",
     },   format = function(bufnr)
       require("conform").format({
         bufnr = bufnr,
-        async = false,
+        stop_after_first=true,
+        async = true,
         lsp_fallback = {
           timeout_ms = 500,
           --- 👇 explicitly pass utf-8

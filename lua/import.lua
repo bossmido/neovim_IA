@@ -38,12 +38,18 @@ require("lazy").setup({
   },
 
 })
-vim.schedule(function()
-  require("post_lazy")
-end)
+--vim.schedule(function()
+--  require("post_lazy")
+--end)
 
-vim.api.nvim_create_autocmd("CmdlineLeave", {
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,  -- pour s’exécuter une seule fois
   callback = function()
-    require("post_lazy")
-end,
+    require("post_lazy")  -- ton script post-chargement
+  end,
 })
+--vim.api.nvim_create_autocmd("CmdlineLeave", {
+--  callback = function()
+    ---require("post_lazy")
+--end,
+--})

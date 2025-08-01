@@ -260,14 +260,14 @@ end, {})
 ---
 ----- Keyboard users
 -- mouse users + nvimtree users!
-vim.keymap.set({ "n", "v" }, "<RightMouse>", function()
+vim.keymap.set({ "n", "v","i" }, "<RightMouse>", function()
   require('menu.utils').delete_old_menus()
 
 --  vim.cmd.exec '"normal! \\<RightMouse>"'
-pcall(vim.cmd, [[normal! \\<RightMouse>]])
+--pcall(vim.cmd, [[normal! \\<RightMouse>]])
   -- clicked buf
   local buf = vim.api.nvim_win_get_buf(vim.fn.getmousepos().winid)
-  local options = vim.bo[buf].ft == "NvimTree" and "nvimtree" or "default"
+--  local options = vim.bo[buf].ft == "NvimTree" and "nvimtree" or "default"
 
-  require("menu").open(options, { mouse = true })
+  require("menu").open("default", { mouse = true })
 end, {})

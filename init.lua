@@ -229,3 +229,6 @@ vim.api.nvim_set_hl(0, "Pmenu", { bg = "#3c3836", fg = "#ebdbb2" })    -- backgr
 vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#fabd2f", fg = "#282828" }) -- selected item
 vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#504945" })                -- scrollbar background
 vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#fabd2f" })               -- scrollbar thumb
+
+--autosave
+vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })

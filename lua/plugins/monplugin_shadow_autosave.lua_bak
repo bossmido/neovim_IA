@@ -1,0 +1,7 @@
+-- In your lazy.nvim plugin setup file
+return {
+--  "bossmido/shadow_autosave.lua",
+  config = function()
+    require("shadow_autosave")
+  end
+}

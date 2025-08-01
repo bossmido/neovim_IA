@@ -251,4 +251,4 @@ vim.api.nvim_set_keymap('n', '<S-F6>',
 -- Toggle compiler results
 vim.api.nvim_set_keymap('n', '<S-F7>', "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
 
-
+vim.api.nvim_set_keymap('c', '<C-f>', "<cmd>lua require('telescope.builtin').command_history()<CR>", { noremap = true, silent = true })

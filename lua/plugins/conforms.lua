@@ -2,8 +2,33 @@ return {
   'stevearc/conform.nvim',
       opts = {
     formatters_by_ft = {
+        ['*'] = {
+      function()
+        return {
+          exe = "prettier",
+          args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+          stdin = true,
+        }
+      end
+    },
       cpp = { "clang_format" },
       c = { "clang_format" },
+      lua = {
+      function()
+        return {
+          exe = "stylua",
+          args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0), "-" },
+          stdin = true,
+        }
+      end
+    },
+    -- Conform will run multiple formatters sequentially
+    python = { "isort", "black" },
+    -- You can customize some of the format options for the filetype (:help conform.format)
+    rust = { "rustfmt", lsp_format = "fallback" },
+    -- Conform will run the first available formatter
+    javascript = { "prettierd", "prettier", stop_after_first = true },
+
   },    format_on_save = {
       timeout_ms = 500,
 

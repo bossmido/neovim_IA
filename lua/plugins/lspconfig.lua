@@ -1,4 +1,5 @@
 
+
 return {
     "mason-org/mason-lspconfig.nvim",
     event = "BufReadPost",
@@ -18,7 +19,18 @@ require('lspconfig').html.setup{
   filetypes = { "html" },
   root_dir = require('lspconfig.util').root_pattern(".git", vim.fn.getcwd()),
 }
-require("lspconfig").ts_ls.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
+require("lspconfig").vue_language_server.setup{
+    on_attach = function(client, bufnr)
+    -- Setup keymaps or diagnostics here
+  end,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  settings = {
+    volar = {
+      takeOverMode = true,  -- Important to handle .js/.ts files alongside .vue
+    },
+  }, filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
     end
 
         },
@@ -28,6 +40,7 @@ require("lspconfig").ts_ls.setup{ filetypes = { "typescript", "typescriptreact",
             "rust_analyzer", -- Rust
             "clangd",        -- C, C++
             "ts_ls", -- JavaScript, TypeScript
+            "vue_ls",
             "html",          -- HTML
             "cssls",         -- CSS
             "texlab"

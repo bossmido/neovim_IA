@@ -1,3 +1,12 @@
+local function executable_status()
+  local file = vim.fn.expand('%:p')
+  if vim.fn.filereadable(file) == 1 and vim.fn.executable(file) == 1 then
+    return '🔒 +x'  -- or just '+x'
+  end
+  return ''
+end
+
+
 return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -130,6 +139,7 @@ return {
                 lualine_x = {
                     "diagnostics",
                     'filesize',
+                    executable_status,
                     'fileformat',
                     {
                         "filetype",

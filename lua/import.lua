@@ -44,6 +44,6 @@ end)
 
 vim.api.nvim_create_autocmd("CmdlineLeave", {
   callback = function()
---      require("post_lazy")
+    require("post_lazy")
 end,
 })

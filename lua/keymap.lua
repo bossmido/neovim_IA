@@ -252,3 +252,22 @@ vim.api.nvim_set_keymap('n', '<S-F6>',
 vim.api.nvim_set_keymap('n', '<S-F7>', "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('c', '<C-f>', "<cmd>lua require('telescope.builtin').command_history()<CR>", { noremap = true, silent = true })
+
+vim.api.nvim_create_user_command("E", function()
+  require("telescope.builtin").find_files()
+end, {})
+-----------------------------------------------------------------
+---
+----- Keyboard users
+-- mouse users + nvimtree users!
+vim.keymap.set({ "n", "v" }, "<RightMouse>", function()
+  require('menu.utils').delete_old_menus()
+
+--  vim.cmd.exec '"normal! \\<RightMouse>"'
+pcall(vim.cmd, [[normal! \\<RightMouse>]])
+  -- clicked buf
+  local buf = vim.api.nvim_win_get_buf(vim.fn.getmousepos().winid)
+  local options = vim.bo[buf].ft == "NvimTree" and "nvimtree" or "default"
+
+  require("menu").open(options, { mouse = true })
+end, {})

@@ -19,18 +19,7 @@ require('lspconfig').html.setup{
   filetypes = { "html" },
   root_dir = require('lspconfig.util').root_pattern(".git", vim.fn.getcwd()),
 }
-require("lspconfig").vue_language_server.setup{
-    on_attach = function(client, bufnr)
-    -- Setup keymaps or diagnostics here
-  end,
-  flags = {
-    debounce_text_changes = 150,
-  },
-  settings = {
-    volar = {
-      takeOverMode = true,  -- Important to handle .js/.ts files alongside .vue
-    },
-  }, filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
+require("lspconfig").volar.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
     end
 
         },

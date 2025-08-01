@@ -1,3 +1,41 @@
+if vim.g.neovide then
+  -- Enable true color
+  vim.o.termguicolors = true
+  
+  -- Font settings
+  vim.o.guifont = "FiraCode Nerd Font:h10"   -- Change font and size
+  
+  -- Cursor effects
+  vim.g.neovide_cursor_animation_length = 0.03    -- Cursor animation speed (lower is faster)
+  vim.g.neovide_cursor_trail_size = 0            -- Cursor trail size (0 to disable)
+  
+  -- Cursor visual effects
+  vim.g.neovide_cursor_antialiasing = false
+  
+  -- Refresh rate
+  vim.g.neovide_refresh_rate = 30                   -- FPS (default 60, 120 is smoother if GPU can handle)
+  
+  -- Transparency
+  vim.g.neovide_opacity = 0.98                  -- Window opacity (1 = opaque)
+  
+  -- Hide window decorations
+  vim.g.neovide_hide_mouse_when_typing = true
+  
+  -- Animations
+  vim.g.neovide_no_idle = false                       -- Keep animations active even when idle
+  
+  -- Fancy features (optional)
+  vim.g.neovide_underline_automatic_scaling = true
+  
+  -- Input method (for IME)
+  vim.g.neovide_input_use_logo = true                 -- Allow using "Super" key as modifier
+  
+  -- Clipboard sync
+  vim.g.neovide_clipboard_autoselect = true
+  vim.g.neovide_clipboard_paste = true
+  vim.g.neovide_clipboard = true
+end 
+
 vim.g.lazyvim_blink_main = false
 require("import")
 require("keymap")

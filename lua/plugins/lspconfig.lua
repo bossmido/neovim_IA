@@ -21,6 +21,7 @@ return {
             --"typescript-language-server", -- JavaScript, TypeScript
             "html",          -- HTML
             "cssls",         -- CSS
+            "texlab"
         },
         automatic_installation = true,
         servers = {

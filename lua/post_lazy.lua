@@ -93,3 +93,12 @@ require("copilot").setup({
     panel = { enabled = false },
 })
 -----------------------------------------------------------------------
+vim.lsp.config("texlab", {
+  settings = {
+      texlab = {
+          build = {
+              onSave = true,
+          },
+      },
+  },
+})

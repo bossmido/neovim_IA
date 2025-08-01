@@ -64,13 +64,20 @@ return {
             sources = cmp.config.sources({
                 {name="calc"},
                 { name = "copilot",      group_index = 2, keyword_length = 3 },
-
+                {name="lazydev"},
                 { name = "nvim_lsp" },
                 { name = "codecompanion" },
                 { name = "luasnip" },
                 { name = "path" },
                 { name = 'plugins' },
-                { name = "buffer" }
+                { name = "buffer" }, providers = {
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.cmp",
+            -- make lazydev completions top priority (see `:h blink.cmp`)
+            score_offset = 100,
+          },
+        },
             }),
             formatting = {
                 format = require("lspkind").cmp_format({

@@ -129,14 +129,14 @@ return {
                 },
                 lualine_x = {
                     "diagnostics",
-                    'encoding',
+                    'filesize',
                     'fileformat',
                     {
                         "filetype",
                         icon_only = true,
                     }
                 },
-                lualine_y = {},
+                lualine_y = {"progress"},
                 lualine_z = {
                     "%l:%L"
                 },

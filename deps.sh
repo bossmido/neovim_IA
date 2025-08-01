@@ -126,6 +126,6 @@ echo -e "/n export PATH='${HOME}/.cargo/bin:$PATH'"
 ##mes dépendance à la con
 pip install django-stubs
 npm install -g yarn
-
+npm install -g vscode-langservers-extracted
 #installation de ollama qui peut echouer
 curl -fsSL https://ollama.com/install.sh | sh

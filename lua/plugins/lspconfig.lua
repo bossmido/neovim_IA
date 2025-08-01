@@ -1,3 +1,4 @@
+
 return {
     "mason-org/mason-lspconfig.nvim",
     event = "BufReadPost",
@@ -11,14 +12,22 @@ return {
                     opts.capabilities = opts.capabilities or {}
                     opts.capabilities.offsetEncoding = { "utf-8" }
                 end,
-            },
+            },config = function()
+require('lspconfig').html.setup{
+  cmd = { "html-language-server", "--stdio" },
+  filetypes = { "html" },
+  root_dir = require('lspconfig.util').root_pattern(".git", vim.fn.getcwd()),
+}
+require("lspconfig").ts_ls.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
+    end
+
         },
     },
     opts = {
         ensure_installed = {
             "rust_analyzer", -- Rust
             "clangd",        -- C, C++
-            --"typescript-language-server", -- JavaScript, TypeScript
+            "ts_ls", -- JavaScript, TypeScript
             "html",          -- HTML
             "cssls",         -- CSS
             "texlab"
@@ -52,4 +61,4 @@ return {
             telemetry = { enable = false },
         }
     }
-}
+    ,}

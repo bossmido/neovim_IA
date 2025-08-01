@@ -92,6 +92,7 @@
   "nvim-web-devicons": { "branch": "master", "commit": "4a8369f4c78ef6f6f895f0cec349e48f74330574" },
   "nvim-window-picker": { "branch": "main", "commit": "6382540b2ae5de6c793d4aa2e3fe6dbb518505ec" },
   "nvim_json_graph_view": { "branch": "main", "commit": "b14fde46fcf1a75338977af8cc65c174ef94582e" },
+  "otter.nvim": { "branch": "main", "commit": "fcc8cf1eeb39f16c309bb27a7ff140ddf87c9fcb" },
   "overseer.nvim": { "branch": "master", "commit": "6271cab7ccc4ca840faa93f54440ffae3a3918bd" },
   "pdf-preview.nvim": { "branch": "main", "commit": "640c294222f815f6ec773dba730994fd6d817df0" },
   "phprefactoring.nvim": { "branch": "main", "commit": "dbc2d39602500a9aab5342487e6192c86deebc02" },

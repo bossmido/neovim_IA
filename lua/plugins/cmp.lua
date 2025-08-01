@@ -22,7 +22,8 @@ return {
         "hrsh7th/cmp-emoji",
         "KadoBOT/cmp-plugins",
         "hrsh7th/cmp-calc",
-        "zbirenbaum/cmp-copilot"
+        "zbirenbaum/cmp-copilot",
+        "jmbuhr/otter.nvim"
     },
     config = function()
         local cmp = require("cmp")
@@ -31,6 +32,7 @@ return {
         cmp.setup({
             snippet = {
                 expand = function(args)
+                    require('otter').expand(args.body)
                     luasnip.lsp_expand(args.body)
                 end,
             },
@@ -213,51 +215,54 @@ return {
 
                 cmp.setup.cmdline(':', {
                     -- mapping = {
-                    --     ['<CR>'] = function(fallback)
-                    --         if cmp.visible() then
-                    --             -- Select the first item if nothing is selected
-                    --             cmp.confirm({ select = true })
-                    --         else
-                    --             fallback()
-                    --         end
-                    --     end
-                    -- },
-                    sources = cmp.config.sources({
-                        { name = 'path' }
-                    -- }, 
-                    -- {  { name = 'cmdline' }
-                    })
-                })
-            end,
-            -- opts = function(_, opts)
-                --     table.insert(opts.sources, { name = "emoji" })
-                -- end,
-                mapping = require("cmp").mapping.preset.insert({
-                    ["<Up>"] = require('cmp').mapping.select_prev_item(),
-                    ["<Down>"] = require('cmp').mapping.select_next_item(),
-                    ["<C-b>"] = require("cmp").mapping.scroll_docs(-4),
-                    ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
-                    ["<C-Space>"] = require("cmp").mapping.complete(),
-                    ["<C-e>"] = require("cmp").mapping.abort(),
-                    ["<CR>"] = require("cmp").mapping.confirm({ select = true }),
-                    ["<Tab>"] = require("cmp").mapping(function(fallback)
-                        if require("cmp").visible() then
-                            require("cmp").select_next_item()
-                        elseif require("luasnip").expand_or_jumpable() then
-                            require("luasnip").expand_or_jump()
-                        else
-                            fallback()
-                        end
-                    end, { "i", "s" }),
-                    ["<S-Tab>"] = require("cmp").mapping(function(fallback)
-                        if require("cmp").visible() then
-                            require("cmp").select_prev_item()
-                        elseif require("luasnip").jumpable(-1) then
-                            require("luasnip").jump(-1)
-                        else
-                            fallback()
-                        end
-                    end)
+                        --     ['<CR>'] = function(fallback)
+                            --         if cmp.visible() then
+                            --             -- Select the first item if nothing is selected
+                            --             cmp.confirm({ select = true })
+                            --         else
+                            --             fallback()
+                            --         end
+                            --     end
+                            -- },
+                            sources = cmp.config.sources({
+                                { name = 'path' }
+                                -- }, 
+                                -- {  { name = 'cmdline' }
+                            })
+                        })
+                    end,
+                    -- opts = function(_, opts)
+                        --     table.insert(opts.sources, { name = "emoji" })
+                        -- end,
+                        mapping = require("cmp").mapping.preset.insert({
+                            ["<Up>"] = require('cmp').mapping.select_prev_item(),
+                            ["<Down>"] = require('cmp').mapping.select_next_item(),
+                            ["<C-b>"] = require("cmp").mapping.scroll_docs(-4),
+                            ["<C-f>"] = require("cmp").mapping.scroll_docs(4),
+                            ["<C-Space>"] = require("cmp").mapping.complete(),
+                            ["<C-e>"] = require("cmp").mapping.abort(),
+                            ["<CR>"] = require("cmp").mapping.confirm({ select = true }),
+                            ["<Tab>"] = require("cmp").mapping(function(fallback)
+                                if require("cmp").visible() then
+                                    require("cmp").select_next_item()
+                                elseif require("luasnip").expand_or_jumpable() then
+                                    require("luasnip").expand_or_jump()
+                                elseif require('otter').expand_or_jumpable() then
+                                    require('otter').expand_or_jump()
 
-                })
-            }
+                                else
+                                    fallback()
+                                end
+                            end, { "i", "s" }),
+                            ["<S-Tab>"] = require("cmp").mapping(function(fallback)
+                                if require("cmp").visible() then
+                                    require("cmp").select_prev_item()
+                                elseif require("luasnip").jumpable(-1) then
+                                    require("luasnip").jump(-1)
+                                else
+                                    fallback()
+                                end
+                            end)
+
+                        })
+                    }

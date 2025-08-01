@@ -8,8 +8,8 @@ return {
           exe = "prettier",
           args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
           stdin = true,
-        }
-      end
+        }      end,stop_after_first = true 
+
     },
       cpp = { "clang_format" },
       c = { "clang_format" },
@@ -28,9 +28,10 @@ return {
     rust = { "rustfmt", lsp_format = "fallback" },
     -- Conform will run the first available formatter
     javascript = { "prettierd", "prettier", stop_after_first = true },
+      css        = { "prettierd", "prettier", stop_after_first = true },
 
   },    format_on_save = {
-      timeout_ms = 500,
+      timeout_ms =1000,
 
       lsp_fallback = true,
     },   format = function(bufnr)

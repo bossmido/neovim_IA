@@ -212,20 +212,20 @@ return {
                 })
 
                 cmp.setup.cmdline(':', {
-                    mapping = {
-                        ['<CR>'] = function(fallback)
-                            if cmp.visible() then
-                                -- Select the first item if nothing is selected
-                                cmp.confirm({ select = true })
-                            else
-                                fallback()
-                            end
-                        end
-                    },
+                    -- mapping = {
+                    --     ['<CR>'] = function(fallback)
+                    --         if cmp.visible() then
+                    --             -- Select the first item if nothing is selected
+                    --             cmp.confirm({ select = true })
+                    --         else
+                    --             fallback()
+                    --         end
+                    --     end
+                    -- },
                     sources = cmp.config.sources({
                         { name = 'path' }
-                    }, {
-                        { name = 'cmdline' }
+                    -- }, 
+                    -- {  { name = 'cmdline' }
                     })
                 })
             end,

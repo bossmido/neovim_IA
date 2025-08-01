@@ -110,6 +110,7 @@ return {
                 },
                 experimental = {
                     --ghost_text = true,
+                            hl_group = "CmpGhostText", -- Highlight group for ghost text
                 },
                 -- ↓↓↓↓↓ this is the important part ↓↓↓↓↓
                 preselect = cmp.PreselectMode.None,
@@ -126,13 +127,73 @@ return {
                 },
                 -- this is what filters them based on input length
                 -- (copilot provides suggestions even for short input, so we filter them out manually)
-                entry_filter = function(entry, ctx)
-                    local source_name = entry.source.name
-                    if source_name == "copilot" then
-                        return #ctx.cursor_before_line >= 4
-                    end
-                    return true
-                end,
+entry_filter = function(entry, ctx)
+    local source_name = entry.source.name
+    local filetype = vim.bo.filetype
+
+    -- Filetypes with no restrictions
+    local allow_all_filetypes = {
+        html = true,
+        css = true,
+        scss = true,
+        sass = true,
+        less = true,
+        json = true,
+        yaml = true,
+        toml = true,
+        ini = true,
+        xml = true,
+        vue = true,
+    }
+
+    if allow_all_filetypes[filetype] then
+        return true
+    end
+
+    -- buffer only in comments
+    if source_name == "buffer" then
+        local ok, ts_utils = pcall(require, "nvim-treesitter.ts_utils")
+        if not ok then return true end
+
+        local node = ts_utils.get_node_at_cursor()
+        while node do
+            if node:type() == "comment" then
+                return true
+            end
+            node = node:parent()
+        end
+        return false
+    end
+
+    -- Copilot requires at least 4 chars
+    if source_name == "copilot" and #ctx.cursor_before_line < 4 then
+        return false
+    end
+
+    -- Other sources only in functions, methods, classes, or objects
+    local ok, ts_utils = pcall(require, "nvim-treesitter.ts_utils")
+    if not ok then return true end
+
+    local node = ts_utils.get_node_at_cursor()
+    while node do
+        local type = node:type()
+        if type == "function"
+            or type == "function_definition"
+            or type == "method_definition"
+            or type == "method"
+            or type == "class"
+            or type == "class_definition"
+            or type == "object"
+            or type == "object_literal"
+            or type == "table_constructor"
+        then
+            return true
+        end
+        node = node:parent()
+    end
+
+    return false
+end,
             })
 
 

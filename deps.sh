@@ -103,12 +103,17 @@ else
         brew install clang
         brew install python
         brew install fzf
+        brew install bob
 
 fi
+
+echo -e "${GREEN}⚙️ Installation de du dernier neovim...${RESET}"
+bob install stable;
 
 echo -e "${GREEN}⚙️ Installation de Rust...${RESET}"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- 
 source "$HOME/.cargo/env"
+rustup install stable
 
 echo -e "${GREEN}⚙️ installation de node...${RESET}"
 nvm install v24

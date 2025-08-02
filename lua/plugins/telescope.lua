@@ -7,8 +7,8 @@ return {
             "nvim-telescope/telescope-fzf-native.nvim",
             build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release;make"
         },
-        "jvgrootveld/telescope-zoxide"
-        
+        "jvgrootveld/telescope-zoxide",
+        "nvim-telescope/telescope-dap.nvim"
     },
     keys = { "<C-f>,<C-g>" },
     cmd = "Telescope",
@@ -24,7 +24,7 @@ return {
 
         local telescope = require("telescope")
         local actions = require("telescope.actions")
-
+local  dap = require('telescope').load_extension('dap')
         -- NOTE: Fucking windows!
         -- https://github.com/nvim-telescope/telescope.nvim/issues/2446
 
@@ -91,132 +91,141 @@ return {
                 find_files = {
                     path_display = filename_first,
                     -- path_display = {
-                    --     filename_first = {
-                    --         reverse_directories = false,
-                    --     },
-                    -- },
-                    -- find_command = {
-                    --     "rg",
-                    --     "--files",
-                    --     "--glob",
-                    --     "!{.git/*,.svelte-kit/*,target/*,node_modules/*}",
-                    --     "--path-separator",
-                    --     "/",
-                    -- },
-                },
-                buffers = {
-                    theme = "dropdown",
-                    initial_mode = "normal",
-                    show_all_buffers = true,
-                    sort_lastused = true,
-                    previewer = false,
-                    mappings = {
-                        n = {
-                            ["dd"] = "delete_buffer",
+                        --     filename_first = {
+                            --         reverse_directories = false,
+                            --     },
+                            -- },
+                            -- find_command = {
+                                --     "rg",
+                                --     "--files",
+                                --     "--glob",
+                                --     "!{.git/*,.svelte-kit/*,target/*,node_modules/*}",
+                                --     "--path-separator",
+                                --     "/",
+                                -- },
+                            },
+                            buffers = {
+                                theme = "dropdown",
+                                initial_mode = "normal",
+                                show_all_buffers = true,
+                                sort_lastused = true,
+                                previewer = false,
+                                mappings = {
+                                    n = {
+                                        ["dd"] = "delete_buffer",
+                                    }
+                                },
+                                layout_config = {
+                                    width = set_width(.6, 120),
+                                }
+                            },
+                            quickfix = {
+                                initial_mode = "normal",
+                            },
+                            oldfiles = {
+                                -- path_display = filenameFirst,
+                                theme = "dropdown",
+                                initial_mode = "normal",
+                                sort_lastused = true,
+                                previewer = false,
+                                layout_config = {
+                                    width = set_width(.6, 120)
+                                }
+                            },
+                            diagnostics = {
+                                theme = "ivy",
+                                path_display = filename_first,
+                                initial_mode = "normal",
+                                previewer = false,
+                            },
+                            lsp_references = {
+                                path_display = { "tail" },
+                                initial_mode = "normal",
+                                theme = "ivy"
+                            },
+                            lsp_definitions = {
+                                theme = "ivy",
+                                path_display = { "tail" },
+                                initial_mode = "normal",
+                            },
+                            lsp_implementations = {
+                                theme = "ivy",
+                                path_display = { "tail" },
+                                initial_mode = "normal",
+                            },
+                        },
+                        extensions = {
+                            dap={
+                                mappings={
+                                    default={
+                                        ["F9"]={
+                                            action=  function() vim.cmd("Telescope dap commands") end
+                                        }
+                                    }
+                                }
+                            },
+                            fzf = {},
+                            undo = {},
+                            zoxide = {
+                                prompt_title = "[ Walking on the shoulders of TJ ]",
+                                mappings = {
+                                    default = {
+                                        after_action = function(selection)
+                                            print("Update to (" .. selection.z_score .. ") " .. selection.path)
+                                        end
+                                    },
+                                    ["<C-s>"] = {
+                                        before_action = function(selection) print("before C-s") end,
+                                        action = function(selection)
+                                            vim.cmd.edit(selection.path)
+                                        end
+                                    },
+                                    -- Opens the selected entry in a new split
+                                    --["<C-q>"] = { action = z_utils.create_basic_command("split") },
+                                },
+                            }
                         }
-                    },
-                    layout_config = {
-                        width = set_width(.6, 120),
                     }
-                },
-                quickfix = {
-                    initial_mode = "normal",
-                },
-                oldfiles = {
-                    -- path_display = filenameFirst,
-                    theme = "dropdown",
-                    initial_mode = "normal",
-                    sort_lastused = true,
-                    previewer = false,
-                    layout_config = {
-                        width = set_width(.6, 120)
-                    }
-                },
-                diagnostics = {
-                    theme = "ivy",
-                    path_display = filename_first,
-                    initial_mode = "normal",
-                    previewer = false,
-                },
-                lsp_references = {
-                    path_display = { "tail" },
-                    initial_mode = "normal",
-                    theme = "ivy"
-                },
-                lsp_definitions = {
-                    theme = "ivy",
-                    path_display = { "tail" },
-                    initial_mode = "normal",
-                },
-                lsp_implementations = {
-                    theme = "ivy",
-                    path_display = { "tail" },
-                    initial_mode = "normal",
-                },
-            },
-            extensions = {
-                fzf = {},
-                undo = {},
-                 zoxide = {
-      prompt_title = "[ Walking on the shoulders of TJ ]",
-      mappings = {
-        default = {
-          after_action = function(selection)
-            print("Update to (" .. selection.z_score .. ") " .. selection.path)
-          end
-        },
-        ["<C-s>"] = {
-          before_action = function(selection) print("before C-s") end,
-          action = function(selection)
-            vim.cmd.edit(selection.path)
-          end
-        },
-        -- Opens the selected entry in a new split
-        --["<C-q>"] = { action = z_utils.create_basic_command("split") },
-      },
-    }
-            }
-        }
 
-        telescope.load_extension("fzf")
-        telescope.load_extension("undo")
-        telescope.load_extension("zoxide")
-        local builtin = require('telescope.builtin')
-        vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]uzzy [H]elp' })
-        vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]uzzy [K]eymaps' })
-        vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]uzzy [F]iles' })
-        vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]uzzy [D]iagnostics' })
-        vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[F]uzzy [R]esume' })
-        vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]uzzy [B]uffers' })
-        vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = '[F]uzzy [O]ld Files' })
-        vim.keymap.set('n', '<leader>fs', builtin.grep_string, { desc = '[F]uzzy Grip [S]tring ' })
-        vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = '[Q]uickfix' })
+                    telescope.load_extension("fzf")
+                    telescope.load_extension("undo")
+                    telescope.load_extension("zoxide")
+                    local builtin = require('telescope.builtin')
+                    vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]uzzy [H]elp' })
+                    vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]uzzy [K]eymaps' })
+                    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]uzzy [F]iles' })
+                    vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]uzzy [D]iagnostics' })
+                    vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[F]uzzy [R]esume' })
+                    vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]uzzy [B]uffers' })
+                    vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = '[F]uzzy [O]ld Files' })
+                    vim.keymap.set('n', '<leader>fs', builtin.grep_string, { desc = '[F]uzzy Grip [S]tring ' })
+                    vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = '[Q]uickfix' })
 
-        -- vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]uzzy [S]earch [S]elect Telescope' })
+                    -- vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]uzzy [S]earch [S]elect Telescope' })
 
-        vim.keymap.set('n', '<leader>f.', function()
-            -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-            builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-                layout_config = {
-                    width = set_width(0.6, 120)
-                },
-                winblend = 10,
-                previewer = false,
-            })
-        end, { desc = '[.] Fuzzily search in current buffer' })
+                    vim.keymap.set('n', '<leader>f.', function()
+                        -- You can pass additional configuration to Telescope to change the theme, layout, etc.
+                        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+                            layout_config = {
+                                width = set_width(0.6, 120)
+                            },
+                            winblend = 10,
+                            previewer = false,
+                        })
+                    end, { desc = '[.] Fuzzily search in current buffer' })
 
-        -- Shortcut for searching your Neovim configuration files
-        vim.keymap.set('n', '<leader>fn', function()
-            builtin.find_files { cwd = vim.fn.stdpath("config") }
-        end, { desc = '[F]uzzy [N]eovim config files' })
+                    -- Shortcut for searching your Neovim configuration files
+                    vim.keymap.set('n', '<leader>fn', function()
+                        builtin.find_files { cwd = vim.fn.stdpath("config") }
+                    end, { desc = '[F]uzzy [N]eovim config files' })
 
-        vim.keymap.set("n", "<space>u", "<cmd>Telescope undo<CR>")
-        vim.keymap.set("n", "<leader>fg", require("telescope.multigrep").live_multigrep)
+                    vim.keymap.set("n", "<space>u", "<cmd>Telescope undo<CR>")
+                    vim.keymap.set("n", "<leader>fg", require("telescope.multigrep").live_multigrep)
 
-        -- vim.keymap.set("n", "<space>ep", function()
-        --     ---@diagnostic disable-next-line: param-type-mismatch
-        --     require("telescope.builti").find_files { cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy") }
-        -- end)
-    end,
-    event = "VeryLazy",
-}
+                    -- vim.keymap.set("n", "<space>ep", function()
+                        --     ---@diagnostic disable-next-line: param-type-mismatch
+                        --     require("telescope.builti").find_files { cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy") }
+                        -- end)
+                    end,
+                    event = "VeryLazy",
+                }

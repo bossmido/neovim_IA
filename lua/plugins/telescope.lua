@@ -6,7 +6,9 @@ return {
         {
             "nvim-telescope/telescope-fzf-native.nvim",
             build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release;make"
-        }
+        },
+        "jvgrootveld/telescope-zoxide"
+        
     },
     keys = { "<C-f>,<C-g>" },
     cmd = "Telescope",
@@ -155,12 +157,30 @@ return {
             extensions = {
                 fzf = {},
                 undo = {},
+                 zoxide = {
+      prompt_title = "[ Walking on the shoulders of TJ ]",
+      mappings = {
+        default = {
+          after_action = function(selection)
+            print("Update to (" .. selection.z_score .. ") " .. selection.path)
+          end
+        },
+        ["<C-s>"] = {
+          before_action = function(selection) print("before C-s") end,
+          action = function(selection)
+            vim.cmd.edit(selection.path)
+          end
+        },
+        -- Opens the selected entry in a new split
+        --["<C-q>"] = { action = z_utils.create_basic_command("split") },
+      },
+    }
             }
         }
 
         telescope.load_extension("fzf")
         telescope.load_extension("undo")
-
+        telescope.load_extension("zoxide")
         local builtin = require('telescope.builtin')
         vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]uzzy [H]elp' })
         vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]uzzy [K]eymaps' })

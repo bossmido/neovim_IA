@@ -14,14 +14,35 @@ return {
                     opts.capabilities.offsetEncoding = { "utf-8" }
                 end,
             },config = function()
--- require('lspconfig').html.setup{
---   cmd = { "html-language-server", "--stdio" },
---   filetypes = { "html" },
---   root_dir = require('lspconfig.util').root_pattern(".git", vim.fn.getcwd()),
--- }
-
-require("lspconfig").vtsls.setup{  cmd = { "vtsls", "--stdio" },
-  settings = {}, filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
+ -- require('lspconfig').html.setup{
+ --   cmd = { "vtsls", "--stdio" },
+ --   filetypes = { "html" },
+ --   root_dir = require('lspconfig.util').root_pattern(".git", vim.fn.getcwd()),
+ -- }
+require('lspconfig').vtsls.setup {
+  cmd = { "vtsls", "--stdio" },
+  filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "vue","html" },
+  root_dir = require('lspconfig.util').root_pattern("tsconfig.json", "jsconfig.json", ".git"),
+  settings = {
+    typescript = {
+      implicitProjectConfig = {
+        checkJs = true
+      }
+    },
+    javascript = {
+      implicitProjectConfig = {
+        checkJs = true
+      }
+    },
+    vtsls = {
+      experimental = {
+        completion = {
+          enableServerSideFuzzyMatch = true
+        }
+      }
+    }
+  },
+}
 --require("lspconfig").ts_ls.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
 --require("lspconfig").volar.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
     end

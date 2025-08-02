@@ -1,4 +1,3 @@
-
 return {
     "nvim-neotest/neotest",
     key="F8",
@@ -9,7 +8,8 @@ return {
         "nvim-treesitter/nvim-treesitter",
         "alfaix/neotest-gtest",
         "rouge8/neotest-rust",
-        "nvim-neotest/neotest-python"
+        "nvim-neotest/neotest-python",
+        "olimorris/neotest-phpunit"
     },config = function()
         require("neotest").setup({})
         vim.keymap.set({'n','i'}, '<F8>', function()

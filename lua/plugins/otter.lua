@@ -10,6 +10,6 @@ return { --* embed LSPs inside other filetypes *--
       write_to_disk = true,
     },},
   config = function()
-    require("otter").activate(languages, completion, true, tsquery) -- false: disable diagnostics
+  --  require("otter").activate(languages, completion, true, tsquery) -- false: disable diagnostics
   end,
 }

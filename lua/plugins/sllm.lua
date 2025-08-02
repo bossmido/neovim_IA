@@ -1,3 +1,5 @@
+
+
 return {
     "mozanunal/sllm.nvim",
     dependencies = {
@@ -6,7 +8,10 @@ return {
     },
     config = function()
         require("sllm").setup({
-            llm_cmd                  = "llm", -- command or path for the llm CLI
+            --llm_cmd                  = "llm", -- command or path for the llm CLI
+             backend = "ollama",
+  model = "deepseek-r1",         -- or any model you've pulled like "mistral"
+  url = "http://localhost:11434/api/chat",  -- default Ollama endpoint
             default_model            = "gpt-4.1", -- default llm model (set to "default" to use llm's default model)
             show_usage               = true, -- append usage stats to responses
             on_start_new_chat        = true, -- start fresh chat on setup

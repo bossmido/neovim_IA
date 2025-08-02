@@ -58,7 +58,7 @@ elif [[ $(grep -qi "arch" /etc/os-release) -eq 0 ]] ; then
 
     sudo pacman -S --noconfirm \
         git neovim wget curl htop tree fish ripgrep fd \
-        python python-pip base-devel clang fzf lazygit unzip zoxide
+        python python-pip base-devel clang fzf lazygit unzip zoxide lnav
 
 
 else
@@ -105,6 +105,7 @@ else
         brew install fzf
         brew install bob
         brew install zoxide
+        brew install lnav
 
 fi
 

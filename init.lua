@@ -1,3 +1,7 @@
+if vim.loader then
+  vim.loader.enable()
+end
+
 if vim.g.neovide then
   -- Enable true color
   vim.o.termguicolors = true

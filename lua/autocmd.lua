@@ -85,3 +85,12 @@ vim.api.nvim_create_autocmd({"BufLeave", "TextChanged"}, {
     end
   end,
 })
+-----------------------------------------------------------------------------------
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*.log",
+  callback = function()
+
+    vim.cmd("q!")  -- quit current buffer first (optional)
+    vim.cmd("silent !lnav " .. vim.fn.expand("%"))
+  end,
+})

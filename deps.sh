@@ -12,6 +12,7 @@ if  [[ $? -eq 0 ]]   && [[ $EUID -ne 0 ]]; then
     echo -e "${RED} installation deps : Ubuntu.${RESET}"
     sudo apt update && sudo apt upgrade -y
 
+    echo -e "${RED} installation packages : Ubuntu.${RESET}"
     sudo apt install -y \
         git \
         neovim \
@@ -33,7 +34,10 @@ if  [[ $? -eq 0 ]]   && [[ $EUID -ne 0 ]]; then
         gnupg \
         lsb-release \
         software-properties-common\
-        nvm
+        nvm\
+        zoxide\
+        lnav
+    
 
     # Link fd if not already linked
     if ! command -v fd &>/dev/null; then

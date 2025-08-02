@@ -66,3 +66,22 @@ vim.api.nvim_create_autocmd("VimEnter", {
         end
     end
 })
+----------------------------------------------------------------------------------
+
+vim.api.nvim_create_autocmd({"BufReadPost", "BufNewFile"}, {
+  pattern = {"*.html", "*.css","script.js"},
+  callback = function()
+    -- Run live-server in background
+    -- The trailing '&' lets it run asynchronously
+--    vim.fn.system("live-server --quiet &")
+      vim.cmd("LiveServerStart")
+  end,
+})
+vim.api.nvim_create_autocmd({"BufLeave", "TextChanged"}, {
+  pattern = "*.html",
+  callback = function()
+    if vim.bo.modified then
+      vim.cmd("w")
+    end
+  end,
+})

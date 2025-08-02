@@ -208,8 +208,8 @@ vim.keymap.set({"n","i"}, "<F9>", "<ESC>:Telescope dap commands<CR>", { desc = "
 vim.keymap.set({"n","i"}, "<C-f>", find_all_menu, { desc = "Telescope: Find All Menu" })
 --vim.keymap.set("i", "<C-f>", find_all_menu, { desc = "Telescope: Find All Menu" })
 
-vim.keymap.set("n", "<F12>", ":ToggleTerm<CR>", { desc = "ouvre le putain de terminal" })
-vim.keymap.set("i", "<F12>", "<ESC>:ToggleTerm<CR>", { desc = "ouvre le putain de terminal" })
+vim.keymap.set({"n","i",""}, "<F12>", "<ESC>:ToggleTerm<CR>", { desc = "ouvre le putain de terminal" })
+vim.keymap.set({"c","i","n"}, "<F11>", "<ESC>:Floaterminal<CR>", { desc = "ouvre le putain de terminal" })
 
 vim.keymap.set('n', '<C-s>', function()
     require('telescope.builtin').grep_string({ search = vim.fn.expand("<cword>") })

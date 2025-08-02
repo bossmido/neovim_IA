@@ -58,7 +58,7 @@ elif [[ $(grep -qi "arch" /etc/os-release) -eq 0 ]] ; then
 
     sudo pacman -S --noconfirm \
         git neovim wget curl htop tree fish ripgrep fd \
-        python python-pip base-devel clang fzf lazygit unzip
+        python python-pip base-devel clang fzf lazygit unzip zoxide
 
 
 else
@@ -104,6 +104,7 @@ else
         brew install python
         brew install fzf
         brew install bob
+        brew install zoxide
 
 fi
 
@@ -129,3 +130,5 @@ npm install -g yarn
 npm install -g vscode-langservers-extracted
 #installation de ollama qui peut echouer
 curl -fsSL https://ollama.com/install.sh | sh
+
+zoxide add ~

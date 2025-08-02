@@ -44,7 +44,9 @@ return {
         "stevearc/dressing.nvim",        -- for input provider dressing
         "folke/snacks.nvim",             -- for input provider snacks
         "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
-        "zbirenbaum/copilot.lua",        -- for providers='copilot'
+        {"zbirenbaum/copilot.lua",config= function() require("img-clip").setup({
+  log_level = "off", -- disables most logging
+}) end},        -- for providers='copilot'
         {
             -- support for image pasting
             "HakonHarnes/img-clip.nvim",

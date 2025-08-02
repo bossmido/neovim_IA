@@ -31,6 +31,7 @@
     - https://github.com/CopilotC-Nvim/CopilotChat.nvim
 
 - ME MIENS : 
+   - avante ?????
    - ollama -> ollama               OK
    - codenium -> windsurf -> claude OK
    - codecompanion -> deepseek      KO

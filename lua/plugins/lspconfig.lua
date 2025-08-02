@@ -14,12 +14,16 @@ return {
                     opts.capabilities.offsetEncoding = { "utf-8" }
                 end,
             },config = function()
-require('lspconfig').html.setup{
-  cmd = { "html-language-server", "--stdio" },
-  filetypes = { "html" },
-  root_dir = require('lspconfig.util').root_pattern(".git", vim.fn.getcwd()),
-}
-require("lspconfig").volar.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
+-- require('lspconfig').html.setup{
+--   cmd = { "html-language-server", "--stdio" },
+--   filetypes = { "html" },
+--   root_dir = require('lspconfig.util').root_pattern(".git", vim.fn.getcwd()),
+-- }
+
+require("lspconfig").vtsls.setup{  cmd = { "vtsls", "--stdio" },
+  settings = {}, filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
+--require("lspconfig").ts_ls.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
+--require("lspconfig").volar.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
     end
 
         },
@@ -30,6 +34,7 @@ require("lspconfig").volar.setup{ filetypes = { "typescript", "typescriptreact",
             "clangd",        -- C, C++
             "ts_ls", -- JavaScript, TypeScript
             "vue_ls",
+            "vtsls",
             "html",          -- HTML
             "cssls",         -- CSS
             "texlab"

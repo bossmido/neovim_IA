@@ -167,6 +167,7 @@ local function find_all_menu()
                 "Live Grep",
                 "Sessions",
                 "Projets",
+                "Zoxide"
             }
         }),
         sorter = conf.generic_sorter({}),
@@ -191,6 +192,9 @@ local function find_all_menu()
                 elseif selection[1] == "Projets" then
                     selection[1] = "Projets"
                     vim.cmd("Telescope projects projects")
+                elseif selection[1] == "Zoxide" then
+                    selection[1] = "Zoxide"
+                    vim.cmd("Telescope zoxide list")
                 end
             end
             map('i', '<CR>', on_choice)

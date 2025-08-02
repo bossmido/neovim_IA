@@ -31,5 +31,8 @@
     - https://github.com/CopilotC-Nvim/CopilotChat.nvim
 
 - ME MIENS : 
-
-
+   - ollama -> ollama               OK
+   - codenium -> windsurf -> claude OK
+   - codecompanion -> deepseek      KO
+   - copilot -> copilot -> chatgpt  OK
+   - ChatGpt                        KO

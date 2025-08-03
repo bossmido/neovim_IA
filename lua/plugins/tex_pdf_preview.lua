@@ -8,4 +8,5 @@ return {
 
         -- Add your keymaps here
     end
+    ,cmd="PdfPreviewStart"
 }

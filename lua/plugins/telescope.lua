@@ -8,8 +8,9 @@ return {
             build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release;make"
         },
         "jvgrootveld/telescope-zoxide",
-        "nvim-telescope/telescope-dap.nvim"
-    },
+        "nvim-telescope/telescope-dap.nvim",
+  "nvim-telescope/telescope-frecency.nvim"
+  },
     keys = { "<C-f>,<C-g>" },
     cmd = "Telescope",
     config = function()

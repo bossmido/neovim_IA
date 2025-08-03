@@ -5,7 +5,7 @@ return {
 
     "hrsh7th/nvim-cmp",
     lazy=true,
-    event = "LspAttach",
+      event = "VeryLazy",
     keys = { "<Tab>", "<S-Tab>", "<C-Space>", "<Up>", "<Down>", "<Left>", "<Right>" },
     version = false, -- use latest commit
 

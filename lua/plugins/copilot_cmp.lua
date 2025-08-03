@@ -1,6 +1,6 @@
 return {
   -- Copilot → cmp integration
-
+  event = "VeryLazy",
   "zbirenbaum/copilot-cmp",
   dependencies = { "zbirenbaum/copilot.lua" },
   config = function()

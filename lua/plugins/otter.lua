@@ -1,8 +1,9 @@
 
+
 return { --* embed LSPs inside other filetypes *--
     "jmbuhr/otter.nvim",
     version="*",
-    ft={"html"}
+    ft={"html"},
     event="CmdlineEnter",
     dependencies = "nvim-treesitter/nvim-treesitter",
     opts = { 

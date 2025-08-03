@@ -4,7 +4,23 @@ return {
     -- ⚠️ must add this setting! ! !
   --  keys = { "<Up>", "<Down>", "<Left>", "<Right>" },
 --    build = true,
-    event = "LspAttach",
+    cmd={
+  "AvanteAsk",
+  "AvanteBuild",
+  "AvanteChat",
+  "AvanteChatNew",
+  "AvanteHistory",
+  "AvanteClear",
+  "AvanteEdit",
+  "AvanteFocus",
+  "AvanteRefresh",
+  "AvanteStop",
+  "AvanteSwitchProvider",
+  "AvanteShowRepoMap",
+  "AvanteToggle",
+  "AvanteModels",
+  "AvanteSwitchSelectorProvider"
+},
     version = false, -- Never set this value to "*"! Never!
     ---@module 'avante'
     ---@type avante.Config

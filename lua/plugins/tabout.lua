@@ -1,32 +1,61 @@
-return {
-    'abecodes/tabout.nvim',
-    lazy = false,
-    opt = true,
-    event = 'InsertCharPre',
-    priority = 1000,
-    dependencies = {
-        "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-        require('tabout').setup {
-            tabkey = '<Tab>',             -- key to trigger tabout, set to an empty string to disable
-            backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
-            act_as_tab = true,            -- shift content if tab out is not possible
-            act_as_shift_tab = false,     -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
-            default_tab = '<C-t>',        -- shift default action (only at the beginning of a line, otherwise <TAB> is used)
-            default_shift_tab = '<C-d>',  -- reverse shift default action,
-            enable_backwards = true,      -- well ...
-            completion = false,           -- if the tabkey is used in a completion pum
-            tabouts = {
-                { open = "'", close = "'" },
-                { open = '"', close = '"' },
-                { open = '`', close = '`' },
-                { open = '(', close = ')' },
-                { open = '[', close = ']' },
-                { open = '{', close = '}' }
-            },
-            ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
-            exclude = {} -- tabout will ignore these filetypes
-        }
-    end,
+return
+{
+  "abecodes/tabout.nvim",
+  event = "InsertCharPre", -- Lazy load just before typing
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter", -- Required
+    "hrsh7th/nvim-cmp",                -- Optional: for integration
+  },
+  config = function()
+    require("tabout").setup({
+      tabkey = "<Tab>",             -- Key to trigger tabout
+      backwards_tabkey = "<S-Tab>", -- Key to go back
+      act_as_tab = true,            -- Use <Tab> if no match
+      act_as_shift_tab = false,
+      default_tab = "<C-t>",        -- Only at line start
+      default_shift_tab = "<C-d>",
+      enable_backwards = true,
+      completion = false,           -- Let nvim-cmp handle this
+      tabouts = {
+        { open = "'", close = "'" },
+        { open = '"', close = '"' },
+        { open = "`", close = "`" },
+        { open = "(", close = ")" },
+        { open = "[", close = "]" },
+        { open = "{", close = "}" },
+      },
+      ignore_beginning = true,
+      exclude = { "markdown", "help", "text" }, -- Optional performance tip
+    })
+
+    -- 🧠 If you're using nvim-cmp + luasnip, you can modify <Tab> logic like this:
+    local cmp = require("cmp")
+    local luasnip = require("luasnip")
+
+    cmp.setup({
+      mapping = {
+        ["<Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+          elseif luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
+          elseif require("tabout").jumpable() then
+            require("tabout").jump_out()
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif luasnip.jumpable(-1) then
+            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+      },
+    })
+  end,
 }

@@ -6,24 +6,23 @@ return {
     "hrsh7th/nvim-cmp",
     lazy=true,
       event = "VeryLazy",
-    keys = { "<Tab>", "<S-Tab>", "<C-Space>", "<Up>", "<Down>", "<Left>", "<Right>" },
+    --keys = { "<Tab>", "<S-Tab>", "<C-Space>", "<Up>", "<Down>", "<Left>", "<Right>" },
     version = false, -- use latest commit
 
     dependencies = {
-
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
-        -- add more sources if needed, e.g.:
         "hrsh7th/cmp-cmdline",
         "onsails/lspkind.nvim",
         "hrsh7th/cmp-emoji",
         "KadoBOT/cmp-plugins",
         "hrsh7th/cmp-calc",
         "zbirenbaum/cmp-copilot",
-        "jmbuhr/otter.nvim"
+        "jmbuhr/otter.nvim",
+        "L3MON4D3/LuaSnip"
     },
     config = function()
         local cmp = require("cmp")

@@ -284,3 +284,11 @@ vim.api.nvim_create_user_command('E', function()
     options = '--prompt "Files> " --preview "bat --style=numbers --color=always --line-range :500 {}"'
   })
 end, {})
+
+vim.api.nvim_set_keymap(
+  "n",
+  "<C-LeftMouse>",
+  ":normal! gf<CR>",
+  { noremap = true, silent = true }
+)
+

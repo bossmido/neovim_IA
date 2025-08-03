@@ -95,4 +95,10 @@ return
             }
         }
     end,
+    routes = {
+        {
+            filter = { event = "msg_show", find = "deprecated" },
+            opts = { skip = true }, -- ignore these messages
+        },
+    },
 }

@@ -276,3 +276,11 @@ vim.keymap.set({ "n", "v","i" }, "<RightMouse>", function()
 
   require("menu").open("default", { mouse = true })
 end, {})
+----------------------------------------------------------------------------
+vim.api.nvim_create_user_command('E', function()
+  vim.fn['fzf#run']({
+    source = 'fd --type f',
+    sink = 'edit',
+    options = '--prompt "Files> " --preview "bat --style=numbers --color=always --line-range :500 {}"'
+  })
+end, {})

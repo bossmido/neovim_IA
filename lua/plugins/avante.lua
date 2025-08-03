@@ -2,7 +2,7 @@ return {
     "yetone/avante.nvim",
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     -- ⚠️ must add this setting! ! !
-    keys = { "<Up>", "<Down>", "<Left>", "<Right>" },
+  --  keys = { "<Up>", "<Down>", "<Left>", "<Right>" },
 --    build = true,
     event = "LspAttach",
     version = false, -- Never set this value to "*"! Never!
@@ -22,13 +22,23 @@ return {
                     max_tokens = 20480,
                 },
             },
-            moonshot = {
+            kimi = {
                 endpoint = "https://api.moonshot.ai/v1",
                 model = "kimi-k2-0711-preview",
                 timeout = 30000, -- Timeout in milliseconds
                 extra_request_body = {
                     temperature = 0.75,
                     max_tokens = 32768,
+                },
+            },
+              mistral = {
+                api_key_name = "MISTRAL_API_KEY",
+                endpoint = "https://api.mistral.ai/v1",
+                model = "mistral-medium", -- or mistral-small / mistral-large
+                timeout = 30000,
+                extra_request_body = {
+                    temperature = 0.7,
+                    max_tokens = 8192,
                 },
             },
         },

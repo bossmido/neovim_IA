@@ -21,7 +21,7 @@ return {
  -- }
 require('lspconfig').vtsls.setup {
   cmd = { "vtsls", "--stdio" },
-  filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "vue","html" },
+  filetypes = { "javascript", "typescript","vue" },
   root_dir = require('lspconfig.util').root_pattern("tsconfig.json", "jsconfig.json", ".git"),
   settings = {
     typescript = {
@@ -43,6 +43,23 @@ require('lspconfig').vtsls.setup {
     }
   },
 }
+require("lspconfig").emmet_ls.setup({
+  -- filetypes where Emmet will be active
+  filetypes = { "html", "css", "typescriptreact", "javascriptreact", "jsx", "tsx" },
+  init_options = {
+    html = {
+      options = {
+        -- Enable emmet options here if needed
+        ["bem.enabled"] = true,
+      },
+    },
+  },triggerExpansionOnTab= true
+})
+
+require('lspconfig').html.setup{
+  filetypes = { "htmldjango", "blade" }  -- only these filetypes will attach
+}
+
 --require("lspconfig").ts_ls.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
 --require("lspconfig").volar.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
     end
@@ -59,7 +76,8 @@ require('lspconfig').vtsls.setup {
             "html",          -- HTML
             "cssls",         -- CSS
             "texlab",
-            "luau_lsp"
+            "luau_lsp",
+            "emmet_ls"
         },
         automatic_installation = true,
         servers = {

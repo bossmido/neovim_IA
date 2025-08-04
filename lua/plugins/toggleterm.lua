@@ -18,14 +18,5 @@ return {
             end
         end
 
-        require("toggleterm").setup()
-
-        vim.keymap.set("n", "<leader>ts", "<cmd>:TermSelect<CR>")
-        vim.keymap.set("n", "<leader>tt", "<cmd>:ToggleTerm<CR>")
-        vim.keymap.set("n", "<leader>ta", "<cmd>:ToggleTermToggleAll<CR>")
-        vim.keymap.set("n", "<leader>th", "<cmd>:ToggleTerm direction=horizontal<CR>")
-        vim.keymap.set("n", "<leader>tv", "<cmd>:ToggleTerm direction=vertical size=100<CR>")
-        vim.keymap.set("n", "<leader>tf", "<cmd>:ToggleTerm direction=float<CR>")
-        vim.keymap.set("t", "<M-q>", "<cmd>:ToggleTerm<CR>")
     end
 }

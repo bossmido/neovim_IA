@@ -5,9 +5,12 @@ return {
         lazy = false,
         priority = 1000,
         config = function()
-            ---@diagnostic disable-next-line: missing-fields
-            require("kanagawa").setup({
-                theme = "wave",
+            vim.cmd.colorscheme "kanagawa"
+            -- vim.opt.fillchars:append({ vert = '┃' })
+        end
+    },opts={
+        
+                    theme = "wave",
                 background = {
                     dark = "wave",
                     light = "lotus"
@@ -42,10 +45,6 @@ return {
                         },
                     },
                 }
-            })
+            }
 
-            vim.cmd.colorscheme "kanagawa"
-            -- vim.opt.fillchars:append({ vert = '┃' })
-        end
-    },
 }

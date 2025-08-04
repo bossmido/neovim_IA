@@ -3,6 +3,7 @@ return {
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
+        event = "BufReadPost",
         enabled = true,
         --event="VeryLazy",
         config = function()

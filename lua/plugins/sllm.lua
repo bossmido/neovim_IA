@@ -6,6 +6,14 @@ return {
         "echasnovski/mini.notify",
         "echasnovski/mini.pick",
     },
+    cmd={
+  "SllmChat",
+  "SllmAsk",
+  "SllmSwitchModel",
+  "SllmContextAdd",
+  "SllmContextClear",
+  "SllmHelp"
+},
     config = function()
         require("sllm").setup({
             --llm_cmd                  = "llm", -- command or path for the llm CLI

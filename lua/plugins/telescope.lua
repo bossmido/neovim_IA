@@ -12,7 +12,7 @@ return {
   "nvim-telescope/telescope-frecency.nvim"
   },
     keys = { "<C-f>,<C-g>" },
-    cmd = "Telescope",
+    cmd = {"Telescope","Lua"},
     config = function()
         vim.api.nvim_create_autocmd("FileType", {
             pattern = "help",

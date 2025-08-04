@@ -299,3 +299,24 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
 ------------------------------------------------------------------------------------------------------------
 
 vim.keymap.set({'i',"n"},"<C-e>", "<ESC>:FzfLua<CR>", { desc = 'Toggle TOUT' })
+--------------------------------------------------------
+
+local on_attach = function(client, bufnr)
+  vim.notify("LSP '" .. client.name .. "' attached to buffer " .. bufnr, vim.log.levels.INFO)
+end
+
+
+vim.keymap.set({'i',"n"},"<C-f>", function()
+local util = require("lspconfig.util")
+
+vim.lsp.start({
+  name = "ts_ls",
+  cmd = { "typescript-language-server", "--stdio" },
+  root_dir = util.root_pattern("package.json", "tsconfig.json", ".git")(vim.api.nvim_buf_get_name(0)),
+  on_attach = function(client, bufnr)
+    vim.notify("ts_ls attaché au buffer " .. bufnr)
+  end,
+})
+
+end, { desc = 'Toggle TOUT' })
+

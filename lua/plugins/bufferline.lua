@@ -22,6 +22,19 @@ return {
     "akinsho/bufferline.nvim",
     -- enabled = false,
     version = "*",
+    cmd={
+  "BufferLineCycleNext",
+  "BufferLineCyclePrev",
+  "BufferLinePickClose",
+  "BufferLineCloseRight",
+  "BufferLineCloseLeft",
+  "BufferLineCloseOthers",
+  "BufferLineMoveNext",
+  "BufferLineMovePrev",
+  "BufferLineSortByDirectory",
+  "BufferLineSortByExtension"
+
+},
     dependencies = "nvim-tree/nvim-web-devicons",
     config = function()
         local bufferline = require("bufferline")

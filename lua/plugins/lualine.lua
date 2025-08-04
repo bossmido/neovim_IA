@@ -10,7 +10,7 @@ end
 return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-      event = "VeryLazy",
+    event = "VimEnter",
     config = function()
         local auto_session_lib = require("auto-session.lib")
         local auto_session_enabled = false

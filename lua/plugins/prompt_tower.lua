@@ -1,8 +1,12 @@
 return {
   'kylesnowschwartz/prompt-tower.nvim',
+cmd={
+  "PromptTowerGenerateContext",
+  "PromptTowerSelectFiles",
+  "PromptTowerFeedToAI",
+  "PromptTowerToggleWindow"
+},
   config = function()
-    require('prompt-tower').setup({
-      -- Configuration options (see below)
-    })
+
   end,
 }

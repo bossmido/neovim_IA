@@ -22,8 +22,9 @@ return { --* embed LSPs inside other filetypes *--
   cpp = [[^%s*(#pragma|//).*]],
   },
 
-        },},
-        config = function()
-            --require("otter").activate(languages, completion, true, tsquery) -- false: disable diagnostics
-        end,
+        },
+    },
+        -- config = function()
+        --     --require("otter").activate(languages, completion, true, tsquery) -- false: disable diagnostics
+        -- end,
     }

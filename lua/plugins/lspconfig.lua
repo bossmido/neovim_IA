@@ -59,7 +59,7 @@ require('lspconfig').vtsls.setup {
             "html",          -- HTML
             "cssls",         -- CSS
             "texlab",
-            "luau-ls"
+            "luau_lsp"
         },
         automatic_installation = true,
         servers = {

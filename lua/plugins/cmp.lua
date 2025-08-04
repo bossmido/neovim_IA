@@ -5,8 +5,8 @@ return {
 
     "hrsh7th/nvim-cmp",
     lazy=true,
-      event = "VeryLazy",
-    --keys = { "<Tab>", "<S-Tab>", "<C-Space>", "<Up>", "<Down>", "<Left>", "<Right>" },
+    event = "VeryLazy",
+   keys = { "<Tab>", "<S-Tab>", "<C-Space>"},
     version = false, -- use latest commit
 
     dependencies = {

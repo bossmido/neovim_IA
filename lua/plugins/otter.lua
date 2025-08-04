@@ -24,6 +24,6 @@ return { --* embed LSPs inside other filetypes *--
 
         },},
         config = function()
-            require("otter").activate(languages, completion, true, tsquery) -- false: disable diagnostics
+            --require("otter").activate(languages, completion, true, tsquery) -- false: disable diagnostics
         end,
     }

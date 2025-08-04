@@ -291,8 +291,11 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
             ":normal! gf<CR>",
             { noremap = true, silent = true }
         )
-
+------------------------------------------------------------------------------------------------------------
         vim.keymap.set('n', '<leader><leader>', '<C-^>', { desc = 'Toggle last buffer' })
 
 
         vim.keymap.set('i',"<C-j>", "<ESC>", { desc = 'Toggle last buffer' })
+------------------------------------------------------------------------------------------------------------
+
+vim.keymap.set({'i',"n"},"<C-e>", "<ESC>:FzfLua<CR>", { desc = 'Toggle TOUT' })

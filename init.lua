@@ -1,7 +1,12 @@
-if vim.loader then
-  vim.loader.enable()
-end
-
+--tests
+vim.lsp.get_active_clients = function() return vim.lsp.get_clients() end
+--
+--
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    vim.health.start = function() end
+  end
+})
 if vim.g.neovide then
   -- Enable true color
   vim.o.termguicolors = true
@@ -274,3 +279,4 @@ vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#fabd2f" })               -- scroll
 
 --autosave
 vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
+

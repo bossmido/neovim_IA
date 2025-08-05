@@ -1,1 +1,0 @@
-return {"romainchapou/confiture.nvim"}

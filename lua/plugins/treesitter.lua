@@ -6,7 +6,7 @@ return {
         event = "BufReadPost",
         enabled = true,
         --event="VeryLazy",
-        config = function()
+        setup = function(opts)
             ---@diagnostic disable-next-line: missing-fields
             require('nvim-treesitter.configs').setup {
                 -- A list of parser names, or "all" (the listed parsers MUST always be installed)

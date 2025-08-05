@@ -9,11 +9,11 @@ return {
         },
         "jvgrootveld/telescope-zoxide",
         "nvim-telescope/telescope-dap.nvim",
-  "nvim-telescope/telescope-frecency.nvim"
-  },
+        "nvim-telescope/telescope-frecency.nvim"
+    },
     keys = { "<C-f>,<C-g>" },
     cmd = {"Telescope","Lua"},
-    config = function()
+    setup = function()
         vim.api.nvim_create_autocmd("FileType", {
             pattern = "help",
             callback = function()
@@ -25,7 +25,7 @@ return {
 
         local telescope = require("telescope")
         local actions = require("telescope.actions")
-local  dap = require('telescope').load_extension('dap')
+        local  dap = require('telescope').load_extension('dap')
         -- NOTE: Fucking windows!
         -- https://github.com/nvim-telescope/telescope.nvim/issues/2446
 

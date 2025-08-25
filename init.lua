@@ -3,46 +3,46 @@ vim.lsp.get_active_clients = function() return vim.lsp.get_clients() end
 --
 --
 vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    vim.health.start = function() end
-  end
+    callback = function()
+        vim.health.start = function() end
+    end
 })
 if vim.g.neovide then
-  -- Enable true color
-  vim.o.termguicolors = true
-  
-  -- Font settings
-  vim.o.guifont = "FiraCode Nerd Font:h10"   -- Change font and size
-  
-  -- Cursor effects
-  vim.g.neovide_cursor_animation_length = 0.03    -- Cursor animation speed (lower is faster)
-  vim.g.neovide_cursor_trail_size = 0            -- Cursor trail size (0 to disable)
-  
-  -- Cursor visual effects
-  vim.g.neovide_cursor_antialiasing = false
-  
-  -- Refresh rate
-  vim.g.neovide_refresh_rate = 30                   -- FPS (default 60, 120 is smoother if GPU can handle)
-  
-  -- Transparency
-  vim.g.neovide_opacity = 0.98                  -- Window opacity (1 = opaque)
-  
-  -- Hide window decorations
-  vim.g.neovide_hide_mouse_when_typing = true
-  
-  -- Animations
-  vim.g.neovide_no_idle = false                       -- Keep animations active even when idle
-  
-  -- Fancy features (optional)
-  vim.g.neovide_underline_automatic_scaling = true
-  
-  -- Input method (for IME)
-  vim.g.neovide_input_use_logo = true                 -- Allow using "Super" key as modifier
-  
-  -- Clipboard sync
-  vim.g.neovide_clipboard_autoselect = true
-  vim.g.neovide_clipboard_paste = true
-  vim.g.neovide_clipboard = true
+    -- Enable true color
+    vim.o.termguicolors = true
+
+    -- Font settings
+    vim.o.guifont = "FiraCode Nerd Font:h10"   -- Change font and size
+
+    -- Cursor effects
+    vim.g.neovide_cursor_animation_length = 0.03    -- Cursor animation speed (lower is faster)
+    vim.g.neovide_cursor_trail_size = 0            -- Cursor trail size (0 to disable)
+
+    -- Cursor visual effects
+    vim.g.neovide_cursor_antialiasing = false
+
+    -- Refresh rate
+    vim.g.neovide_refresh_rate = 30                   -- FPS (default 60, 120 is smoother if GPU can handle)
+
+    -- Transparency
+    vim.g.neovide_opacity = 0.98                  -- Window opacity (1 = opaque)
+
+    -- Hide window decorations
+    vim.g.neovide_hide_mouse_when_typing = true
+
+    -- Animations
+    vim.g.neovide_no_idle = false                       -- Keep animations active even when idle
+
+    -- Fancy features (optional)
+    vim.g.neovide_underline_automatic_scaling = true
+
+    -- Input method (for IME)
+    vim.g.neovide_input_use_logo = true                 -- Allow using "Super" key as modifier
+
+    -- Clipboard sync
+    vim.g.neovide_clipboard_autoselect = true
+    vim.g.neovide_clipboard_paste = true
+    vim.g.neovide_clipboard = true
 end 
 
 vim.g.lazyvim_blink_main = false
@@ -100,16 +100,17 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*",
-    callback = function()
-        -- Set fileformat to unix to avoid ^M line endings
-        vim.bo.fileformat = "unix"
-        -- Remove any carriage return characters from the buffer
-        vim.cmd([[%s/\r//g]])
-    end,
-})
+if vim.loop.os_uname().version:match("Windows") then
+    vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = "*",
+        callback = function()
+            -- Set fileformat to unix to avoid ^M line endings
+            vim.bo.fileformat = "unix"
+            -- Remove any carriage return characters from the buffer
+            vim.cmd([[%s/\r//ge]])
+        end,
+    })
+end
 -- Enable persistent undo
 vim.opt.undofile = true
 
@@ -202,81 +203,81 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- vim.defer_fn(function()
---   local ok, cmds = pcall(vim.api.nvim_get_commands, {builtin = false})
---   if not ok or not cmds then return end
---
---   for name, cmd in pairs(cmds) do
---     local lower = name:lower()
---     if lower ~= name then
---       -- Check if lowercase command already exists
---       local exists = false
---       local ok2, commands_now = pcall(vim.api.nvim_get_commands, {builtin = false})
---       if ok2 and commands_now and commands_now[lower] then
---         exists = true
---       end
---
---       if not exists then
---         local success, err = pcall(function()
---           vim.api.nvim_create_user_command(lower, function(opts)
---             local bang = opts.bang and "!" or ""
---             local args = opts.args or ""
---             vim.cmd(name .. bang .. " " .. args)
---           end, { nargs = "*", bang = true, desc = "Lowercase alias for " .. name })
---         end)
---         if not success then
---           -- Silently ignore error or print debug if you want:
---           -- print("Error creating alias for command " .. name .. ": " .. err)
---         end
---       end
---     end
---   end
--- end, 5000)
--- Disable <C-\><C-n> in terminal buffers to prevent switching to Normal mode
+    --   local ok, cmds = pcall(vim.api.nvim_get_commands, {builtin = false})
+    --   if not ok or not cmds then return end
+    --
+    --   for name, cmd in pairs(cmds) do
+    --     local lower = name:lower()
+    --     if lower ~= name then
+    --       -- Check if lowercase command already exists
+    --       local exists = false
+    --       local ok2, commands_now = pcall(vim.api.nvim_get_commands, {builtin = false})
+    --       if ok2 and commands_now and commands_now[lower] then
+    --         exists = true
+    --       end
+    --
+    --       if not exists then
+    --         local success, err = pcall(function()
+        --           vim.api.nvim_create_user_command(lower, function(opts)
+            --             local bang = opts.bang and "!" or ""
+            --             local args = opts.args or ""
+            --             vim.cmd(name .. bang .. " " .. args)
+            --           end, { nargs = "*", bang = true, desc = "Lowercase alias for " .. name })
+            --         end)
+            --         if not success then
+            --           -- Silently ignore error or print debug if you want:
+            --           -- print("Error creating alias for command " .. name .. ": " .. err)
+            --         end
+            --       end
+            --     end
+            --   end
+            -- end, 5000)
+            -- Disable <C-\><C-n> in terminal buffers to prevent switching to Normal mode
 
-vim.api.nvim_create_autocmd("TermOpen", {
-    callback = function()
-        -- Disable the key to leave terminal mode
-        vim.api.nvim_buf_set_keymap(0, "t", "<C-\\><C-n>", "<Nop>", { noremap = true, silent = true })
-        -- Automatically start in insert mode
-        vim.cmd("startinsert")
-    end,
-})
-
-
--- Also force insert mode every time entering terminal buffer
-vim.api.nvim_create_autocmd("BufEnter", {
-    callback = function()
-        if vim.bo.buftype == "terminal" then
-            vim.cmd("startinsert")
-        end
-    end,
-})
+            vim.api.nvim_create_autocmd("TermOpen", {
+                callback = function()
+                    -- Disable the key to leave terminal mode
+                    vim.api.nvim_buf_set_keymap(0, "t", "<C-\\><C-n>", "<Nop>", { noremap = true, silent = true })
+                    -- Automatically start in insert mode
+                    vim.cmd("startinsert")
+                end,
+            })
 
 
+            -- Also force insert mode every time entering terminal buffer
+            vim.api.nvim_create_autocmd("BufEnter", {
+                callback = function()
+                    if vim.bo.buftype == "terminal" then
+                        vim.cmd("startinsert")
+                    end
+                end,
+            })
 
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "*",
-    callback = function()
-        vim.opt_local.omnifunc = ""
-    end,
-})
 
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 
-    pattern = "*.lua_bak",
-    callback = function()
-        vim.bo.filetype = "lua"
-    end,
-})
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "*",
+                callback = function()
+                    vim.opt_local.omnifunc = ""
+                end,
+            })
 
---popup color
+            vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 
--- Set popup menu colors to match Gruvbox palette
-vim.api.nvim_set_hl(0, "Pmenu", { bg = "#3c3836", fg = "#ebdbb2" })    -- background + text
-vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#fabd2f", fg = "#282828" }) -- selected item
-vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#504945" })                -- scrollbar background
-vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#fabd2f" })               -- scrollbar thumb
+                pattern = "*.lua_bak",
+                callback = function()
+                    vim.bo.filetype = "lua"
+                end,
+            })
 
---autosave
-vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
+            --popup color
+
+            -- Set popup menu colors to match Gruvbox palette
+            vim.api.nvim_set_hl(0, "Pmenu", { bg = "#3c3836", fg = "#ebdbb2" })    -- background + text
+            vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#fabd2f", fg = "#282828" }) -- selected item
+            vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#504945" })                -- scrollbar background
+            vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#fabd2f" })               -- scrollbar thumb
+
+            --autosave
+            vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 

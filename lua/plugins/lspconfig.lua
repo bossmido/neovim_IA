@@ -38,7 +38,7 @@ return {
 
 
             require("lspconfig").ltex.setup({
-                 cmd = { "~/.local/share/ltex-ls/bin/ltex-ls" },
+                 cmd = {vim.fn.expand("~/.local/share/ltex-ls/bin/ltex-ls")} ,
                 settings = {
                     ltex = {
                         language = "fr",

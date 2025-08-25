@@ -1,111 +1,124 @@
-
-
 return {
-    "mason-org/mason-lspconfig.nvim",
-    event = "BufReadPost",
-    dependencies = {
-        "mason-org/mason.nvim",
-        {
+
+    -- Mason (LSP installer)
+    {
+        "williamboman/mason.nvim",
+        build = ":MasonUpdate",
+        config = true,
+    },
+
+    -- Mason LSP Config
+    {
+        "williamboman/mason-lspconfig.nvim",
+        event = "BufReadPost",
+        dependencies = {
+            "williamboman/mason.nvim",
             "neovim/nvim-lspconfig",
-            setup = {
-                -- Patch all servers
-                ["*"] = function(_, opts)
-                    opts.capabilities = opts.capabilities or {}
-                    opts.capabilities.offsetEncoding = { "utf-8" }
-                end,
-            },config = function()
- -- require('lspconfig').html.setup{
- --   cmd = { "vtsls", "--stdio" },
- --   filetypes = { "html" },
- --   root_dir = require('lspconfig.util').root_pattern(".git", vim.fn.getcwd()),
- -- }
-require('lspconfig').vtsls.setup {
-  cmd = { "vtsls", "--stdio" },
-  filetypes = { "javascript", "typescript","vue" },
-  root_dir = require('lspconfig.util').root_pattern("tsconfig.json", "jsconfig.json", ".git"),
-  settings = {
-    typescript = {
-      implicitProjectConfig = {
-        checkJs = true
-      }
-    },
-    javascript = {
-      implicitProjectConfig = {
-        checkJs = true
-      }
-    },
-    vtsls = {
-      experimental = {
-        completion = {
-          enableServerSideFuzzyMatch = true
-        }
-      }
-    }
-  },
-}
-require("lspconfig").emmet_ls.setup({
-  -- filetypes where Emmet will be active
-  filetypes = { "html", "css", "typescriptreact", "javascriptreact", "jsx", "tsx" },
-  init_options = {
-    html = {
-      options = {
-        -- Enable emmet options here if needed
-        ["bem.enabled"] = true,
-      },
-    },
-  },triggerExpansionOnTab= true
-})
-
-require('lspconfig').html.setup{
-  filetypes = { "htmldjango", "blade" }  -- only these filetypes will attach
-}
-
---require("lspconfig").ts_ls.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
---require("lspconfig").volar.setup{ filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" } }
-    end
-
+            "brymer-meneses/grammar-guard.nvim",
         },
-    },
-    opts = {
-        ensure_installed = {
-            "rust_analyzer", -- Rust
-            "clangd",        -- C, C++
-            "ts_ls", -- JavaScript, TypeScript
-            "vue_ls",
-            "vtsls",
-            "html",          -- HTML
-            "cssls",         -- CSS
-            "texlab",
-            "luau_lsp",
-            "emmet_ls"
-        },
-        automatic_installation = true,
-        servers = {
+        config = function()
+            require("mason-lspconfig").setup({
+                ensure_installed = {
+                    "rust_analyzer",
+                    "clangd",
+                    "vtsls",
+                    "html",
+                    "cssls",
+                    "texlab",
+                    "luau_lsp",
+                    "emmet_ls",
+                    "ltex",
+                },
+                automatic_installation = true,
+            })
 
-            clangd = {
+
+            -- LSP setups
+            local lspconfig = require("lspconfig")
+
+
+            require("lspconfig").ltex.setup({
+                 cmd = { "~/.local/share/ltex-ls/bin/ltex-ls" },
+                settings = {
+                    ltex = {
+                        language = "fr",
+                        dictionary = {
+                            ["fr"] = { "exemple", "grammaire" }, -- add your custom words here
+                        },
+                        disabledRules = {
+                            ["fr"] = { "OXFORD_SPELLING_Z_NOT_S" },
+                        },
+                    },
+                },
+                filetypes = { "tex", "latex", "markdown" },
+            })
+
+
+            lspconfig.vtsls.setup({
+                cmd = { "vtsls", "--stdio" },
+                filetypes = { "javascript", "typescript", "vue" },
+                root_dir = lspconfig.util.root_pattern("tsconfig.json", "jsconfig.json", ".git"),
+                settings = {
+                    typescript = {
+                        implicitProjectConfig = {
+                            checkJs = true,
+                        },
+                    },
+                    javascript = {
+                        implicitProjectConfig = {
+                            checkJs = true,
+                        },
+                    },
+                    vtsls = {
+                        experimental = {
+                            completion = {
+                                enableServerSideFuzzyMatch = true,
+                            },
+                        },
+                    },
+                },
+            })
+
+            lspconfig.emmet_ls.setup({
+                filetypes = {
+                    "html", "css", "typescriptreact", "javascriptreact", "jsx", "tsx",
+                },
+                init_options = {
+                    html = {
+                        options = {
+                            ["bem.enabled"] = true,
+                        },
+                    },
+                },
+            })
+
+            lspconfig.html.setup({
+                filetypes = { "htmldjango", "blade" },
+            })
+
+            -- Optional clangd fix
+            lspconfig.clangd.setup({
                 capabilities = {
-
                     offsetEncoding = { "utf-8" },
                 },
-            },
+            })
 
-        },
+            -- Lua config for Neovim runtime
+            lspconfig.lua_ls.setup({
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true),
+                            checkThirdParty = false,
+                        },
+                        telemetry = { enable = false },
+                    },
+                },
+            })
+        end,
     },
-    settings = {
-        ["luau-lsp"] = {
-            diagnostics = {
-                globals = { "vim" },
-            },
-        },
-        Lua = {
-            diagnostics = {
-                globals = { 'vim' }, -- Tell LSP that `vim` is a global variable
-            },
-            workspace = {
-                library = vim.api.nvim_get_runtime_file("", true), -- Include Neovim runtime files for better completion
-                checkThirdParty = false,
-            },
-            telemetry = { enable = false },
-        }
-    }
-    ,}
+}
+

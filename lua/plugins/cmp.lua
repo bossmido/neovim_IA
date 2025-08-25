@@ -16,6 +16,7 @@ return {
         "KadoBOT/cmp-plugins",
         "hrsh7th/cmp-calc",
         "zbirenbaum/cmp-copilot",
+        "micangl/cmp-vimtex",
         "jmbuhr/otter.nvim",
     },
     opts = {
@@ -56,10 +57,19 @@ return {
             { name = "path" },
             { name = "plugins" },
             { name = "buffer" },
+            { name="vimtex"}
         },
         preselect = require("cmp").PreselectMode.None,
         completion = {
             completeopt = "menu,menuone,noinsert",
+            enabled = function()
+                local context = require('cmp.config.context')
+                -- Disable completion in comments
+                if context.in_treesitter_capture("comment") == true or context.in_syntax_group("Comment") then
+                    return false
+                end
+                return true
+            end,
         },
         experimental = {
             hl_group = "CmpGhostText",

@@ -63,6 +63,22 @@ return {
         completion = {
             completeopt = "menu,menuone,noinsert",
             enabled = function()
+                local ts_utils = require("nvim-treesitter.ts_utils")
+                    local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+                if filetype == "html" then
+      local node = ts_utils.get_node_at_cursor()
+      while node do
+        local type = node:type()
+        if type == "text" then
+          return false  -- Disable in raw text nodes
+        end
+        node = node:parent()
+      end
+    end
+
+
+
+
                 local context = require('cmp.config.context')
                 -- Disable completion in comments
                 if context.in_treesitter_capture("comment") == true or context.in_syntax_group("Comment") then

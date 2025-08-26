@@ -30,7 +30,7 @@ return {
                     "texlab",
                     "luau_lsp",
                     "emmet_ls",
-                    "ltex-ls-plus",
+                    "ltex_plus",
 --                    "efm",
                 },
                 automatic_installation = true,

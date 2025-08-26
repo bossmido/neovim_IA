@@ -1,4 +1,6 @@
 
+
+
 return {
 
     -- Mason (LSP installer)
@@ -28,8 +30,8 @@ return {
                     "texlab",
                     "luau_lsp",
                     "emmet_ls",
---                    "ltex",
-                    "efm",
+                    "ltex-ls-plus",
+--                    "efm",
                 },
                 automatic_installation = true,
             })
@@ -37,42 +39,35 @@ return {
 
             -- LSP setups
             local lspconfig = require("lspconfig")
-local languagetool = require("efmls-configs.linters.languagetool")
-languagetool.lintCommand = "languagetool --language fr --json -  2>/tmp/languagetool_err.log"
--- local languagetool = {
---   lintCommand = "languagetool --language fr -  | grep -v WARNING"
--- ",
---   lintStdin = true,
---   lintFormats = { "%m" },
---   lintIgnoreExitCode = true,
 
-local function on_attach(client, bufnr)
-  if client.supports_method("textDocument/publishDiagnostics") then
-    print("LanguageTool attached for buffer " .. bufnr)
-  end
-end
+-- lspconfig.harper_ls.setup{
+-- --  cmd = { "harper_ls" },
+--   filetypes = { "text","plaintext", "markdown", "tex" },  -- types de fichiers textes usuels pour correction
+--   root_dir = lspconfig.util.root_pattern(".git", "."),
+--   settings = {
+--     language = "fr",  -- ou selon la clé que le serveur attend pour choisir la langue
+--   },
+--   on_attach = function(client, bufnr)
+--     -- Optionnel : tu peux définir des raccourcis pour la correction ici
+--   end,
+-- }
 
-lspconfig.efm.setup({
-  on_attach = on_attach,
-  init_options = {
-    documentFormatting = false,  -- LanguageTool does not support formatting
-    documentRangeFormatting = false,
-    hover = false,
-    codeAction = false,
-  },
-  filetypes = { "text" },  -- only apply to .txt files
+lspconfig.ltex.setup{
+  cmd = { "ltex-ls" },  -- chemin vers ltex-ls si pas dans PATH
+  filetypes = { "tex", "markdown", "plaintext" }, -- fichiers texte à corriger
   settings = {
---    rootMarkers = { ".git/" },
-    languages = {
-      text = { languagetool },
+    ltex = {
+      language = "fr",            -- forcer la langue française
+      diagnosticSeverity = "information",
+      enabled = { "fr" },         -- activer les règles françaises
+      disabledRules = {},         -- liste des règles à désactiver si besoin
     },
   },
-})
-vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  update_in_insert = false,
-})
+}
+
+
+
+
 
 
             -- Try texlab first (usually more stable)

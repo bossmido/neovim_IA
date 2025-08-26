@@ -1,4 +1,4 @@
-return {
+{
   "mfussenegger/nvim-lint",
   config = function()
     local lint = require("lint")
@@ -19,18 +19,14 @@ return {
 
         for _, match in ipairs(decoded.matches) do
           local message = match.message
-          local offset = match.offset
-          local length = match.length
-
-          -- fallback to position 0 (line 0, col 0)
-          local row = 0
-          local col = 0
+          local offset = match.offset or 0
+          local length = match.length or 1
 
           table.insert(results, {
-            lnum = row,
-            col = col,
-            end_lnum = row,
-            end_col = col + length,
+            lnum = 0,
+            col = offset,
+            end_lnum = 0,
+            end_col = offset + length,
             severity = vim.diagnostic.severity.WARN,
             message = message,
             source = "languagetool",
@@ -41,20 +37,20 @@ return {
       end,
     }
 
-    -- Enable for these filetypes
+    -- Assign LanguageTool to filetypes
     lint.linters_by_ft = {
       markdown = { "languagetool_fr" },
       text = { "languagetool_fr" },
     }
 
-    -- Trigger on save
-    vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+    -- Run linter on text change, insert leave, and save
+    vim.api.nvim_create_autocmd({ "BufWritePost", "TextChanged", "InsertLeave" }, {
       callback = function()
         require("lint").try_lint()
       end,
     })
 
-    -- Define the :Lint command manually (optional but handy)
+    -- Optional: Add :Lint command
     vim.api.nvim_create_user_command("Lint", function()
       require("lint").try_lint()
     end, {})

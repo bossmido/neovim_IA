@@ -281,3 +281,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
             --autosave
             vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 
+
+--temporaire
+vim.g.ale_disable_lsp = 1

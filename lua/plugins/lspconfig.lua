@@ -24,6 +24,7 @@ return {
                 ensure_installed = {
                     "rust_analyzer",
                     "clangd",
+                    "pyright",
                     "vtsls",
                     "html",
                     "cssls",

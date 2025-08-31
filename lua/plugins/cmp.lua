@@ -98,7 +98,7 @@ return {
             ["<C-Space>"] = require("cmp").mapping.complete(),
             ["<C-e>"] = require("cmp").mapping.abort(),
             ["<CR>"] = require("cmp").mapping.confirm({ select = true }),
-        ["<Tab>"] = function(fallback)
+["<Tab>"] = function(fallback)
     local cmp = require("cmp")
     local luasnip_ok, luasnip = pcall(require, "luasnip")
     local otter_ok, otter = pcall(require, "otter")
@@ -113,7 +113,8 @@ return {
     elseif tabout_ok and tabout.tabout and tabout.tabout() then
         return
     else
-        fallback()
+        -- Manually trigger buffer completion
+        cmp.complete({ config = { sources = { { name = "buffer" } } } })
     end
 end,
 

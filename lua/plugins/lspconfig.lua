@@ -41,6 +41,12 @@ return {
             -- LSP setups
             local lspconfig = require("lspconfig")
 
+lspconfig.clangd.setup({
+  cmd = { "clangd", "--background-index", "--clang-tidy","--compile-commands-dir=build" },
+  filetypes = { "c", "cpp", "objc", "objcpp" },
+  root_dir = require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+})
+
 -- lspconfig.harper_ls.setup{
 -- --  cmd = { "harper_ls" },
 --   filetypes = { "text","plaintext", "markdown", "tex" },  -- types de fichiers textes usuels pour correction

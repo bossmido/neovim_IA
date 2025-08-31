@@ -1,6 +1,8 @@
 
+
 return {
     "L3MON4D3/LuaSnip",
+    version="*",
     event="LspAttach",
     dependencies = { "rafamadriz/friendly-snippets" }, -- Optional: prebuilt snippets
     config = function()

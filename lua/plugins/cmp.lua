@@ -56,7 +56,7 @@ return {
             { name = "luasnip" },
             { name = "path" },
             { name = "plugins" },
-            { name = "buffer" },
+            { name = "buffer", keyword_length = 1000  },
             { name="vimtex"}
         },
         preselect = require("cmp").PreselectMode.None,
@@ -98,30 +98,43 @@ return {
             ["<C-Space>"] = require("cmp").mapping.complete(),
             ["<C-e>"] = require("cmp").mapping.abort(),
             ["<CR>"] = require("cmp").mapping.confirm({ select = true }),
-            ["<Tab>"] = function(fallback)
-                local cmp = require("cmp")
-                local luasnip = require("luasnip")
-                if cmp.visible() then
-                    cmp.select_next_item()
-                elseif luasnip.expand_or_jumpable() then
-                    luasnip.expand_or_jump()
-                elseif require("otter").expand_or_jumpable() then
-                    require("otter").expand_or_jump()
-                else
-                    fallback()
-                end
-            end,
-            ["<S-Tab>"] = function(fallback)
-                local cmp = require("cmp")
-                local luasnip = require("luasnip")
-                if cmp.visible() then
-                    cmp.select_prev_item()
-                elseif luasnip.jumpable(-1) then
-                    luasnip.jump(-1)
-                else
-                    fallback()
-                end
-            end,
+        ["<Tab>"] = function(fallback)
+    local cmp = require("cmp")
+    local luasnip_ok, luasnip = pcall(require, "luasnip")
+    local otter_ok, otter = pcall(require, "otter")
+    local tabout_ok, tabout = pcall(require, "tabout")
+
+    if cmp.visible() then
+        cmp.select_next_item()
+    elseif luasnip_ok and luasnip.expand_or_jumpable and luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+    elseif otter_ok and otter.expand_or_jumpable and otter.expand_or_jumpable() then
+        otter.expand_or_jump()
+    elseif tabout_ok and tabout.tabout and tabout.tabout() then
+        return
+    else
+        fallback()
+    end
+end,
+
+["<S-Tab>"] = function(fallback)
+    local cmp = require("cmp")
+    local luasnip_ok, luasnip = pcall(require, "luasnip")
+    local otter_ok, otter = pcall(require, "otter")
+    local tabout_ok, tabout = pcall(require, "tabout")
+
+    if cmp.visible() then
+        cmp.select_prev_item()
+    elseif luasnip_ok and luasnip.jumpable and luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+    elseif otter_ok and otter.jumpable and otter.jumpable(-1) then
+        otter.jump(-1)
+    elseif tabout_ok and tabout.tabout and tabout.tabout(true) then
+        return
+    else
+        fallback()
+    end
+end,
         }),
     },
     config = function(_, opts)

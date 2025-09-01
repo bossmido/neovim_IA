@@ -338,3 +338,5 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
                         vim.keymap.set("v", "<C-z>", "<C-c>:suspend<CR>", { noremap = true, silent = true })
                         -- Terminal mode
                         vim.keymap.set("t", "<C-z>", "<C-\\><C-n>:suspend<CR>", { noremap = true, silent = true })
+
+                        vim.keymap.set("n", "<C-i>", "<C-i>", { noremap = true })

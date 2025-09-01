@@ -340,3 +340,9 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
                         vim.keymap.set("t", "<C-z>", "<C-\\><C-n>:suspend<CR>", { noremap = true, silent = true })
 
                         vim.keymap.set("n", "<C-i>", "<C-i>", { noremap = true })
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+-- Ctrl-c Ctrl-c to close buffer
+map('n', '<C-c><C-c>', ':qa!<CR>', opts)
+

@@ -42,8 +42,9 @@ return {
         end,
         snippet = {
             expand = function(args)
-                require("otter").expand(args.body)
+                --require("otter").expand(args.body)
                 require("luasnip").lsp_expand(args.body)
+                --require("luasnip").lsp_expand(args.body)  -- ✅ correct for LuaSnip
             end,
         },
         sources = {
@@ -64,17 +65,17 @@ return {
             completeopt = "menu,menuone,noinsert",
             enabled = function()
                 local ts_utils = require("nvim-treesitter.ts_utils")
-                    local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+                local filetype = vim.api.nvim_buf_get_option(0, "filetype")
                 if filetype == "html" then
-      local node = ts_utils.get_node_at_cursor()
-      while node do
-        local type = node:type()
-        if type == "text" then
-          return false  -- Disable in raw text nodes
-        end
-        node = node:parent()
-      end
-    end
+                    local node = ts_utils.get_node_at_cursor()
+                    while node do
+                        local type = node:type()
+                        if type == "text" then
+                            return false  -- Disable in raw text nodes
+                        end
+                        node = node:parent()
+                    end
+                end
 
 
 
@@ -98,44 +99,46 @@ return {
             ["<C-Space>"] = require("cmp").mapping.complete(),
             ["<C-e>"] = require("cmp").mapping.abort(),
             ["<CR>"] = require("cmp").mapping.confirm({ select = true }),
-["<Tab>"] = function(fallback)
-    local cmp = require("cmp")
-    local luasnip_ok, luasnip = pcall(require, "luasnip")
-    local otter_ok, otter = pcall(require, "otter")
-    local tabout_ok, tabout = pcall(require, "tabout")
+            ["<Tab>"] = function(fallback)
+                local cmp = require("cmp")
+                local luasnip_ok, luasnip = pcall(require, "luasnip")
+                local otter_ok, otter = pcall(require, "otter")
+                local tabout_ok, tabout = pcall(require, "tabout")
 
-    if cmp.visible() then
-        cmp.select_next_item()
-    elseif luasnip_ok and luasnip.expand_or_jumpable and luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-    elseif otter_ok and otter.expand_or_jumpable and otter.expand_or_jumpable() then
-        otter.expand_or_jump()
-    elseif tabout_ok and tabout.tabout and tabout.tabout() then
-        return
-    else
-        -- Manually trigger buffer completion
-        cmp.complete({ config = { sources = { { name = "buffer" } } } })
-    end
-end,
+                if cmp.visible() then
+                    cmp.select_next_item()
+                elseif luasnip.expand_or_locally_jumpable() then
+                    luasnip.expand_or_jump()
+                elseif luasnip_ok and luasnip.expand_or_jumpable and luasnip.expand_or_jumpable() then
+                    luasnip.expand_or_jump()
+                elseif otter_ok and otter.expand_or_jumpable and otter.expand_or_jumpable() then
+                    otter.expand_or_jump()
+                elseif tabout_ok and tabout.tabout and tabout.tabout() then
+                    return
+                else
+                    -- Manually trigger buffer completion
+                    cmp.complete({ config = { sources = { { name = "buffer" } } } })
+                end
+            end,
 
-["<S-Tab>"] = function(fallback)
-    local cmp = require("cmp")
-    local luasnip_ok, luasnip = pcall(require, "luasnip")
-    local otter_ok, otter = pcall(require, "otter")
-    local tabout_ok, tabout = pcall(require, "tabout")
+            ["<S-Tab>"] = function(fallback)
+                local cmp = require("cmp")
+                local luasnip_ok, luasnip = pcall(require, "luasnip")
+                local otter_ok, otter = pcall(require, "otter")
+                local tabout_ok, tabout = pcall(require, "tabout")
 
-    if cmp.visible() then
-        cmp.select_prev_item()
-    elseif luasnip_ok and luasnip.jumpable and luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-    elseif otter_ok and otter.jumpable and otter.jumpable(-1) then
-        otter.jump(-1)
-    elseif tabout_ok and tabout.tabout and tabout.tabout(true) then
-        return
-    else
-        fallback()
-    end
-end,
+                if cmp.visible() then
+                    cmp.select_prev_item()
+                elseif luasnip_ok and luasnip.jumpable and luasnip.jumpable(-1) then
+                    luasnip.jump(-1)
+                elseif otter_ok and otter.jumpable and otter.jumpable(-1) then
+                    otter.jump(-1)
+                elseif tabout_ok and tabout.tabout and tabout.tabout(true) then
+                    return
+                else
+                    fallback()
+                end
+            end,
         }),
     },
     config = function(_, opts)

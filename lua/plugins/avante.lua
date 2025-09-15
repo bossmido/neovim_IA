@@ -48,7 +48,7 @@ return {
                 },
             },
               mistral = {
-                api_key_name =  vim.env.MISTRAL_API_KEY,
+                api_key_name = vim.fn.getenv("MISTRAL_API_KEY"),
                 endpoint = "https://api.mistral.ai/v1",
                 model = "mistral-medium", -- or mistral-small / mistral-large
                 timeout = 30000,

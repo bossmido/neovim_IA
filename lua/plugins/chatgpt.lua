@@ -10,7 +10,7 @@ return {
     config = function()
         require("chatgpt").setup({
             -- optional: set OpenAI API key directly
-            api_key_cmd = "echo $OPENAI_API_KEY",
+            api_key_cmd = os.getenv("OPENAI_API_KEY"),
         })
     end,
 }

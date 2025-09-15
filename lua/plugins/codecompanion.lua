@@ -5,6 +5,11 @@ return {
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
     },
+    opts={
+          extensions = {
+    reasoning = { callback = 'codecompanion._extensions.reasoning', opts = { enabled = true } },
+  }
+    },
     config = function()
         require("codecompanion").setup({
             adapters = {

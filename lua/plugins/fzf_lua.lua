@@ -1,4 +1,4 @@
 return {
     "ibhagwan/fzf-lua",
-cmd="Fzflua"
+cmd="FzfLua"
 }

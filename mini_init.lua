@@ -7,4 +7,4 @@ require("config.filetype")
 require("config.cpp")
 
 
-require('lspconfig').rust_analyzer.setup{}
+require('lspconfig').rust_anaiddodocdlyzer.setup{}

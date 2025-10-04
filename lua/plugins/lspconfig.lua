@@ -1,6 +1,3 @@
-
-
-
 return {
 
     -- Mason (LSP installer)
@@ -51,7 +48,33 @@ return {
 --     -- Optionnel : tu peux définir des raccourcis pour la correction ici
 --   end,
 -- }
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.offsetEncoding = { "utf-8" }
 
+require('lspconfig').clangd.setup {
+  capabilities = capabilities,
+  cmd = { "clangd", "--background-index", "--clang-tidy", "--completion-style=detailed", "--header-insertion=iwyu" },
+}
+
+require('lspconfig').lua_ls.setup {
+    settings = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT', -- Neovim uses LuaJIT
+            },
+            diagnostics = {
+                globals = { 'vim' }, -- Tell the server that `vim` is a global
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true), -- Make the server aware of Neovim runtime files
+                checkThirdParty = false,                           -- Optional: Avoid "missing third-party" prompts
+            },
+            telemetry = {
+                enable = false, -- Optional: Disable telemetry
+            },
+        }
+    }
+}
 lspconfig.ltex.setup{
   cmd = { "ltex-ls" },  -- chemin vers ltex-ls si pas dans PATH
   filetypes = { "tex", "markdown", "plaintext" }, -- fichiers texte à corriger

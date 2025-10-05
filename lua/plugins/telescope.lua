@@ -1,3 +1,4 @@
+
 return {
     "nvim-telescope/telescope.nvim",
     dependencies = {
@@ -14,6 +15,10 @@ return {
     keys = { "<C-f>,<C-g>" },
     cmd = {"Telescope","Lua"},
     setup = function()
+       defaults = {
+            layout_strategy = 'horizontal',
+            layout_config = { preview_width = 0.55 },
+        }
         vim.api.nvim_create_autocmd("FileType", {
             pattern = "help",
             callback = function()

@@ -1,3 +1,4 @@
+
 vim.keymap.set("n", "<leader>w", "<cmd>write<CR>")
 -- vim.keymap.set("n", "<leader>wa", "<cmd>wall<CR>")
 vim.keymap.set("n", "<C-S>", "<cmd>write<CR>")
@@ -224,7 +225,7 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
         vim.keymap.set('n', '[q', ':cprev<CR>', { desc = 'Previous Quickfix Item' })
 
         vim.keymap.set(
-            'n',
+            {'n','i'},
             '<C-g>',
             "<cmd>lua require('telescope.builtin').find_files({ cwd = '/' })<CR>",
             { noremap = true, silent = true }

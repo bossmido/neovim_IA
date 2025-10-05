@@ -47,7 +47,7 @@ bob install stable;
 
 echo -e "${GREEN}⚙️ Installation de Rust...${RESET}"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- 
-source "$HOME/.cargo/env"
+source "$HOME/.ca:q!rgo/env"
 rustup install stable
 
 echo -e "${GREEN}⚙️ installation de node...${RESET}"

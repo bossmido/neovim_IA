@@ -18,6 +18,7 @@ return {
         "zbirenbaum/cmp-copilot",
         "micangl/cmp-vimtex",
         "jmbuhr/otter.nvim",
+        "p00f/clangd_extensions.nvim"
     },
     opts = {
         formatting = function()
@@ -42,8 +43,11 @@ return {
         end,
         snippet = {
             expand = function(args)
-                require("otter").expand(args.body)
-                require("luasnip").lsp_expand(args.body)
+                local otter= require("otter")
+                if otter.expand ~=nil then
+                    otter.expand(args.body)
+                end 
+                    require("luasnip").lsp_expand(args.body)
             end,
         },
         sources = {
@@ -142,5 +146,19 @@ return {
             }),
         }
         require("cmp").setup(opts)
+        sorting = {
+        comparators = {
+            require("cmp").config.compare.offset,
+
+            require("cmp").config.compare.exact,
+            require("cmp").config.compare.recently_used,
+            require("clangd_extensions.cmp_scores"),
+            require("cmp").config.compare.kind,
+
+            require("cmp").config.compare.sort_text,
+            require("cmp").config.compare.length,
+            require("cmp").config.compare.order,
+        },
+    }
     end,
 }

@@ -53,7 +53,16 @@ capabilities.offsetEncoding = { "utf-8" }
     local capabilities = require("blink.cmp").get_lsp_capabilities()
  require('lspconfig').clangd.setup {
    capabilities = capabilities,
-   cmd = { "clangd", "--background-index=false", "--clang-tidy", "--completion-style=brief","--limit-results=50" ,"--header-insertion=iwyu" },
+   cmd = { "clangd",  "--background-index",
+    "--pch-storage=memory",
+    "--limit-results=40",
+    "--completion-style=detailed",
+    "--header-insertion=never",
+    "--ranking-model=heuristics",
+    "--all-scopes-completion=false",
+    "--clang-tidy=false",
+    "--log=error",
+    "-j=2" },
  }
 
 require('lspconfig').lua_ls.setup {

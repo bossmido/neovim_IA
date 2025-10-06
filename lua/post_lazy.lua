@@ -80,3 +80,40 @@ vim.lsp.config("texlab", {
       },
   },
 })
+
+-- Unmap <Tab> in normal mode (set by Lazy.nvim)
+vim.keymap.del("n", "<Tab>")
+
+-- (Optional) If you also want to reset select-mode behavior:
+vim.keymap.del("s", "<Tab>")
+
+-- Now configure blink.cmp (or your completion plugin) to own <Tab> completely
+require("blink.cmp").setup({
+  keymap = {
+    preset = "none", -- disable blink.cmp defaults
+    ["<Tab>"] = function(fallback)
+      local cmp = require("blink.cmp")
+      if cmp.visible() then
+        cmp.select_next_item()
+
+      elseif vim.snippet.active({ direction = 1 }) then
+        vim.snippet.jump(1)
+
+      else
+        fallback()
+      end
+    end,
+    ["<S-Tab>"] = function(fallback)
+      local cmp = require("blink.cmp")
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif vim.snippet.active({ direction = -1 }) then
+
+        vim.snippet.jump(-1)
+      else
+        fallback()
+      end
+
+    end,
+  },
+})

@@ -50,11 +50,11 @@ return {
 -- }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.offsetEncoding = { "utf-8" }
-
-require('lspconfig').clangd.setup {
-  capabilities = capabilities,
-  cmd = { "clangd", "--background-index", "--clang-tidy", "--completion-style=detailed", "--header-insertion=iwyu" },
-}
+    local capabilities = require("blink.cmp").get_lsp_capabilities()
+-- require('lspconfig').clangd.setup {
+--   capabilities = capabilities,
+--   cmd = { "clangd", "--background-index", "--clang-tidy", "--completion-style=detailed", "--header-insertion=iwyu" },
+-- }
 
 require('lspconfig').lua_ls.setup {
     settings = {

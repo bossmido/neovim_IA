@@ -49,7 +49,7 @@ if vim.g.neovide then
     vim.g.neovide_clipboard = true
 end 
 
-vim.g.lazyvim_blink_main = false
+vim.g.lazyvim_blink_main =true 
 require("import")
 require("keymap")
 require("autocmd")

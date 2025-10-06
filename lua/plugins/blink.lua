@@ -1,3 +1,5 @@
+
+
 return {
   "saghen/blink.cmp",
   version = "*",
@@ -6,13 +8,57 @@ return {
     "giuxtaposition/blink-cmp-copilot",
     "zbirenbaum/copilot.lua",
   },
+  performance = {
+  debounce = 100,
+  throttle = 50,
+  max_entries = 50,
+
+},
   opts = {
     keymap = {
       preset = "enter",
       ["<F5>"] = { "show", "show_documentation", "hide_documentation" },
       ["<C-Space>"] = { "show", "fallback" },
-    },
+          ["<Tab>"] = { "select_next", "fallback" },
 
+    ["<S-Tab>"] = { "select_prev", "fallback" },
+    },
+completion = {
+            menu = {
+                draw = {
+                    -- We don't need label_description now because label and label_description are already
+                    -- combined together in label by colorful-menu.nvim.
+                    columns = { { "kind_icon" }, { "label", gap = 1 } },
+                    components = {
+                        label = {
+                            width = { fill = true, max = 60 },
+                            text = function(ctx)
+                                local highlights_info = require("colorful-menu").blink_highlights(ctx)
+                                if highlights_info ~= nil then
+                                    -- Or you want to add more item to label
+                                    return highlights_info.label
+                                else
+                                    return ctx.label
+                                end
+                            end,
+                            highlight = function(ctx)
+                                local highlights = {}
+                                local highlights_info = require("colorful-menu").blink_highlights(ctx)
+                                if highlights_info ~= nil then
+                                    highlights = highlights_info.highlights
+                                end
+                                for _, idx in ipairs(ctx.label_matched_indices) do
+
+                                    table.insert(highlights, { idx, idx + 1, group = "BlinkCmpLabelMatch" })
+                                end
+                                -- Do something else
+                                return highlights
+                            end,
+                        },
+                    },
+                },
+            },
+        },
     appearance = {
       nerd_font_variant = "mono",
       -- You can define kind_icons including Copilot below
@@ -47,9 +93,17 @@ return {
     },
 
     completion = {
-      documentation = { auto_show = true },
-      keyword_length = 1,
-        ghost_text = { enabled = true },
+      documentation = { auto_show = false,  -- ✅ disable automatic docs popup
+      auto_show_delay_ms = 500}, -- (optional) delay if you re-enable later},
+      --keyword_length = 1,
+        ghost_text = { enabled = false },
+            trigger = {
+      -- Don’t recompute completion every keystroke
+      show_on_insert = true,
+      show_on_trigger_character = true,
+      show_on_accept_character = false,
+       minimum_word_length = 3,  -- ✅ only trigger after 3 characters
+    },
     },
 
     sources = {
@@ -73,7 +127,7 @@ return {
         },
       },
     },
-
+        
     fuzzy = {
       implementation = "prefer_rust_with_warning",
     },

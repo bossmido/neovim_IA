@@ -51,10 +51,10 @@ return {
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.offsetEncoding = { "utf-8" }
     local capabilities = require("blink.cmp").get_lsp_capabilities()
--- require('lspconfig').clangd.setup {
---   capabilities = capabilities,
---   cmd = { "clangd", "--background-index", "--clang-tidy", "--completion-style=detailed", "--header-insertion=iwyu" },
--- }
+ require('lspconfig').clangd.setup {
+   capabilities = capabilities,
+   cmd = { "clangd", "--background-index=false", "--clang-tidy", "--completion-style=brief","--limit-results=50" ,"--header-insertion=iwyu" },
+ }
 
 require('lspconfig').lua_ls.setup {
     settings = {
@@ -158,12 +158,6 @@ lspconfig.ltex.setup{
                             filetypes = { "htmldjango", "blade" },
                         })
 
-                        -- Optional clangd fix
-                        lspconfig.clangd.setup({
-                            capabilities = {
-                                offsetEncoding = { "utf-8" },
-                            },
-                        })
 
                         -- Lua config for Neovim runtime
                         lspconfig.lua_ls.setup({

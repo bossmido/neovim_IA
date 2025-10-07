@@ -19,9 +19,9 @@ return
                 tmp = true,
             },
             commands = {
-                save = "SessionSave",
-                load = "SessionLoad",
-                delete = "SessionDelete",
+                save = "PossessionSave",
+                load = "PossessionLoad",
+                delete = "PossessionDelete",
             },
         })
 

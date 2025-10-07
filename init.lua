@@ -1,6 +1,6 @@
 
 --base de base
-vim.g.mapleader = ","
+vim.g.mapleader = "!"
 vim.g.maplocalleader = " "
 --tests
 vim.lsp.get_active_clients = function() return vim.lsp.get_clients() end

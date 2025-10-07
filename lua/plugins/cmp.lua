@@ -2,7 +2,7 @@ return {
     "hrsh7th/nvim-cmp",
     lazy = true,
     event = "VimEnter",
-    keys = { "<Tab>", "<S-Tab>", "<C-Space>" },
+    keys = { "<C-Space>","<Tab>", "<S-Tab>", "<C-Space>" },
     version = false,
     dependencies = {
         "hrsh7th/cmp-nvim-lsp",

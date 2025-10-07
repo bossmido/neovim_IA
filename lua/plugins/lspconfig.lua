@@ -1,3 +1,4 @@
+
 return {
 
     -- Mason (LSP installer)
@@ -50,7 +51,7 @@ return {
 -- }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.offsetEncoding = { "utf-8" }
-    local capabilities = require("blink.cmp").get_lsp_capabilities()
+--    local capabilities = require("blink.cmp").get_lsp_capabilities()
  require('lspconfig').clangd.setup {
    capabilities = capabilities,
    cmd = { "clangd",  "--background-index",

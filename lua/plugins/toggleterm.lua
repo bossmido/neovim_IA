@@ -1,6 +1,6 @@
 return {
     'akinsho/toggleterm.nvim',
-    version = "*",
+--    version = "*",
     config = function()
         if vim.fn.has("win32") == 1 then
             local powershell_options = {
@@ -17,6 +17,11 @@ return {
                 vim.opt[option] = value
             end
         end
+         require("toggleterm").setup {
+      open_mapping = [[F12]], -- Ctrl+\ to toggle
+      direction = "horizontal",      -- or 'horizontal' / 'vertical' / 'tab'
+      shade_terminals = true,
+    }
 
     end
 }

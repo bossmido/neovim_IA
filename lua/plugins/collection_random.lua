@@ -90,7 +90,14 @@ event = "BufReadPost",
         opts = {
             suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
             -- log_level = "debug",
-        }
+        },config= function ()
+            require("auto-session").setup({
+  session_lens = {
+    load_on_setup = false,  -- ✅ Do NOT auto-load Telescope
+  },
+})
+
+        end
     },
     {
         "mistweaverco/kulala.nvim",

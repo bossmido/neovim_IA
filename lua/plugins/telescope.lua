@@ -13,7 +13,7 @@ return {
         "nvim-telescope/telescope-frecency.nvim"
     },
     keys = { "<C-f>,<C-g>" },
-    cmd = {"Telescope","Lua"},
+    cmd = {"Telescope"},
     setup = function()
        defaults = {
             layout_strategy = 'horizontal',

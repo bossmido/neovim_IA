@@ -43,17 +43,12 @@ return {
         end,
         snippet = {
             expand = function(args)
-<<<<<<< HEAD
-                --require("otter").expand(args.body)
-                require("luasnip").lsp_expand(args.body)
-                --require("luasnip").lsp_expand(args.body)  -- ✅ correct for LuaSnip
-=======
                 local otter= require("otter")
                 if otter.expand ~=nil then
                     otter.expand(args.body)
                 end 
                     require("luasnip").lsp_expand(args.body)
->>>>>>> refs/remotes/origin/main
+
             end,
         },
         sources = {

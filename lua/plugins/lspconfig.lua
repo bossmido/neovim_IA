@@ -39,25 +39,6 @@ return {
             -- LSP setups
             local lspconfig = require("lspconfig")
 
-<<<<<<< HEAD
-            lspconfig.clangd.setup({
-                cmd = { "clangd", "--background-index", "--clang-tidy","--compile-commands-dir=build","--fallback-style=LLVM"},
-                filetypes = { "c", "cpp", "objc", "objcpp" },
-                root_dir = require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
-            })
-
-            -- lspconfig.harper_ls.setup{
-                -- --  cmd = { "harper_ls" },
-                --   filetypes = { "text","plaintext", "markdown", "tex" },  -- types de fichiers textes usuels pour correction
-                --   root_dir = lspconfig.util.root_pattern(".git", "."),
-                --   settings = {
-                    --     language = "fr",  -- ou selon la clé que le serveur attend pour choisir la langue
-                    --   },
-                    --   on_attach = function(client, bufnr)
-                        --     -- Optionnel : tu peux définir des raccourcis pour la correction ici
-                        --   end,
-                        -- }
-=======
 -- lspconfig.harper_ls.setup{
 -- --  cmd = { "harper_ls" },
 --   filetypes = { "text","plaintext", "markdown", "tex" },  -- types de fichiers textes usuels pour correction
@@ -117,7 +98,7 @@ lspconfig.ltex.setup{
     },
   },
 }
->>>>>>> refs/remotes/origin/main
+
 
                         lspconfig.ltex.setup{
                             cmd = { "ltex-ls" },  -- chemin vers ltex-ls si pas dans PATH
@@ -202,33 +183,6 @@ lspconfig.ltex.setup{
                                         filetypes = { "htmldjango", "blade" },
                                     })
 
-<<<<<<< HEAD
-                                    -- Optional clangd fix
-                                    lspconfig.clangd.setup({
-                                        capabilities = {
-                                            offsetEncoding = { "utf-8" },
-                                        },
-                                    })
-
-                                    -- Lua config for Neovim runtime
-                                    lspconfig.lua_ls.setup({
-                                        settings = {
-                                            Lua = {
-                                                diagnostics = {
-                                                    globals = { "vim" },
-                                                },
-                                                workspace = {
-                                                    library = vim.api.nvim_get_runtime_file("", true),
-                                                    checkThirdParty = false,
-                                                },
-                                                telemetry = { enable = false },
-                                            },
-                                        },
-                                    })
-                                end,
-                            },
-                        }
-=======
 
                         -- Lua config for Neovim runtime
                         lspconfig.lua_ls.setup({
@@ -248,5 +202,5 @@ lspconfig.ltex.setup{
                     end,
                 },
             }
->>>>>>> refs/remotes/origin/main
+
 

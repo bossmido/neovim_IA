@@ -1,177 +1,151 @@
 return {
   "nvim-telescope/telescope.nvim",
-  event = "VeryLazy", -- load lazily (after UI is ready)
-  cmd = { "Telescope" },
-  keys = { "<C-f>", "<C-g>" },
+  cmd = "Telescope",
+  keys = {
+    { "<C-f>", desc = "Telescope: Find All Menu" },
+    { "<C-g>", desc = "Telescope: Find Files (root)" },
+    { "<C-s>", desc = "Telescope: Grep word under cursor" },
+    { "<C-d>", desc = "Telescope: Workspace Symbols" },
+    { "<F9>",  desc = "Telescope: DAP Commands" },
+    { "<F11>", desc = "Open Floaterminal" },
+    { "<F12>", desc = "Open ToggleTerm" },
+  },
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "debugloop/telescope-undo.nvim",
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     "nvim-telescope/telescope-frecency.nvim",
-    "nvim-telescope/telescope-dap.nvim",
+    "debugloop/telescope-undo.nvim",
     "jvgrootveld/telescope-zoxide",
-    {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
-    },
+    "nvim-telescope/telescope-dap.nvim",
   },
 
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
 
-    -- --- 🪟 Windows-safe fnameescape fix
-    local is_windows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
-    local original_fnameescape = vim.fn.fnameescape
-    local function win_fnameescape(path)
-      local escaped = original_fnameescape(path)
-      if is_windows then
-        local need_extra_esc = path:find("[%[%]`%$~]")
-        local esc = need_extra_esc and "\\\\" or "\\"
-        escaped = escaped:gsub("\\[%(%)%^&;]", esc .. "%1")
-        if need_extra_esc then
-          escaped = escaped:gsub("\\\\['` ]", "\\%1")
-        end
-      end
-      return escaped
-    end
-    local function select_default(prompt_bufnr)
-      vim.fn.fnameescape = win_fnameescape
-      local result = actions.select_default(prompt_bufnr, "default")
-      vim.fn.fnameescape = original_fnameescape
-      return result
-    end
-
-    -- 🪟 Auto-move help to right pane when wide enough
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "help",
-      callback = function()
-        if vim.fn.winwidth(0) > 200 then vim.cmd("wincmd L") end
-      end,
-    })
-
-    -- 🧩 UI Helpers
-    local function filename_first(_, path)
-      local tail, parent = vim.fs.basename(path), vim.fs.dirname(path)
-      return parent == "." and tail or string.format("%s\t\t%s", tail, parent)
-    end
-    local function set_width(percent, min)
-      return function(_, max_columns)
-        return math.max(math.floor(percent * max_columns), min)
-      end
-    end
-
-    -- 📚 Highlight parent directory dimly
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "TelescopeResults",
-      callback = function(ctx)
-        vim.api.nvim_buf_call(ctx.buf, function()
-          vim.fn.matchadd("TelescopeParent", "\t\t.*$")
-          vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
-        end)
-      end,
-    })
-
-    -- 🔭 Setup Telescope
     telescope.setup({
       defaults = {
         layout_strategy = "horizontal",
         layout_config = { preview_width = 0.55 },
         mappings = {
-          i = { ["<CR>"] = select_default },
-          n = {
-            ["<CR>"] = select_default,
-            ["q"] = actions.close,
-          },
+          i = { ["<esc>"] = actions.close },
+          n = { ["q"] = actions.close },
         },
       },
       pickers = {
-        find_files = { path_display = filename_first },
-        buffers = {
-          theme = "dropdown",
-          initial_mode = "normal",
-          show_all_buffers = true,
-          sort_lastused = true,
-          previewer = false,
-          mappings = { n = { ["dd"] = "delete_buffer" } },
-          layout_config = { width = set_width(0.6, 120) },
-        },
-        quickfix = { initial_mode = "normal" },
-        oldfiles = {
-          theme = "dropdown",
-          initial_mode = "normal",
-          sort_lastused = true,
-          previewer = false,
-          layout_config = { width = set_width(0.6, 120) },
-        },
-        diagnostics = {
-          theme = "ivy",
-          path_display = filename_first,
-          initial_mode = "normal",
-          previewer = false,
-        },
-        lsp_references = { theme = "ivy", path_display = { "tail" }, initial_mode = "normal" },
-        lsp_definitions = { theme = "ivy", path_display = { "tail" }, initial_mode = "normal" },
-        lsp_implementations = { theme = "ivy", path_display = { "tail" }, initial_mode = "normal" },
+        find_files = { hidden = true, no_ignore = true },
+        buffers = { theme = "dropdown", previewer = false },
       },
       extensions = {
-        fzf = {},
+        fzf = { fuzzy = true, override_generic_sorter = true, override_file_sorter = true },
+        frecency = {},
         undo = {},
-        zoxide = {
-          prompt_title = "[ Walking on the shoulders of TJ ]",
-          mappings = {
-            default = {
-              after_action = function(sel)
-                print(("Updated to (%s) %s"):format(sel.z_score, sel.path))
-              end,
-            },
-            ["<C-s>"] = {
-              before_action = function() print("before C-s") end,
-              action = function(sel) vim.cmd.edit(sel.path) end,
-            },
-          },
-        },
-        dap = {
-          mappings = {
-            default = {
-              ["F9"] = {
-                action = function() vim.cmd("Telescope dap commands") end,
-              },
-            },
-          },
-        },
+        zoxide = {},
+        dap = {},
       },
     })
 
-    -- 🧩 Load extensions
-    for _, ext in ipairs({ "fzf", "undo", "zoxide", "dap" }) do
+    -- load all extensions safely
+    for _, ext in ipairs({ "fzf", "frecency", "undo", "zoxide", "dap" }) do
       pcall(telescope.load_extension, ext)
     end
 
-    -- 🎹 Keymaps
-    local builtin = require("telescope.builtin")
-    local map = function(mode, lhs, rhs, desc)
-      vim.keymap.set(mode, lhs, rhs, { desc = desc })
+    --------------------------------------------------------------------
+    -- 🧭 Custom "Find All" Menu
+    --------------------------------------------------------------------
+    local pickers_mod = require("telescope.pickers")
+    local finders = require("telescope.finders")
+    local conf = require("telescope.config").values
+
+    local function find_all_menu()
+      pickers_mod.new({}, {
+        prompt_title = "Find All",
+        finder = finders.new_table({
+          results = {
+            "Find Files",
+            "Git Files",
+            "Buffers",
+            "Help Tags",
+            "Live Grep",
+            "Sessions",
+            "Projects",
+            "Zoxide",
+          },
+        }),
+        sorter = conf.generic_sorter({}),
+        attach_mappings = function(prompt_bufnr, map)
+          local function on_choice()
+            local selection = require("telescope.actions.state").get_selected_entry()
+            actions.close(prompt_bufnr)
+            local builtin = require("telescope.builtin")
+            if selection[1] == "Find Files" then
+              builtin.find_files({ hidden = true, no_ignore = true })
+            elseif selection[1] == "Git Files" then
+              builtin.git_files()
+            elseif selection[1] == "Buffers" then
+              builtin.buffers()
+            elseif selection[1] == "Help Tags" then
+              builtin.help_tags()
+            elseif selection[1] == "Live Grep" then
+              builtin.live_grep()
+            elseif selection[1] == "Sessions" then
+              vim.cmd("Telescope possession list")
+            elseif selection[1] == "Projects" then
+              vim.cmd("Telescope projects projects")
+            elseif selection[1] == "Zoxide" then
+              vim.cmd("Telescope zoxide list")
+            end
+          end
+          map("i", "<CR>", on_choice)
+          map("n", "<CR>", on_choice)
+          return true
+        end,
+      }):find()
     end
 
-    map("n", "<leader>fh", builtin.help_tags, "[F]uzzy [H]elp")
-    map("n", "<leader>fk", builtin.keymaps, "[F]uzzy [K]eymaps")
-    map("n", "<leader>ff", builtin.find_files, "[F]uzzy [F]iles")
-    map("n", "<leader>fd", builtin.diagnostics, "[F]uzzy [D]iagnostics")
-    map("n", "<leader>fr", builtin.resume, "[F]uzzy [R]esume")
-    map("n", "<leader>fb", builtin.buffers, "[F]uzzy [B]uffers")
-    map("n", "<leader>fo", builtin.oldfiles, "[F]uzzy [O]ld files")
-    map("n", "<leader>fs", builtin.grep_string, "[F]uzzy [S]tring")
-    map("n", "<leader>fq", builtin.quickfix, "[Q]uickfix")
-    map("n", "<leader>f.", function()
-      builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-        layout_config = { width = set_width(0.6, 120) },
-        winblend = 10,
-        previewer = false,
-      }))
-    end, "[.] Search current buffer")
-    map("n", "<leader>fn", function()
-      builtin.find_files({ cwd = vim.fn.stdpath("config") })
-    end, "[F]uzzy [N]eovim config")
-    map("n", "<space>u", "<cmd>Telescope undo<CR>")
+    --------------------------------------------------------------------
+    -- 🧩 Keymaps
+    --------------------------------------------------------------------
+    local map = vim.keymap.set
+    local builtin = require("telescope.builtin")
+
+    -- Custom menu
+    map({ "n", "i" }, "<C-f>", find_all_menu, { desc = "Telescope: Find All Menu" })
+
+    -- DAP
+    map({ "n", "i" }, "<F9>", "<ESC>:Telescope dap commands<CR>", { desc = "Telescope: DAP Commands", silent = true })
+
+    -- Terminal helpers
+    map({ "n", "i" }, "<F12>", "<ESC>:ToggleTerm<CR>", { desc = "Toggle Terminal" })
+    map({ "n", "i", "c" }, "<F11>", "<ESC>:Floaterminal<CR>", { desc = "Floating Terminal" })
+
+    -- Search word under cursor
+    map("n", "<C-s>", function()
+      builtin.grep_string({ search = vim.fn.expand("<cword>") })
+    end, { desc = "Telescope: Grep Current Word", noremap = true, silent = true })
+
+    -- Workspace symbols
+    map("n", "<C-d>", builtin.lsp_workspace_symbols, { desc = "Telescope: Workspace Symbols" })
+
+    -- Quickfix navigation
+    map("n", "<leader>q", ":copen<CR>", { desc = "Open Quickfix List" })
+    map("n", "]q", ":cnext<CR>", { desc = "Next Quickfix Item" })
+    map("n", "[q", ":cprev<CR>", { desc = "Previous Quickfix Item" })
+
+    -- Root-level find
+    map({ "n", "i" }, "<C-g>", function()
+      builtin.find_files({ cwd = "/" })
+    end, { desc = "Telescope: Find Files from Root", noremap = true, silent = true })
+
+    -- OS-aware live grep across home
+    local home = vim.loop.os_uname().sysname == "Windows_NT" and "C:/Users" or "/home"
+    vim.api.nvim_set_keymap(
+      "i",
+      "<C-S-g>",
+      ':lua require("telescope.builtin").live_grep({ cwd = "'
+        .. home
+        .. '", additional_args = function() return { "--hidden", "--glob", "!.git/*" } end })<CR>',
+      { noremap = true, silent = true, desc = "Telescope: Live Grep Home" }
+    )
   end,
 }

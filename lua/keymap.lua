@@ -1,3 +1,4 @@
+
 vim.keymap.set("n", "<leader>w", "<cmd>write<CR>")
 -- vim.keymap.set("n", "<leader>wa", "<cmd>wall<CR>")
 vim.keymap.set("n", "<C-S>", "<cmd>write<CR>")
@@ -224,7 +225,11 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
         vim.keymap.set('n', '[q', ':cprev<CR>', { desc = 'Previous Quickfix Item' })
 
         vim.keymap.set(
+<<<<<<< HEAD
             'n',
+=======
+            {'n','i'},
+>>>>>>> refs/remotes/origin/main
             '<C-g>',
             "<cmd>lua require('telescope.builtin').find_files({ cwd = '/' })<CR>",
             { noremap = true, silent = true }
@@ -257,7 +262,11 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
         vim.api.nvim_set_keymap('n', '<S-F7>', "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
 
         vim.api.nvim_set_keymap('c', '<C-f>', "<cmd>lua require('telescope.builtin').command_history()<CR>", { noremap = true, silent = true })
+<<<<<<< HEAD
 
+=======
+        vim.keymap.set({'i','n'}, "<c-p>", "<cmd>Telescope commands<CR>", { noremap = true, silent = true })
+>>>>>>> refs/remotes/origin/main
         vim.api.nvim_create_user_command("E", function()
             require("telescope.builtin").find_files()
         end, {})
@@ -329,6 +338,7 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
                         vim.keymap.set("n", "<leader>tv", "<cmd>:ToggleTerm direction=vertical size=100<CR>")
                         vim.keymap.set("n", "<leader>tf", "<cmd>:ToggleTerm direction=float<CR>")
                         vim.keymap.set("t", "<M-q>", "<cmd>:ToggleTerm<CR>")
+<<<<<<< HEAD
                         --<C-Z>
                         -- Normal mode
                         vim.keymap.set("n", "<C-z>", ":suspend<CR>", { noremap = true, silent = true })
@@ -346,3 +356,5 @@ local opts = { noremap = true, silent = true }
 -- Ctrl-c Ctrl-c to close buffer
 map('n', '<C-c><C-c>', ':qa!<CR>', opts)
 
+=======
+>>>>>>> refs/remotes/origin/main

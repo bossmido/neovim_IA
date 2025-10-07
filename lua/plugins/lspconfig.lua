@@ -1,6 +1,4 @@
 
-
-
 return {
 
     -- Mason (LSP installer)
@@ -41,6 +39,7 @@ return {
             -- LSP setups
             local lspconfig = require("lspconfig")
 
+<<<<<<< HEAD
             lspconfig.clangd.setup({
                 cmd = { "clangd", "--background-index", "--clang-tidy","--compile-commands-dir=build","--fallback-style=LLVM"},
                 filetypes = { "c", "cpp", "objc", "objcpp" },
@@ -58,6 +57,67 @@ return {
                         --     -- Optionnel : tu peux définir des raccourcis pour la correction ici
                         --   end,
                         -- }
+=======
+-- lspconfig.harper_ls.setup{
+-- --  cmd = { "harper_ls" },
+--   filetypes = { "text","plaintext", "markdown", "tex" },  -- types de fichiers textes usuels pour correction
+--   root_dir = lspconfig.util.root_pattern(".git", "."),
+--   settings = {
+--     language = "fr",  -- ou selon la clé que le serveur attend pour choisir la langue
+--   },
+--   on_attach = function(client, bufnr)
+--     -- Optionnel : tu peux définir des raccourcis pour la correction ici
+--   end,
+-- }
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.offsetEncoding = { "utf-8" }
+--    local capabilities = require("blink.cmp").get_lsp_capabilities()
+ require('lspconfig').clangd.setup {
+   capabilities = capabilities,
+   cmd = { "clangd",  "--background-index",
+    "--pch-storage=memory",
+    "--limit-results=40",
+    "--completion-style=detailed",
+    "--header-insertion=never",
+    "--ranking-model=heuristics",
+    "--all-scopes-completion=false",
+    "--clang-tidy=false",
+    "--log=error",
+    "-j=2" },
+ }
+
+require('lspconfig').lua_ls.setup {
+    settings = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT', -- Neovim uses LuaJIT
+            },
+            diagnostics = {
+                globals = { 'vim' }, -- Tell the server that `vim` is a global
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true), -- Make the server aware of Neovim runtime files
+                checkThirdParty = false,                           -- Optional: Avoid "missing third-party" prompts
+            },
+            telemetry = {
+                enable = false, -- Optional: Disable telemetry
+            },
+        }
+    }
+}
+lspconfig.ltex.setup{
+  cmd = { "ltex-ls" },  -- chemin vers ltex-ls si pas dans PATH
+  filetypes = { "tex", "markdown", "plaintext" }, -- fichiers texte à corriger
+  settings = {
+    ltex = {
+      language = "fr",            -- forcer la langue française
+      diagnosticSeverity = "information",
+      enabled = { "fr" },         -- activer les règles françaises
+      disabledRules = {},         -- liste des règles à désactiver si besoin
+    },
+  },
+}
+>>>>>>> refs/remotes/origin/main
 
                         lspconfig.ltex.setup{
                             cmd = { "ltex-ls" },  -- chemin vers ltex-ls si pas dans PATH
@@ -142,6 +202,7 @@ return {
                                         filetypes = { "htmldjango", "blade" },
                                     })
 
+<<<<<<< HEAD
                                     -- Optional clangd fix
                                     lspconfig.clangd.setup({
                                         capabilities = {
@@ -167,4 +228,25 @@ return {
                                 end,
                             },
                         }
+=======
+
+                        -- Lua config for Neovim runtime
+                        lspconfig.lua_ls.setup({
+                            settings = {
+                                Lua = {
+                                    diagnostics = {
+                                        globals = { "vim" },
+                                    },
+                                    workspace = {
+                                        library = vim.api.nvim_get_runtime_file("", true),
+                                        checkThirdParty = false,
+                                    },
+                                    telemetry = { enable = false },
+                                },
+                            },
+                        })
+                    end,
+                },
+            }
+>>>>>>> refs/remotes/origin/main
 

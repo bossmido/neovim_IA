@@ -1,3 +1,7 @@
+
+--base de base
+vim.g.mapleader = ","
+vim.g.maplocalleader = " "
 --tests
 vim.lsp.get_active_clients = function() return vim.lsp.get_clients() end
 --
@@ -45,7 +49,7 @@ if vim.g.neovide then
     vim.g.neovide_clipboard = true
 end 
 
-vim.g.lazyvim_blink_main = false
+vim.g.lazyvim_blink_main =true 
 require("import")
 require("keymap")
 require("autocmd")

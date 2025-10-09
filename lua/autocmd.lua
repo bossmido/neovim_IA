@@ -145,3 +145,40 @@ vim.api.nvim_create_autocmd('BufWritePost', {
   end,
 })
 
+
+---------------------------------------------------------------------
+-- 🧩  Fix post-session restore missing UI / plugin state
+-----------------------------------------------------------------------
+vim.api.nvim_create_autocmd("User", {
+  pattern = "AutoSessionRestorePost",
+  callback = function()
+    -- Mark that we've restored a session
+    vim.g.AutoSession_restored = true
+
+    -- 🔹 Reload Alpha highlights (in case you open dashboard later)
+    vim.cmd("doautocmd User AlphaReady")
+
+    -- 🔹 Trigger BufReadPost for all open buffers
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_is_loaded(buf) then
+        vim.api.nvim_exec_autocmds("BufReadPost", {
+          buffer = buf,
+        })
+      end
+    end
+
+    -- 🔹 Restart LSP clients if needed (in case they didn't attach)
+    if package.loaded["lspconfig"] then
+      for _, client in pairs(vim.lsp.get_clients()) do
+        if not client.initialized then
+          vim.lsp.start_client(client.config)
+        end
+      end
+
+    end
+
+    -- 🔹 Force reload completion plugin (if lazy-loaded)
+    pcall(require, "cmp")
+
+  end,
+})

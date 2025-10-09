@@ -1,0 +1,28 @@
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│   lua/plugins/alpha_dashboard.lua                                              ╭─────────────────────────────────────────────────────────────────────────────╮ │
+│   lua/plugins/python_import.py                                                 │ return {                                                               1/29││ │
+│   lua/plugins/prompt_tower.lua                                                 │     "meznaric/key-analyzer.nvim",                                          ││ │
+│ ▌ lua/plugins/key_analyzer.lua                                                 │     opts = {},                                                             ││ │
+│   lua/plugins/tex_pdf_preview.lua                                              │     config = function()                                                    ││ │
+│   lua/plugins/treesitter.lua                                                   │         require("key-analyzer").setup({                                    ││ │
+│   .luacheckrc                                                                 ││             -- Name of the command to use for the plugin                   ││ │
+│   lua/plugins/toggleterm.lua                                                  ││             command_name = "KeyAnalyzer", -- or nil to disable the command ││ │
+│   lua/plugins/fzf_binary.lua                                                  ││                                                                            ││ │
+│   lua/plugins/scrollbar.lua                                                   ││             -- Customize the highlight groups                              ││ │
+│   .gitignore                                                                  ││             highlights = {                                                 ││ │
+│   lua/plugins/autopairs.lua                                                   ││                 bracket_used = "KeyAnalyzerBracketUsed",                   ││ │
+│   lua/plugins/grug_far.lua                                                    ││                 letter_used = "KeyAnalyzerLetterUsed",                     ││ │
+│   lua/plugins/compiler.lua                                                    ││                 bracket_unused = "KeyAnalyzerBracketUnused",               ││ │
+│   lua/plugins/json_graph_view.lua                                             ││                 letter_unused = "KeyAnalyzerLetterUnused",                 ││ │
+│   lua/telescope/multigrep.lua                                                 ││                 promo_highlight = "KeyAnalyzerPromo",                      ││ │
+│   lua/plugins/debugprint.lua                                                   │                                                                            ││ │
+│   lua/plugins/dropbar.lua                                                      │                 -- Set to false if you want to define highlights manually  ││ │
+│   .editorconfig                                                                │                 define_default_highlights = true,                          ││ │
+│   lua/plugins/better_quickfix.lua                                              │             },                                                             ││ │
+│   lua/plugins/bufferline.lua                                                   │                                                                             │ │
+│   lua/plugins/neo_tree.lua                                                     │             -- Keyboard layout to use                                       │ │
+│   lua/plugins/conforms.lua                                                     │             -- Available options are: qwerty, colemak, colemak-dh, azerty,  │ │
+│   lua/plugins/buffers.lua                                                      │             layout = "azerty",                                              │ │
+│   55/148 (0) ───────────────────────────────────────────────────────────────── │                                                                             │ │
+│ ~/.c/nvim/r                                                                    ╰─────────────────────────────────────────────────────────────────────────────╯ │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

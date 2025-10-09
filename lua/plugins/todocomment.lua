@@ -1,6 +1,8 @@
+
 return {
     "folke/todo-comments.nvim",
     event = "VeryLazy",
+    cmd={"ToggleTerm"},
     keys = {
         {
             "<leader>ft",

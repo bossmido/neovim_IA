@@ -13,7 +13,7 @@ return {
         "hrsh7th/cmp-cmdline",
         "onsails/lspkind.nvim",
         "hrsh7th/cmp-emoji",
-        "KadoBOT/cmp-plugins",
+--        "KadoBOT/cmp-plugins",
         "hrsh7th/cmp-calc",
         "zbirenbaum/cmp-copilot",
         "micangl/cmp-vimtex",

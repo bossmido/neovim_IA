@@ -1,6 +1,7 @@
 return {
   -- Copilot → cmp integration
   event = "BufRead",
+  cmd="Copilot",
   "zbirenbaum/copilot-cmp",
   dependencies = { "zbirenbaum/copilot.lua" },
   config = function()

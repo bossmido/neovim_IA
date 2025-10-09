@@ -1,9 +1,11 @@
+
 return {
   "rachartier/tiny-code-action.nvim",
 
   -- 🚀 Load only when an LSP client attaches
-  event = "LspAttach",
-
+--  event = "LspAttach",
+keys={"<leader>ca"},
+cmd="CodeAction",
   -- 🧩 Minimal core dependency
   dependencies = {
     "nvim-lua/plenary.nvim",

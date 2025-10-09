@@ -94,3 +94,54 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     vim.cmd("silent !lnav " .. vim.fn.expand("%"))
   end,
 })
+-----------------------------------------------------------------------------------
+-- Création automatique des dossiers manquants avant l’enregistrement
+-- et notification lorsqu’un dossier ou un fichier est créé.
+local aug = vim.api.nvim_create_augroup('AutoMkdirNotify', { clear = true })
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+  group = aug,
+  pattern = '*',
+  callback = function(ev)
+    local file = vim.loop.fs_realpath(ev.match) or ev.match
+    local dir  = vim.fn.fnamemodify(file, ':p:h')
+
+    -- Vérifie si le fichier existait avant
+    local stat = vim.loop.fs_stat(file)
+    vim.b.__auto_new_file__ = (stat == nil)
+
+    -- Crée les dossiers manquants
+    if vim.fn.isdirectory(dir) == 0 then
+      vim.fn.mkdir(dir, 'p')
+      vim.b.__auto_mkdir__ = true
+    else
+      vim.b.__auto_mkdir__ = false
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+  group = aug,
+  pattern = '*',
+  callback = function(ev)
+    local messages = {}
+    if vim.b.__auto_mkdir__ then
+      table.insert(messages, 'dossier(s) parent(s) créé(s)')
+    end
+    if vim.b.__auto_new_file__ then
+      table.insert(messages, 'nouveau fichier créé')
+    end
+    if #messages > 0 then
+      local file = vim.loop.fs_realpath(ev.match) or ev.match
+      vim.notify(
+        ('✚ %s : %s'):format(
+          vim.fn.fnamemodify(file, ':.'),
+          table.concat(messages, ' et ')
+        ),
+        vim.log.levels.INFO,
+        { title = 'Écriture' }
+      )
+    end
+  end,
+})
+

@@ -120,6 +120,7 @@ return {
         dashboard.button("e", "  New file", "<cmd>ene<CR>"),
         dashboard.button("f", "  Find file"),
         dashboard.button("F", "  Find text","<cmd>Telescope<CR>"),
+        dashboard.button("p", "  PROJETS","<cmd>Telescope projects<CR>"),
         dashboard.button("u", "󱐥  Update Plugins", "<cmd>Lazy sync<CR>"),
         dashboard.button("q", "󰩈  Quit", "<cmd>qa<CR>"),
       },

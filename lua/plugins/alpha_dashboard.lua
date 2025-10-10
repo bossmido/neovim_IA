@@ -118,7 +118,7 @@ return {
         { type = "text", val = "Quick links", opts = { hl = "SpecialComment", position = "center" } },
         { type = "padding", val = 1 },
         dashboard.button("e", "  New file", "<cmd>ene<CR>"),
-        dashboard.button("f", "  Find file"),
+        dashboard.button("f", "  Find file","<cmd>Telescope find_files<CR>"),
         dashboard.button("F", "  Find text","<cmd>Telescope<CR>"),
         dashboard.button("p", "  PROJETS","<cmd>Telescope projects<CR>"),
         dashboard.button("u", "󱐥  Update Plugins", "<cmd>Lazy sync<CR>"),

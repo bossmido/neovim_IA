@@ -1,3 +1,4 @@
+
 return {
   -- Mason (LSP installer)
   {
@@ -35,6 +36,7 @@ return {
           "cssls",
           "texlab",
           "luau_lsp",
+          "lua_ls",
           "emmet_ls",
           -- "ltex",
         },
@@ -66,7 +68,13 @@ return {
           return
         end
         opts.capabilities = vim.tbl_deep_extend("force", capabilities, opts.capabilities or {})
-        lspconfig[name].setup(opts)
+        --lspconfig[name].setup(opts)
+        -- local setup = lspconfig[name] and lspconfig[name].setup
+  if setup then
+    setup(opts or {})
+  else
+    vim.notify(string.format("[LSP] Server %s exists but has no setup()", name), vim.log.levels.WARN)
+  end
       end
 
       ---------------------------------------------------------------------
@@ -92,21 +100,20 @@ return {
       ---------------------------------------------------------------------
       -- lua_ls
       ---------------------------------------------------------------------
-      start_server("lua_ls", {
-        cmd = { "lua-language-server" },
-        root_dir = require("lspconfig.util").root_pattern(".luarc.json", ".git"),
-        settings = {
-          Lua = {
-            runtime = { version = "LuaJIT" },
-            diagnostics = { globals = { "vim" } },
-            workspace = {
-              library = vim.api.nvim_get_runtime_file("", true),
-              checkThirdParty = false,
-            },
-            telemetry = { enable = false },
-          },
-        },
-      })
+      -- start_server("lua_ls", {
+      --   -- root_dir = require("lspconfig.util").root_pattern(".luarc.json", ".git"),
+      --   -- settings = {
+      --   --   Lua = {
+      --   --     runtime = { version = "LuaJIT" },
+      --   --     diagnostics = { globals = { "vim" } },
+      --   --     workspace = {
+      --   --       library = vim.api.nvim_get_runtime_file("", true),
+      --   --       checkThirdParty = false,
+      --   --     },
+      --   --     telemetry = { enable = false },
+      --   --   },
+      --   -- },
+      --c })
 
       ---------------------------------------------------------------------
       -- texlab / ltex

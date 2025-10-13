@@ -236,4 +236,4 @@ vim.keymap.set("n", "<leader>p", function() buffer_command("bprev") end)
                         vim.keymap.set("n", "<leader>tv", "<cmd>:ToggleTerm direction=vertical size=100<CR>")
                         vim.keymap.set("n", "<leader>tf", "<cmd>:ToggleTerm direction=float<CR>")
                         vim.keymap.set("t", "<M-q>", "<cmd>:ToggleTerm<CR>")
-
+vim.keymap.set("i", "<C-z>", "<esc>u", { desc = "Undo instead of suspend" })

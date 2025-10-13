@@ -288,3 +288,4 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 --temporaire
 vim.g.ale_disable_lsp = 1
+vim.g.lazydev_enabled = false

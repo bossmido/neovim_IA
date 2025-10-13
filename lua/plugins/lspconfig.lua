@@ -1,184 +1,195 @@
 return {
-    -- Mason (LSP installer)
-    {
-        "williamboman/mason.nvim",
-        build = ":MasonUpdate",
-        config = true,
-    },
+  -- Mason (LSP installer)
+  {
+    "williamboman/mason.nvim",
+    build = ":MasonUpdate",
+    config = true,
+  },
 
-    -- Mason LSP Config + nvim-lspconfig
-    {
-        "williamboman/mason-lspconfig.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-            "williamboman/mason.nvim",
-            "neovim/nvim-lspconfig",
-            "brymer-meneses/grammar-guard.nvim",
+  -- Mason + LSPConfig integration
+  {
+    "williamboman/mason-lspconfig.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",
+      "brymer-meneses/grammar-guard.nvim",
+    },
+    config = function()
+      ---------------------------------------------------------------------
+      -- Mason setup
+      ---------------------------------------------------------------------
+      local ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+      if not ok then
+        vim.notify("mason-lspconfig not available", vim.log.levels.ERROR)
+        return
+      end
+
+      mason_lspconfig.setup({
+        ensure_installed = {
+          "rust_analyzer",
+          "clangd",
+          "pyright",
+          "vtsls",
+          "html",
+          "cssls",
+          "texlab",
+          "luau_lsp",
+          "emmet_ls",
+          -- "ltex",
         },
-        config = function()
-            local mason_lspconfig = require("mason-lspconfig")
-            local lspconfig = require("lspconfig")
+        automatic_installation = true,
+      })
 
-            ---------------------------------------------------------------------
-            -- Force-load nvim-lspconfig if auto-session (or anything else)
+      ---------------------------------------------------------------------
+      -- Shared capabilities
+      ---------------------------------------------------------------------
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.offsetEncoding = { "utf-8" }
+      local ok_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+      if ok_cmp then
+        capabilities = cmp_lsp.default_capabilities(capabilities)
+      end
 
-            -- fired before its BufReadPre/BufNewFile events.
-            ---------------------------------------------------------------------
+      ---------------------------------------------------------------------
+      -- Helper function for safe setup
+      ---------------------------------------------------------------------
+      local lspconfig = require("lspconfig")
 
-            local lazy_ok, lazy = pcall(require, "lazy")
-            if lazy_ok then
-                lazy.load({ plugins = { "nvim-lspconfig" } })
-            end
+      local function start_server(name, opts)
+        if not opts.cmd or not opts.cmd[1] then
+          vim.notify("Invalid LSP command for " .. name, vim.log.levels.ERROR)
+          return
+        end
+        if vim.fn.executable(opts.cmd[1]) == 0 then
+          vim.notify("Missing LSP binary: " .. opts.cmd[1], vim.log.levels.WARN)
+          return
+        end
+        opts.capabilities = vim.tbl_deep_extend("force", capabilities, opts.capabilities or {})
+        lspconfig[name].setup(opts)
+      end
 
-            local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
-            if not lspconfig_ok then
-                vim.notify("lspconfig not loaded yet", vim.log.levels.ERROR)
-                return
-            end
+      ---------------------------------------------------------------------
+      -- clangd
+      ---------------------------------------------------------------------
+      start_server("clangd", {
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--pch-storage=memory",
+          "--limit-results=40",
+          "--completion-style=detailed",
+          "--header-insertion=never",
+          "--ranking-model=heuristics",
+          "--all-scopes-completion=false",
+          "--clang-tidy=false",
+          "--log=error",
+          "-j=2",
+        },
+        root_dir = require("lspconfig.util").root_pattern(".clangd", ".git"),
+      })
 
-
-            mason_lspconfig.setup({
-                ensure_installed = {
-                    "rust_analyzer",
-                    "clangd",
-                    "pyright",
-                    "vtsls",
-                    "html",
-                    "cssls",
-                    "texlab",
-                    "luau_lsp",
-                    "emmet_ls",
-                    "ltex",
-                },
-                automatic_installation = true,
-            })
-
-            -- Capabilities
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities.offsetEncoding = { "utf-8" }
-
-            -- ─── LSP SERVERS ────────────────────────────────────────────────
-
-            -- clangd
-            lspconfig.clangd.setup({
-                capabilities = capabilities,
-                cmd = {
-                    "clangd",
-                    "--background-index",
-                    "--pch-storage=memory",
-                    "--limit-results=40",
-                    "--completion-style=detailed",
-                    "--header-insertion=never",
-                    "--ranking-model=heuristics",
-                    "--all-scopes-completion=false",
-                    "--clang-tidy=false",
-                    "--log=error",
-                    "-j=2",
-                },
-            })
-
-            -- Lua (Neovim runtime)
-            lspconfig.lua_ls.setup({
-                settings = {
-                    Lua = {
-                        runtime = { version = "LuaJIT" },
-                        diagnostics = { globals = { "vim" } },
-                        workspace = {
-                            library = vim.api.nvim_get_runtime_file("", true),
-                            checkThirdParty = false,
-                        },
-                        telemetry = { enable = false },
-                    },
-                },
-            })
-
-            -- LaTeX (prefer texlab, fallback to ltex)
-            local texlab_cmd = vim.fn.executable("texlab") == 1 and "texlab" or nil
-            local ltex_cmd = vim.fn.executable("ltex-ls") == 1 and "ltex-ls" or nil
-
-            if texlab_cmd then
-                lspconfig.texlab.setup({
-                    cmd = { texlab_cmd },
-                    filetypes = { "tex", "plaintex", "bib" },
-                })
-            elseif ltex_cmd then
-                lspconfig.ltex.setup({
-                    cmd = { ltex_cmd },
-                    filetypes = { "tex", "markdown", "plaintext" },
-                    settings = {
-                        ltex = {
-                            language = "fr",
-                            diagnosticSeverity = "information",
-                            enabled = { "fr" },
-                            disabledRules = {},
-                        },
-                    },
-                })
-            else
-                vim.notify("No LaTeX LSP server found. Install texlab or ltex-ls", vim.log.levels.WARN)
-            end
-
--- VTSLS (JavaScript/TypeScript)
-local ok_vtsls, vtsls = pcall(require, "vtsls")
-
-if ok_vtsls then
-    -- Register VTSLS with lspconfig (must happen before setup)
-    vtsls.config({})
-
-
-    local vtsls_ok, server = pcall(function() return lspconfig.vtsls end)
-    if vtsls_ok and server then
-        server.setup({
-            cmd = { "vtsls", "--stdio" },
-
-            filetypes = { "javascript", "typescript", "vue" },
-            root_dir = lspconfig.util.root_pattern("tsconfig.json", "jsconfig.json", ".git"),
-
-            settings = {
-                typescript = { implicitProjectConfig = { checkJs = true } },
-                javascript = { implicitProjectConfig = { checkJs = true } },
-
-                vtsls = {
-                    experimental = {
-                        completion = { enableServerSideFuzzyMatch = true },
-                    },
-                },
+      ---------------------------------------------------------------------
+      -- lua_ls
+      ---------------------------------------------------------------------
+      start_server("lua_ls", {
+        cmd = { "lua-language-server" },
+        root_dir = require("lspconfig.util").root_pattern(".luarc.json", ".git"),
+        settings = {
+          Lua = {
+            runtime = { version = "LuaJIT" },
+            diagnostics = { globals = { "vim" } },
+            workspace = {
+              library = vim.api.nvim_get_runtime_file("", true),
+              checkThirdParty = false,
             },
-        })
-    else
-        vim.notify("vtsls not registered with lspconfig", vim.log.levels.WARN)
-    end
-else
-    vim.notify("vtsls plugin not available — falling back to ts_ls", vim.log.levels.WARN)
-    if lspconfig.ts_ls then
-        lspconfig.ts_ls.setup({
-            filetypes = { "javascript", "typescript", "vue" },
-            root_dir = lspconfig.util.root_pattern("tsconfig.json", "jsconfig.json", ".git"),
-            settings = {
-                typescript = { implicitProjectConfig = { checkJs = true } },
+            telemetry = { enable = false },
+          },
+        },
+      })
 
-                javascript = { implicitProjectConfig = { checkJs = true } },
+      ---------------------------------------------------------------------
+      -- texlab / ltex
+      ---------------------------------------------------------------------
+      if vim.fn.executable("texlab") == 1 then
+        start_server("texlab", {
+          cmd = { "texlab" },
+          filetypes = { "tex", "plaintex", "bib" },
+        })
+      elseif vim.fn.executable("ltex-ls") == 1 then
+        start_server("ltex", {
+          cmd = { "ltex-ls" },
+          filetypes = { "tex", "markdown", "plaintext" },
+          settings = {
+            ltex = {
+              language = "fr",
+              diagnosticSeverity = "information",
             },
-
+          },
         })
-    end
+      else
+        vim.notify("No LaTeX LSP found (texlab or ltex-ls)", vim.log.levels.WARN)
+      end
 
-end
+      ---------------------------------------------------------------------
+      -- vtsls / tsserver
+      ---------------------------------------------------------------------
+      if vim.fn.executable("vtsls") == 1 then
+        start_server("vtsls", {
+          cmd = { "vtsls", "--stdio" },
+          filetypes = { "javascript", "typescript", "vue" },
+          root_dir = require("lspconfig.util").root_pattern("tsconfig.json", "jsconfig.json", ".git"),
+          settings = {
+            typescript = { implicitProjectConfig = { checkJs = true } },
+            javascript = { implicitProjectConfig = { checkJs = true } },
+            vtsls = {
+              experimental = {
+                completion = { enableServerSideFuzzyMatch = true },
+              },
+            },
+          },
+        })
+      elseif vim.fn.executable("tsserver") == 1 then
+        vim.notify("Using tsserver fallback", vim.log.levels.INFO)
+        start_server("tsserver", {
+          cmd = { "tsserver" },
+          filetypes = { "javascript", "typescript", "vue" },
+          root_dir = require("lspconfig.util").root_pattern("tsconfig.json", "jsconfig.json", ".git"),
+        })
+      else
+        vim.notify("No vtsls or tsserver found", vim.log.levels.WARN)
+      end
 
+      ---------------------------------------------------------------------
+      -- emmet
+      ---------------------------------------------------------------------
+      if vim.fn.executable("emmet-ls") == 1 then
+        start_server("emmet_ls", {
+          cmd = { "emmet-ls", "--stdio" },
+          filetypes = {
+            "html",
+            "css",
+            "typescriptreact",
+            "javascriptreact",
+            "jsx",
+            "tsx",
+          },
+          init_options = {
+            html = { options = { ["bem.enabled"] = true } },
+          },
+        })
+      end
 
-            -- Emmet
-            lspconfig.emmet_ls.setup({
-                filetypes = { "html", "css", "typescriptreact", "javascriptreact", "jsx", "tsx" },
-                init_options = {
-                    html = { options = { ["bem.enabled"] = true } },
-                },
-            })
-
-            -- HTML
-            lspconfig.html.setup({
-                filetypes = { "html", "htmldjango", "blade" },
-            })
-        end,
-    },
+      ---------------------------------------------------------------------
+      -- html
+      ---------------------------------------------------------------------
+      if vim.fn.executable("vscode-html-language-server") == 1 then
+        start_server("html", {
+          cmd = { "vscode-html-language-server", "--stdio" },
+          filetypes = { "html", "htmldjango", "blade" },
+        })
+      end
+    end,
+  },
 }
 

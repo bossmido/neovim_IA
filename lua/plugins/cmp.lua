@@ -1,6 +1,6 @@
 return {
     "hrsh7th/nvim-cmp",
-    lazy = true,
+    lazy = false,
     event = "VimEnter",
     keys = { "<C-Space>","<Tab>", "<S-Tab>", "<C-Space>" },
     version = false,

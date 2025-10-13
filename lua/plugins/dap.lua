@@ -12,7 +12,7 @@ end
 return {
     {
         "mfussenegger/nvim-dap",
-        event = "CmdlineEnter", -- cond = vim.g.dotfile_config_type ~= "minimal",
+--        event = "CmdlineEnter", -- cond = vim.g.dotfile_config_type ~= "minimal",
         dependencies = {
             -- { "igorlfs/nvim-dap-view", opts = {} },
             -- "rcarriga/nvim-dap-ui",

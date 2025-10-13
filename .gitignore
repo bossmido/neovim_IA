@@ -2,3 +2,4 @@ lua/config/plugins/parrot.lua
 undo
 :
 lazy-lock.json
+*.zip

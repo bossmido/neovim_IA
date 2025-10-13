@@ -3,6 +3,7 @@ return {
   event = "VeryLazy",
   opts = {
     default = {
+              notify = false, -- <─ disables that yellow “Content is not an image” window
       dir_path = "images",      -- folder for pasted images
       prompt_for_file_name = true,
       insert_mode = true,

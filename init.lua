@@ -289,3 +289,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
 --temporaire
 vim.g.ale_disable_lsp = 1
 vim.g.lazydev_enabled = false
+--tty rapide
+vim.opt.lazyredraw = true       -- don’t redraw mid-macro or script
+vim.opt.ttyfast = true          -- faster redraws
+vim.opt.updatetime = 750        -- slower LSP/completion triggers
+vim.opt.timeoutlen = 300        -- faster key mappings
+vim.opt.synmaxcol = 200 

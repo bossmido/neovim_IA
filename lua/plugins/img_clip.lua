@@ -1,6 +1,7 @@
 return {
   "HakonHarnes/img-clip.nvim",
   event = "VeryLazy",
+  enabled=false,
   opts = {
     default = {
               notify = false, -- <─ disables that yellow “Content is not an image” window

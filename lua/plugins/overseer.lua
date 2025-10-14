@@ -8,6 +8,69 @@ return {"stevearc/overseer.nvim",
                 overseer.setup()
                 dapui.setup()
 
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = { "*.c", "*.cpp", "*.cc", "*.cxx" },
+  callback = function()
+    local file = vim.fn.expand("%:p")
+    local ext = vim.fn.expand("%:e")
+    local dir = vim.fn.fnamemodify(file, ":h")
+    local root = dir
+
+    -- 🔍 Find project root
+    while root ~= "/" do
+      if vim.fn.filereadable(root .. "/Makefile") == 1 or vim.fn.isdirectory(root .. "/.git") == 1 then
+        break
+      end
+      root = vim.fn.fnamemodify(root, ":h")
+    end
+
+
+    -- 🧱 Build command
+    local cmd
+    local binary = "/tmp/" .. vim.fn.expand("%:t:r")
+    if vim.fn.filereadable(root .. "/Makefile") == 1 then
+
+      vim.notify("📦 Found Makefile → running make", vim.log.levels.INFO)
+      cmd = { "make", "-C", root }
+    else
+
+      local compiler = (ext == "c") and "gcc" or "g++"
+      vim.notify("🛠️ Compiling directly with " .. compiler, vim.log.levels.INFO)
+      cmd = { compiler, "-Wall", "-g", file, "-o", binary }
+    end
+
+
+    -- 🚀 Start async Overseer task
+
+    local task = overseer.new_task({
+      name = "Auto Build " .. vim.fn.expand("%:t"),
+      cmd = cmd,
+      strategy = {
+        "terminal",
+        direction = "float",
+        close_on_exit = false,
+      },
+      components = {
+        { "on_exit_set_status", success_codes = { 0 } },
+        "default",
+      },
+    })
+
+    -- 🔔 Notify when build completes
+    task:subscribe("on_complete", function(_, status)
+
+      if status == "SUCCESS" then
+        vim.notify("✅ Build succeeded for " .. vim.fn.expand("%:t"), vim.log.levels.INFO)
+      else
+        vim.notify("❌ Build failed for " .. vim.fn.expand("%:t"), vim.log.levels.ERROR)
+      end
+
+    end)
+
+    task:start()
+
+  end,
+})
                 --------------------------------------------------------------------
                 -- 🪟 DAP UI Auto-open / Auto-close
                 --------------------------------------------------------------------
@@ -45,7 +108,10 @@ return {"stevearc/overseer.nvim",
                 vim.api.nvim_create_user_command("CompilerTest", function()
                     vim.notify("test")
                 end,{})
-
+vim.api.nvim_create_user_command("ValgrindRun", function()
+  local bin = vim.fn.expand("%:p:h") .. "/a.out"
+  vim.cmd("botright split | terminal valgrind --leak-check=full " .. bin)
+end, { desc = "Run Valgrind on current binary" })
 
                 vim.api.nvim_create_user_command("CompilerDebug", function()
                     local file = vim.fn.expand("%:p")          -- full path

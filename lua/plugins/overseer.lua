@@ -1,4 +1,5 @@
 return {"stevearc/overseer.nvim",
+
             config = function()
                 local overseer = require("overseer")
                 local dap = require("dap")
@@ -13,9 +14,11 @@ return {"stevearc/overseer.nvim",
                 -- Always reattach listeners cleanly
                 dap.listeners.after.event_initialized["dapui_config"] = function()
 
+
                     dapui.open()
 
                     vim.notify("🐞 Debug session started — DAP UI opened", vim.log.levels.INFO)
+
 
 
                 end
@@ -35,11 +38,14 @@ return {"stevearc/overseer.nvim",
 
 
                 --------------------------------------------------------------------
+
                 -- 💡 Build & Debug Command
                 --------------------------------------------------------------------
+
                 vim.api.nvim_create_user_command("CompilerTest", function()
                     vim.notify("test")
                 end,{})
+
 
                 vim.api.nvim_create_user_command("CompilerDebug", function()
                     local file = vim.fn.expand("%:p")          -- full path
@@ -65,7 +71,9 @@ return {"stevearc/overseer.nvim",
 
 
 
+
                     else
+
 
                         vim.notify("🛠️ Compiling directly with gcc...", vim.log.levels.INFO)
 
@@ -73,15 +81,19 @@ return {"stevearc/overseer.nvim",
 
                     end
 
+
                     vim.notify("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.", vim.log.levels.INFO)
+
 
 
                     if vim.fn.filereadable(binary) == 0 then
 
                         vim.notify("❌ Binary not found: " .. binary, vim.log.levels.ERROR)
 
-                        return
+                                                vim.fn.system({ "make", "-C", dir, "" })
+
                     end
+
 
 
                     vim.notify("✅ Build complete → launching debugger...", vim.log.levels.INFO)
@@ -89,7 +101,9 @@ return {"stevearc/overseer.nvim",
 
 
 
-                    ----------------------------------------------------------------
+
+                    -------------------gg---------------------------------------------
+
 
                     -- 🐞 Configure DAP adapter (once only)
                     ----------------------------------------------------------------
@@ -103,6 +117,7 @@ return {"stevearc/overseer.nvim",
 
 
 
+
                             command = vim.fn.stdpath("data")
                             .. "/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
                         }
@@ -111,7 +126,9 @@ return {"stevearc/overseer.nvim",
 
 
 
+
                     dap.configurations.cpp = {
+
 
                         {
                             name = "Auto Debug " .. vim.fn.fnamemodify(file, ":t"),
@@ -119,6 +136,7 @@ return {"stevearc/overseer.nvim",
                             type = "cppdbg",
 
                             request = "launch",
+
 
                             program = binary,
                             cwd = dir,
@@ -130,12 +148,14 @@ return {"stevearc/overseer.nvim",
                                     text = "-enable-pretty-printing",
 
                                     description = "Enable GDB pretty printing",
+
                                     ignoreFailures = false,
 
 
                                 },
 
                             },
+
                         },
                     }
                     dap.configurations.c = dap.configurations.cpp
@@ -153,10 +173,14 @@ return {"stevearc/overseer.nvim",
 
 
 
+
                 vim.keymap.set({ "n", "i" }, "<F10>", ":CompilerDebug<CR>",
                 { desc = "Build and Debug current file" })
 
             end,
+
         }
+
+
 
 

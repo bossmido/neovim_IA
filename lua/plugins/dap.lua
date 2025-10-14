@@ -20,6 +20,11 @@ return {
       {
         "stevearc/overseer.nvim",
         config = function()
+             require("mason").setup()
+    require("mason-nvim-dap").setup({
+      ensure_installed = { "cppdbg" },
+      automatic_installation = true,
+    })
           local overseer = require("overseer")
           local dap = require("dap")
           local dapui = require("dapui")

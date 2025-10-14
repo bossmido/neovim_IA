@@ -77,7 +77,9 @@ vim.api.nvim_create_autocmd("BufWritePost", {
                 -- Always reattach listeners cleanly
                 dap.listeners.after.event_initialized["dapui_config"] = function()
 
-
+dap.terminate()
+  dapui.close()
+   os.execute("pkill gdb")
                     dapui.open()
 
                     vim.notify("🐞 Debug session started — DAP UI opened", vim.log.levels.INFO)

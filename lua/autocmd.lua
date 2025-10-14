@@ -182,3 +182,8 @@ vim.api.nvim_create_autocmd("User", {
 
   end,
 })
+
+
+vim.api.nvim_create_user_command("Z", function()
+  vim.cmd("qa")
+end, { desc = "Quit all and save" })

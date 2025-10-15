@@ -298,3 +298,14 @@ vim.opt.synmaxcol = 200
 
 
 vim.g.python3_host_prog = vim.fn.exepath 'python3'
+ vim.g.loaded_python3_provider = nil
+ vim.env.NVM_DIR = os.getenv("HOME") .. "/.nvm"
+
+-- Load nvm environment (requires your shell)
+local handle = io.popen("source " .. vim.env.NVM_DIR .. "/nvm.sh && nvm which current")
+local node_path = handle:read("*a"):gsub("%s+", "")
+handle:close()
+
+if node_path and #node_path > 0 then
+  vim.g.node_host_prog = node_path
+end

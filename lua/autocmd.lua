@@ -187,3 +187,17 @@ vim.api.nvim_create_autocmd("User", {
 vim.api.nvim_create_user_command("Z", function()
   vim.cmd("qa")
 end, { desc = "Quit all and save" })
+
+
+-- Enter the current directory when vim starts
+-- % curr file, :p full path, :h get dir
+local file_path = vim.fn.expand("%p")
+local is_dir = vim.fn.isdirectory(file_path)
+if is_dir == 1 then
+  vim.api.nvim_create_autocmd("VimEnter", {pattern = "*", command = "silent! cd %:p"})
+  vim.api.nvim_create_autocmd("VimEnter", {pattern = "*", command = "TermExec open=0 cmd='cd %:p && clear'"})
+else
+  vim.api.nvim_create_autocmd("VimEnter", {pattern = "*", command = "silent! cd %:p:h"})
+  vim.api.nvim_create_autocmd("VimEnter", {pattern = "*", command = "TermExec open=0 cmd='cd %:p:h && clear'"})
+end
+

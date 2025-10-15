@@ -295,3 +295,6 @@ vim.opt.ttyfast = true          -- faster redraws
 vim.opt.updatetime = 750        -- slower LSP/completion triggers
 vim.opt.timeoutlen = 300        -- faster key mappings
 vim.opt.synmaxcol = 200 
+
+
+vim.g.python3_host_prog = vim.fn.exepath 'python3'

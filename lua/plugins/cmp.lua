@@ -1,9 +1,9 @@
 return {
     "hrsh7th/nvim-cmp",
-    enabled=false,
-    cond = function()
-    return vim.bo.filetype == "Avante" or vim.g.avante_active
-  end,
+    enabled=true,
+    ---cond = function()
+    --return vim.bo.filetype == "Avante" or vim.g.avante_active
+  --end,
     lazy = false,
     event = "VimEnter",
     keys = { "<C-Space>","<Tab>", "<S-Tab>", "<C-Space>" },

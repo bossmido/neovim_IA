@@ -54,6 +54,7 @@ return {
     "MasonLog",
   },
   opts = {
+      ensure_installed = { "cpptools" },
     ui = {
       icons = {
         package_installed = signs.PassCheck,

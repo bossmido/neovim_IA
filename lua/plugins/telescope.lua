@@ -8,7 +8,7 @@ return {
     { "<C-d>", desc = "Telescope: Workspace Symbols" },
     { "<F9>",  desc = "Telescope: DAP Commands" },
     { "<F11>", desc = "Open Floaterminal" },
-    { "<F12>", desc = "Open ToggleTerm" },
+    { "<F12>", desc = "Open TermNew" },
   },
   dependencies = {
     "nvim-lua/plenary.nvim",
@@ -116,7 +116,7 @@ return {
     map({ "n", "i" }, "<F9>", "<ESC>:Telescope dap commands<CR>", { desc = "Telescope: DAP Commands", silent = true })
 
     -- Terminal helpers
-    map({ "n", "i" }, "<F12>", "<ESC>:ToggleTerm<CR>", { desc = "Toggle Terminal" })
+    map({ "n", "i" }, "<F12>", "<ESC>:TermNew<CR>", { desc = "Toggle Terminal" })
     map({ "n", "i", "c" }, "<F11>", "<ESC>:Floaterminal<CR>", { desc = "Floating Terminal" })
 
     -- Search word under cursor

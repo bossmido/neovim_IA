@@ -8,7 +8,29 @@ return {
     build = ":MasonUpdate",
     config = true,
   },
+{
+    "williamboman/mason-lspconfig.nvim",
+    event = "VeryLazy",
+    dependencies = { "williamboman/mason.nvim" },
+    config = function()
+      local mason_lspconfig = require("mason-lspconfig")
 
+      mason_lspconfig.setup({
+        ensure_installed = {
+          "clangd",          -- C / C++
+          "lua_ls",          -- Lua
+          "html",            -- HTML
+          "cssls",           -- CSS
+          "emmet_ls",        -- Emmet
+          "vtsls",           -- JavaScript / TypeScript
+          "eslint",          -- JS/TS linting
+          "jsonls",          -- JSON
+          "texlab",          -- LaTeX
+        },
+        automatic_installation = true,
+      })
+    end,
+  },
   ---------------------------------------------------------------------------
   -- Pure Neovim-0.11 built-in LSP setup
   ---------------------------------------------------------------------------

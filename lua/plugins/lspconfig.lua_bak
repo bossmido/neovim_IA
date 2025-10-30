@@ -10,7 +10,8 @@ return {
   -- Mason + LSPConfig integration
   {
     "williamboman/mason-lspconfig.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+   -- event = { "BufReadPre", "BufNewFile" },
+       event = { "VeryLazy" },          -- load only after startup
     dependencies = {
       "williamboman/mason.nvim",
       "neovim/nvim-lspconfig",
@@ -57,25 +58,32 @@ return {
       -- Helper function for safe setup
       ---------------------------------------------------------------------
       local lspconfig = require("lspconfig")
+pcall(require, "lspconfig.configs")
 
-      local function start_server(name, opts)
-        if not opts.cmd or not opts.cmd[1] then
-          vim.notify("Invalid LSP command for " .. name, vim.log.levels.ERROR)
-          return
-        end
-        if vim.fn.executable(opts.cmd[1]) == 0 then
-          vim.notify("Missing LSP binary: " .. opts.cmd[1], vim.log.levels.WARN)
-          return
-        end
-        opts.capabilities = vim.tbl_deep_extend("force", capabilities, opts.capabilities or {})
-        --lspconfig[name].setup(opts)
-        -- local setup = lspconfig[name] and lspconfig[name].setup
-  if setup then
-    setup(opts or {})
-  else
-    vim.notify(string.format("[LSP] Server %s exists but has no setup()", name), vim.log.levels.WARN)
+local function start_server(name, opts)
+  local server = lspconfig[name]
+  if not server then
+    vim.notify(string.format("[LSP] Server %s not found in lspconfig", name), vim.log.levels.WARN)
+    return
   end
-      end
+
+  if type(server.setup) ~= "function" then
+    vim.notify(string.format("[LSP] Server %s exists but has no setup()", name), vim.log.levels.WARN)
+    return
+  end
+
+  if opts.cmd and opts.cmd[1] and vim.fn.executable(opts.cmd[1]) == 0 then
+    vim.notify(string.format("[LSP] Missing binary for %s: %s", name, opts.cmd[1]), vim.log.levels.WARN)
+    return
+  end
+
+  opts.capabilities = vim.tbl_deep_extend("force", capabilities, opts.capabilities or {})
+
+  local ok, err = pcall(server.setup, opts)
+  if not ok then
+    vim.notify(string.format("[LSP] Failed to setup %s: %s", name, err), vim.log.levels.ERROR)
+  end
+end
 
       ---------------------------------------------------------------------
       -- clangd
@@ -190,15 +198,21 @@ return {
       ---------------------------------------------------------------------
       -- html
       ---------------------------------------------------------------------
-      if vim.fn.executable("vscode-html-language-server") == 1 then
-        start_server("html", {
-          cmd = { "vscode-html-language-server", "--stdio" },
-          filetypes = { "html", "htmldjango", "blade" },
-        })
-      end
+      -- if vim.fn.executable("vscode-html-language-server") == 1 then
+      --   start_server("html", {
+      --     cmd = { "vscode-html-language-server", "--stdio" },
+      --     filetypes = { "html", "htmldjango", "blade" },
+      --   })
+      -- end
     end,
   },
 }
+
+
+
+
+
+
 
 
 

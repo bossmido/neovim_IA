@@ -240,3 +240,26 @@ vim.keymap.set("i", "<C-z>", "<esc>u", { desc = "Undo instead of suspend" })
 vim.keymap.set("i", ":::", "<C-g>u<esc>:", { noremap = true, silent = true, desc = "Prevent ::: from triggering command mode" })
 vim.keymap.set("n", "zz", ":qa<CR>", { desc = "Quit all and save" })
 vim.keymap.set("n", "zq", ":qa!<CR>", { desc = "Quit all without saving" })
+
+
+
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    local diagnostics = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })
+    if #diagnostics > 0 then
+      vim.b._has_bulb = true
+    else
+      vim.b._has_bulb = false
+    end
+  end,
+})
+
+vim.keymap.set('n', '<2-LeftMouse>', function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local lnum = vim.fn.line('.')
+  local signs = vim.fn.sign_getplaced(bufnr, { lnum = lnum })[1].signs
+  if signs and signs[1] and signs[1].name:match('LightBulb') then
+    vim.lsp.buf.code_action()
+  end
+end, { desc = "Trigger code action when bulb sign clicked" })
+

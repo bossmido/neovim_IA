@@ -40,10 +40,18 @@ return {
                 "black",         -- Python
                 "stylua",        -- Lua
                 "clang-format",  -- C, C++, Java, etc.
+                "clang-tidy",
                 "eslint_d",      -- JS/TS linting},
             },
             automatic_installation = true,
             on_attach = function(client, bufnr)
+                require("null-ls").setup({
+  sources = {
+    require("null-ls").builtins.diagnostics.clang_check.with({
+      extra_args = { "-fix", "-fix-errors" },
+    }),
+  },
+})
                 if client.supports_method("textDocument/formatting") then
                     local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
                     vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })

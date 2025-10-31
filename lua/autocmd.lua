@@ -67,7 +67,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     end
 })
 ----------------------------------------------------------------------------------
-
+if vim.fn.executable("live-server") == 1 then
 vim.api.nvim_create_autocmd({"BufReadPost", "BufNewFile"}, {
   pattern = {"*.html", "*.css","script.js"},
   callback = function()
@@ -85,6 +85,7 @@ vim.api.nvim_create_autocmd({"BufLeave", "TextChanged"}, {
     end
   end,
 })
+end
 -----------------------------------------------------------------------------------
 vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = "*.log",

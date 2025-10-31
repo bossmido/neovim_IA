@@ -99,7 +99,8 @@ register_lsp("eslint", {
           "--completion-style=detailed",
           "--header-insertion=never",
           "--ranking-model=heuristics",
-          "--clang-tidy=false",
+          "--clang-tidy=true",
+          "--clang-tidy-checks=bugprone-*,performance-*,modernize-*",
           "--log=error",
           "-j=4", -- must be quoted!
         },

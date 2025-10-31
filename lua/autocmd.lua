@@ -168,14 +168,14 @@ vim.api.nvim_create_autocmd("User", {
     end
 
     -- 🔹 Restart LSP clients if needed (in case they didn't attach)
-    if package.loaded["lspconfig"] then
-      for _, client in pairs(vim.lsp.get_clients()) do
-        if not client.initialized then
-          vim.lsp.start_client(client.config)
-        end
-      end
-
-    end
+    -- if package.loaded["lspconfig"] then
+    --   for _, client in pairs(vim.lsp.get_clients()) do
+    --     if not client.initialized then
+    --       vim.lsp.start_client(client.config)
+    --     end
+    --   end
+    --
+    -- end
 
     -- 🔹 Force reload completion plugin (if lazy-loaded)
     pcall(require, "cmp")

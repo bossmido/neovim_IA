@@ -61,3 +61,4 @@ end
 vim.api.nvim_create_user_command("GenHeader", M.generate_header, {})
 
 return M
+

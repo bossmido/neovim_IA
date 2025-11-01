@@ -162,7 +162,16 @@ vim.o.wildmode = "longest:full,full"
 
 
 
-local noice = require("noice")
+local ok, noice = pcall(require, "noice")
+if ok then
+  vim.keymap.set('c', '<CR>', function()
+    if vim.fn.pumvisible() == 1 then
+      return vim.api.nvim_replace_termcodes('<C-y>', true, false, true)
+    else
+      return vim.api.nvim_replace_termcodes('<CR>', true, false, true)
+    end
+  end, { expr = true })
+end
 
 vim.keymap.set('c', '<CR>', function()
     -- Check if noice popup menu is visible and has selection
@@ -309,3 +318,5 @@ handle:close()
 if node_path and #node_path > 0 then
   vim.g.node_host_prog = node_path
 end
+
+

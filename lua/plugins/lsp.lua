@@ -164,7 +164,11 @@ register_lsp("eslint", {
             runtime = { version = "LuaJIT" },
             diagnostics = { globals = { "vim" } },
             workspace = {
-              library = vim.api.nvim_get_runtime_file("", true),
+              --library = vim.api.nvim_get_runtime_file("", true),
+              library = {
+  vim.env.VIMRUNTIME,
+  vim.fn.expand("~/.config/nvim/lua"),
+},
               checkThirdParty = false,
             },
             telemetry = { enable = false },

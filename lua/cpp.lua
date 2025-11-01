@@ -1,5 +1,6 @@
 
 local function apply_clangd_fixes()
+    if #vim.lsp.get_clients({ name = "clangd" }) == 0 then return end
   local params = vim.lsp.util.make_range_params()
   params.context = {only = {"source.fixAll"}}
 
@@ -39,3 +40,4 @@ vim.api.nvim_create_autocmd("DiagnosticChanged", {
     end
   end,
 })
+

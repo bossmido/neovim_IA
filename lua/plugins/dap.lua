@@ -18,6 +18,7 @@ return {
     cmd = { "CompilerOpen", "CompilerRedo", "CompilerToggleResults" },
     dependencies = {
       {
+          "jay-babu/mason-nvim-dap.nvim",
         "stevearc/overseer.nvim",
         config = function()
              require("mason").setup()

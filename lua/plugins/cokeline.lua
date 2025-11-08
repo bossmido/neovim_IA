@@ -1,5 +1,4 @@
 return {
-  {
   "willothy/nvim-cokeline",
   event="VeryLazy",
   dependencies = {
@@ -8,5 +7,4 @@ return {
     "stevearc/resession.nvim"       -- Optional, for persistent history
   },
   config = true
-}
 }

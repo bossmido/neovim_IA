@@ -6,7 +6,7 @@ return {
     none_ls.setup({
       sources = {
         none_ls.builtins.diagnostics.cppcheck,
-        none_ls.builtins.diagnostics.clang_check,
+  --      none_ls.builtins.diagnostics.clang_check,
         none_ls.builtins.formatting.clang_format,
       },
       debug = false,

@@ -1,4 +1,4 @@
-local M = {}
+local M = {name='gen_header',dir="."}
 
 local function parse_functions(lines)
   local funcs = {}

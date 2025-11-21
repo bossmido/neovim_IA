@@ -1,8 +1,4 @@
 return {
-    {
-        -- dir = "~/plugins/present.nvim",
-    },
-    {
         'MeanderingProgrammer/render-markdown.nvim',
         -- enabled = false,
         dependencies = {
@@ -17,5 +13,4 @@ return {
                 }
             })
         end
-    },
-}
+    }
